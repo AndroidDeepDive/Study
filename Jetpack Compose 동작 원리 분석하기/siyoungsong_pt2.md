@@ -80,14 +80,33 @@ kotlin.Any
 ## Compose Compiler?
 >  Transform @Composable functions and enable optimizations with a Kotlin compiler plugin.
 
-[@Composable](http://twitter.com/Composable) annotation 을 설정한 function 의 코드 변환과 코틀린 컴파일러 플러그인과 함께 최적화를 활성화합니다.
-
-
+Compose Compiler 는 [@Composable](http://twitter.com/Composable) annotation 이 설정된 경우 Composable function 으로 코드 변환과 코틀린 컴파일러 플러그인과 함께 최적화를 활성화합니다.
 
 ## Compose Runtime?
 >  Fundamental building blocks of Compose’s programming model and state management, and core runtime for the Compose Compiler Plugin to target.
 
-Compose의 프로그래밍 모델과 상태 관리, 그리고 Compose 컴파일러를 지정하기 위한 코어 런타임에 대한 기본 설정을 합니다. 
+Compose의 프로그래밍 모델과 상태 관리, 그리고 Compose 컴파일러를 지정하기 위한 코어 런타임에 대한 기본 설정을 합니다.
+
+
+
+### **Compose compiler 에 의해 Composable 은 아래와 같이 변경됩니다.**
+
+ <iframe src="https://medium.com/media/d113be4c13a97ec1321a707b959bfc44" frameborder=0></iframe>
+
+ <iframe src="https://medium.com/media/8e4ba026440d397be3973e1d2c79301a" frameborder=0></iframe>
+
+Compose 는 composer.start 에서 고유의 키를 가지고 있습니다. 이는 Compose 의 state 가 변경될 때 해당 키를 가진 Compose 만 변경되도록 동작합니다. static 은 상태(state)의 변경여부를 알 수 있는데 상태의 변화가 없는 경우, composer.start 와 composer.end 사이의 UI 의 변경을 하지 않습니다. 데이터의 상태가 변경되어 UI 를 다시 구성하는 경우는 Recomposition 이라고 합니다.
+
+
+
+이 외에 Compose 에 더 자세한 내용은 사항은 아래 사이트에서 확인할 수 있습니다.
+
+[https://www.youtube.com/watch?v=Q9MtlmmN4Q0](https://www.youtube.com/watch?v=Q9MtlmmN4Q0)
+[https://medium.com/androiddevelopers/under-the-hood-of-jetpack-compose-part-2-of-2-37b2c20c6cdd](https://medium.com/androiddevelopers/under-the-hood-of-jetpack-compose-part-2-of-2-37b2c20c6cdd)
+
+
+
+## 
 
 
 
