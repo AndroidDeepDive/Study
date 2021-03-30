@@ -451,7 +451,7 @@ fun Counter(count: Int, updateCount: (Int) -> Unit) {
 
 따라서 결과를 보면, 다음과 같다. Count가 5가 넘어가면 초록색으로 바뀐다.
 
-![count](https://imgur.com/fdIzRKx.mp4)
+![count](https://imgur.com/Ju6BSg2.gif)
 
 그 외에도 여러형태의 모양을 구성할수 있도록 옵션이 제공되어 있다. 자세한 정보는 나중에 [Codelabs](https://developer.android.com/codelabs/jetpack-compose-basics)에 더 나와 있으니 보도록하고, 이번에 setContent에 대한 동작원리를 함께 고민해보자.
 
