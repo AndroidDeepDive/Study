@@ -69,11 +69,13 @@ android.view.View 는 Jetpack Compose UI 콘텐츠를 사용할 수 있도록 �
 
 Compose 의 계층 구조는 아래와 같으며. ComposeView 를 통해 androidx.compose.materia 에 정의된 다양한 컴포넌트를 조합하여 Composable function 콘텐츠를 구성할 수 있습니다.
 
+```
 kotlin.Any
  ↳ android.view.View
- ↳ android.view.ViewGroup
- ↳ androidx.compose.ui.platform.AbstractComposeView
- ↳ androidx.compose.ui.platform.ComposeView
+   ↳ android.view.ViewGroup
+     ↳ androidx.compose.ui.platform.AbstractComposeView
+       ↳ androidx.compose.ui.platform.ComposeView
+```
 
 
 
@@ -91,9 +93,26 @@ Compose의 프로그래밍 모델과 상태 관리, 그리고 Compose 컴파일�
 
 ### **Compose compiler 에 의해 Composable 은 아래와 같이 변경됩니다.**
 
- <iframe src="https://medium.com/media/d113be4c13a97ec1321a707b959bfc44" frameborder=0></iframe>
+```
+@Composable
+fun Greeting(name: String) {
+    var greet by remember { mutableStateOf("Hello $name") }
+    Text(text = greet, color = Color.Red)
+}
+```
 
- <iframe src="https://medium.com/media/8e4ba026440d397be3973e1d2c79301a" frameborder=0></iframe>
+```
+fun Greeting(
+  $composer: Composer,
+  $static: Int,
+  name: String
+) {
+  $composer.start(123)
+  var greet by remember { mutableStateOf("Hello $name") }
+  Text(text = greet, color = Color.Red)
+  $composer.end()
+}
+```
 
 Compose 는 composer.start 에서 고유의 키를 가지고 있습니다. 이는 Compose 의 state 가 변경될 때 해당 키를 가진 Compose 만 변경되도록 동작합니다. static 은 상태(state)의 변경여부를 알 수 있는데 상태의 변화가 없는 경우, composer.start 와 composer.end 사이의 UI 의 변경을 하지 않습니다. 데이터의 상태가 변경되어 UI 를 다시 구성하는 경우는 Recomposition 이라고 합니다.
 
@@ -101,7 +120,11 @@ Compose 는 composer.start 에서 고유의 키를 가지고 있습니다. 이�
 
 이 외에 Compose 에 더 자세한 내용은 사항은 아래 사이트에서 확인할 수 있습니다.
 
+
+[https://developer.android.com/jetpack/compose/state](https://developer.android.com/jetpack/compose/state)
+
 [https://www.youtube.com/watch?v=Q9MtlmmN4Q0](https://www.youtube.com/watch?v=Q9MtlmmN4Q0)
+
 [https://medium.com/androiddevelopers/under-the-hood-of-jetpack-compose-part-2-of-2-37b2c20c6cdd](https://medium.com/androiddevelopers/under-the-hood-of-jetpack-compose-part-2-of-2-37b2c20c6cdd)
 
 

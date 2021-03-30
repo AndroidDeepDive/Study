@@ -286,6 +286,9 @@ Jetpack Compose 의 ConstraintLayout 을 사용하기 위해서는 dependencies 
 이 외에 Compose 에 더 자세한 내용은 사항은 아래 사이트에서 확인할 수 있습니다.
 
 [https://developer.android.com/jetpack/compose/](https://developer.android.com/jetpack/compose/)
+
 [https://developer.android.com/courses/pathways/compose](https://developer.android.com/courses/pathways/compose)
+
 [https://github.com/android/compose-samples](https://github.com/android/compose-samples)
+
 [https://foso.github.io/Jetpack-Compose-Playground/](https://foso.github.io/Jetpack-Compose-Playground/)
