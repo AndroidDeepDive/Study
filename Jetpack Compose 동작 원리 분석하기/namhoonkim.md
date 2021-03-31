@@ -178,6 +178,192 @@ MVP vs MVVM vs MVI의 끝없는 논쟁이 이어지는 가운데 Compose가 고�
 
 특정 뷰를 Compose로 구현하는 것을 과제로 내주었을때, 얼마나 컴포넌트 격리를 잘 수행했는지가 평가의 척도가 될 수 있어 보인다.
 
-### 마치며
 
-Compose라는 라이브러리 자체에 대한 고찰은 여기까지 수행하기로 하고, 다음 파트는 동작 원리에 대해 파악해보도록 하자.
+### Jetpack Compose의 동작 원리 파악을 위한 빌드 과정 추적
+
+##### 1. 프로젝트 생성
+
+Compose가 내부적으로 어떻게 동작하는 지 알아보기 위해 먼저 프로젝트를 빌드해보자.
+
+빌드 후 Kotlin > Byte Code > Decompiled Java 순서로 변환하여 살펴볼 것이다.
+
+Android Studio Preview에서 Empty Compose Activity로 프로젝트를 생성하면 아래와 같은 샘플 코드를 얻을 수 있다.
+
+프로젝트 생성 후 임의로 Hello World로 파라미터값을 변경하였다.
+
+
+```kotlin
+class MainActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            HelloWorldTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(color = MaterialTheme.colors.background) {
+                    Greeting("World")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun Greeting(name: String) {
+    Text(text = "Hello $name!")
+}
+
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    HelloWorldTheme {
+        Greeting("World")
+    }
+}
+```
+
+부가적으로 `src` 폴더 내부에 `ui.theme` 패키지가 생성되고 `Color.kt`, `Shape.kt`, `Theme.kt`, `Type.kt` 파일도 생성된다.
+
+이 파일들은 필요한 경우 들여다 보도록 하자.
+
+생성 후 Preview에 아래와 같이 렌더링 된다.
+
+![](https://drive.google.com/uc?export=view&id=1_KB2Zz3OMmPZQaY8Ndyiw5divy7KWrD_)
+
+##### 2. MainActivity 디컴파일
+
+```java
+@Metadata(
+   mv = {1, 4, 2},
+   bv = {1, 0, 3},
+   k = 2,
+   d1 = {"\u0000\u0010\n\u0000\n\u0002\u0010\u0002\n\u0002\b\u0002\n\u0002\u0010\u000e\n\u0000\u001a\b\u0010\u0000\u001a\u00020\u0001H\u0007\u001a\u0010\u0010\u0002\u001a\u00020\u00012\u0006\u0010\u0003\u001a\u00020\u0004H\u0007¨\u0006\u0005"},
+   d2 = {"DefaultPreview", "", "Greeting", "name", "", "app_debug"}
+)
+public final class MainActivityKt {
+   @Composable
+   public static final void Greeting(@NotNull String name) {
+      Intrinsics.checkNotNullParameter(name, "name");
+      TextKt.Text-Vh6c2nE$default("Hello " + name + '!', (Modifier)null, 0L, 0L, (FontStyle)null, (FontWeight)null, (FontFamily)null, 0L, (TextDecoration)null, (TextAlign)null, 0L, (TextOverflow)null, false, 0, (Function1)null, (TextStyle)null, 65534, (Object)null);
+   }
+
+   @Composable
+   public static final void DefaultPreview() {
+      ThemeKt.HelloWorldTheme$default(false, (Function0)null.INSTANCE, 1, (Object)null);
+   }
+}
+
+// MainActivity.java
+@Metadata(
+   mv = {1, 4, 2},
+   bv = {1, 0, 3},
+   k = 1,
+   d1 = {"\u0000\u0018\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\u0018\u00002\u00020\u0001B\u0005¢\u0006\u0002\u0010\u0002J\u0012\u0010\u0003\u001a\u00020\u00042\b\u0010\u0005\u001a\u0004\u0018\u00010\u0006H\u0014¨\u0006\u0007"},
+   d2 = {"Lcom/example/helloworld/MainActivity;", "Landroidx/activity/ComponentActivity;", "()V", "onCreate", "", "savedInstanceState", "Landroid/os/Bundle;", "app_debug"}
+)
+public final class MainActivity extends ComponentActivity {
+   protected void onCreate(@Nullable Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      ComponentActivityKt.setContent$default(this, (CompositionContext)null, (Function0)null.INSTANCE, 1, (Object)null);
+   }
+}
+```
+
+`ComponentActivityKt.setContent()`의 구현체는 아래와 같다.
+
+```kotlin
+public fun ComponentActivity.setContent(
+    parent: CompositionContext? = null,
+    content: @Composable () -> Unit
+) {
+    val existingComposeView = window.decorView
+        .findViewById<ViewGroup>(android.R.id.content)
+        .getChildAt(0) as? ComposeView
+
+    if (existingComposeView != null) with(existingComposeView) {
+        setParentCompositionContext(parent)
+        setContent(content)
+    } else ComposeView(this).apply {
+        // Set content and parent **before** setContentView
+        // to have ComposeView create the composition on attach
+        setParentCompositionContext(parent)
+        setContent(content)
+        setContentView(this, DefaultActivityContentLayoutParams)
+    }
+}
+```
+
+`CompositionContext` 파라미터는 null을 그대로 넘겨주었고, `(Function0)null.INSTANCE, 1, (Object)null`의 값으로 무언가를 넘겨주는데,
+
+이 값이 `@Composable` Annotation의 구현체이다.
+
+위의 코드 흔적을 술어로 표현해보면 **`@Composable` 구현체를 넘겨주면 이를 기반으로 `ComposeView` 객체를 생성하여 `Activity`의 `setContentView()`에 적용한다.** 가 되겠다.
+
+
+##### 3. `@Composable` 구현체 확인
+
+`Composable` Annotaion 클래스의 구현체는 알애ㅘ 같다.
+
+```kotlin
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+@Target(
+    // function declarations
+    // @Composable fun Foo() { ... }
+    // lambda expressions
+    // val foo = @Composable { ... }
+    AnnotationTarget.FUNCTION,
+
+    // type declarations
+    // var foo: @Composable () -> Unit = { ... }
+    // parameter types
+    // foo: @Composable () -> Unit
+    AnnotationTarget.TYPE,
+
+    // composable types inside of type signatures
+    // foo: (@Composable () -> Unit) -> Unit
+    AnnotationTarget.TYPE_PARAMETER,
+
+    // composable property getters and setters
+    // val foo: Int @Composable get() { ... }
+    // var bar: Int
+    //   @Composable get() { ... }
+    AnnotationTarget.PROPERTY_GETTER
+)
+annotation class Composable
+```
+
+AnnotationTarget을 통해 메서드나 Lambda 객체를 넘겨서 뷰를 조립하는 방식인데, `View`와 `ViewGroup`처럼 내부적으로 트리 구조로 실행지점에 대한 정보를 저장하고 있다.
+
+파면 팔수록 Flutter의 Widget, React Native의 Component와 유사한 느낌을 준다.
+
+기회가 된다면 AnnotationTarget에 대해서도 파보는 게 좋은 공부가 될 것 같다.
+
+### Jetpack Compose의 Coupling과 Cohesion
+
+비단 Android 애플리케이션뿐만 아니라, 소프트웨어를 잘 개발하기 위해 지켜야할 원칙 중 하나는 **관심사의 분리(Separation of concerns)** 라는 개념이다.
+
+흔히 복잡성을 극복하기 위해 여러가지 디자인 패턴을 적용하여 View와 Controller를 분리하기 위해 애쓰는 사람들이 많은 것도 결국 프로덕트의 복잡성을 (완전히 없앨 수는 있을까?) 최소화하기 위해서이다.
+
+Compose 또한 이 복잡성의 극복을 위해 나온 도구라고 봐도 무방할 것이다.
+
+따라서 Compose를 적용하면서 계속 머릿속에 캐시해두어야할 개념은 **Coupling** 과 **Cohesion** 이다.
+
+흔히들 커플링이 심하다라고 표현하긴 하는데, 굳이 한글로 번역하자면 각각, 어떠한 컴포넌트들간의 **결속** 과 분리된 각 모듈 내부의 **응집** 을 뜻한다고 볼 수 있다.
+
+![](https://drive.google.com/uc?export=view&id=18L_Hb3HB5wIIBS-lD1pu3uuA2FsCxvoJ)
+
+> **출처** [How Cohesion and Coupling Correlate](https://blog.ttulka.com/how-cohesion-and-coupling-correlate)
+
+위의 세 그림을 아래 개념을 뜻한다.
+
+- A : Low cohesion, tight coupling
+- B : High cohesion, tight coupling
+- C : High cohesion, loose coupling
+
+결국 Compose를 잘 쓴다는 것은 UI/UX 입장에서 뷰를 잘 분리하여 재사용을 통해 우리가 개발하려는 프로덕트가 C의 구조가 되게끔 작성하는 것이다.
+
+
+### References
+- [Android Devlopers#Compose 이해](https://developer.android.com/jetpack/compose/mental-model?hl=ko)
+- [Understanding Jetpack Compose - part 1 of 2](https://medium.com/androiddevelopers/understanding-jetpack-compose-part-1-of-2-ca316fe39050)
+- [Understanding Jetpack Compose - part 2 of 2](https://medium.com/androiddevelopers/under-the-hood-of-jetpack-compose-part-2-of-2-37b2c20c6cdd)
