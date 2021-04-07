@@ -1,4 +1,4 @@
-# Jetpack Compose Part 1 - Compose 소개 및 코드랩
+# Jetpack Compose Part 2 - ???
 
 ## Jetpack Compose란 무엇인가?
 
@@ -89,23 +89,6 @@ dependencies {
     ...
 }
 ```
-
-### 2. Starting a new Compose project
-### 3. Getting started with Compose
-### 4. Declarative UI
-### 5. State in Compose
-### 6. Flexible layouts
-### 7. Animating your list
-### 8. Theming your app
-### 9. Congurations
-
-
-
-
-
-### 1. Before you begin
-
-
 
 ### 2. Compose 프로젝트 생성
 
@@ -354,7 +337,11 @@ fun Greeting(name: String) {
 
 
 
-
+### State in Compose
+### Flexible layouts
+### Animating your list
+### Theming your app
+### Congurations
 
 
 ---
