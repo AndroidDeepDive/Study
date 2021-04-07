@@ -17,8 +17,10 @@
    - `Dispatchers.IO` : 입출력 쓰레드
    - `Dispatchers.Default` : 기본 쓰레드
 
-### launch - 결과를 반환하지 않음, 실행 후 삭제되는 작업
-### async - await 정지함수로 결과를 반환하는 작업
+### launch
+  - 결과를 반환하지 않음, 실행 후 삭제되는 작업
+### async
+  - await 정지함수로 결과를 반환하는 작업
 
 ### runBlocking
  코루틴을 실행하고 완료되기 전까지 현재 쓰레드를 블로킹.
