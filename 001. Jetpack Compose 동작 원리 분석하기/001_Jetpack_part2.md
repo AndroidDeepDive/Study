@@ -1,5 +1,11 @@
 # Jetpack Compose Part 2 - Preview / Layout / Decompile 
 
+**Author in [AndroidDeepDive Study](https://github.com/AndroidDeepDive/Study)**
+- 김남훈 @Naver
+- 배희성 @RocketPunch
+- 송시영 @SmartStudy
+- 이기정 @BankSalad
+
 ## Android Studio의 Jetpack Compose
 
 Android Studio Preview를 사용해 Compose를 사용하다보면 Preview라 코드레벨에서 활성화되는 것을 알 수 있다.

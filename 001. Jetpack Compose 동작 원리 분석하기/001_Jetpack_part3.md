@@ -1,6 +1,6 @@
 # Jetpack Compose Part 3 - Retrospect
 
-**Author**
+**Author in [AndroidDeepDive Study](https://github.com/AndroidDeepDive/Study)**
 - 김남훈 @Naver
 - 배희성 @RocketPunch
 - 송시영 @SmartStudy

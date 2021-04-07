@@ -1,5 +1,11 @@
 # Jetpack Compose Part 1 - Compose 소개 및 코드랩 따라하기
 
+**Author in [AndroidDeepDive Study](https://github.com/AndroidDeepDive/Study)**
+- 김남훈 @Naver
+- 배희성 @RocketPunch
+- 송시영 @SmartStudy
+- 이기정 @BankSalad
+
 ## Jetpack Compose란 무엇인가?
 
 ![](https://drive.google.com/uc?export=view&id=1vXOGJD7inmGfDYiPu6wMVrpu5xFnov38)
