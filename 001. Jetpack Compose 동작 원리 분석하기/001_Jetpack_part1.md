@@ -646,7 +646,7 @@ internal fun ViewGroup.setContent(
 다시 돌아와서, ComposeView의 `setContent()` 이라는 녀석을 보자.
 
 ```kotlin
-**
+/**
  * A [android.view.View] that can host Jetpack Compose UI content.
  * Use [setContent] to supply the content composable function for the view.
  *
@@ -691,7 +691,7 @@ class ComposeView @JvmOverloads constructor(
 }
 ```
 
-위에 뭐라뭐라 써져 있는데, 결론적으로 `AbstractComposeView` 라는 녀석은 ViewGroup을 상속받은 녀석이며, 모든 composable의 상태가 변화 되었을 때 이를 감지하는 중요한 녀석이다.
+결론적으로 `AbstractComposeView` 라는 녀석은 ViewGroup을 상속받은 녀석이며, 모든 composable의 상태가 변화 되었을 때 이를 감지하는 중요한 녀석이다.
 
 `setContent()`라는 함수는 위에서 설명했으니 넘어가고, 이번에는 `Content`라는 녀석을 보자. 이녀석은 추상 메소드로, `createComposition()` 이라는 함수가 호출 되었을 때, 가장 먼저 불리는 함수이다. 아까 언급되었던 `ensureCompsositionCreated()` 함수에서 tree계층의 ComposeView가 다 붙었다면, 이후에 즉시 Content함수가 호출이된다.
 
