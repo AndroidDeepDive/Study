@@ -1,256 +1,41 @@
-# Jetpack Compose Part 2 - ???
+# Jetpack Compose Part 2 - Preview / Layout / Decompile 
 
-## Jetpack Compose란 무엇인가?
+## Android Studio의 Jetpack Compose
 
-![](https://drive.google.com/uc?export=view&id=1vXOGJD7inmGfDYiPu6wMVrpu5xFnov38)
+Android Studio Preview를 사용해 Compose를 사용하다보면 Preview라 코드레벨에서 활성화되는 것을 알 수 있다.
 
-> **출처** [Android Developers#Jetpack Compse](https://developer.android.com/jetpack/compose)
+좀 더 자세히 살펴보자.
 
-Compose는 Native UI를 코드레벨로 구현할 수 있는 최신 툴킷이다. 
+### Preview의 기능들
 
-기존의 뷰를 업데이트하는 방식과 달리 Compose를 사용하면 필요한 영역의 뷰를 다시 그려주는 방식으로 작업할 수 있다.
-
-아래는 아주 간단한 예제이다.
-
-```kotlin
-@Composable
-fun Greeting(name: String) {
-	Text("Hello $name")
-}
-```
-
-위의 예제처럼 UI를 구성하는 것이 아니라 화면을 구성하는 뷰의 State 설명하는 것이므로 아무것도 반환하지 않는다.
-
-아래는 공식 서비스 소개 영상이다.
-
-<div style="width: 560px; height: 315px; float: none; clear: both;">
-  <embed
-    src="https://www.youtube.com/embed/U5BwfqBpiWU"
-    wmode="transparent"
-    type="video/mp4"
-    width="100%" height="100%"
-    allow="autoplay; encrypted-media; picture-in-picture"
-    allowfullscreen
-  >
-</div>
-
-### Compose의 4가지 특징
-
-구글에서 설명하는 Compose를 이용시 얻을 수 있는 장점은 아래와 같다.
-
-- `Less Code` - 코드 감소
-  - 적은 수의 코드로 더 많은 작업을 하고 전체 버그 클래스를 방지할 수 있으므로 코드가 간단하며 유지 관리하기 쉽습니다.
-- `Intuitive` - 직관적
-  - UI만 설명하면 나머지는 Compose에서 처리합니다. 앱 상태가 변경되면 UI가 자동으로 업데이트됩니다.
-- `Accelerate Development` - 빠른 개발 과정
-  - 기존의 모든 코드와 호환되므로 언제 어디서든 원하는 대로 사용할 수 있습니다. 실시간 미리보기 및 완전한 Android 스튜디오 지원으로 빠르게 반복할 수 있습니다.
-- `Powerful` - 강력한 성능
-  - Android 플랫폼 API에 직접 액세스하고 머티리얼 디자인, 어두운 테마, 애니메이션 등을 기본적으로 지원하는 멋진 앱을 만들 수 있습니다.
-
-늘 그렇듯 구글에서 말하는 설명만 보면 안 쓸 이유가 없어보이고, 대세가 된다면 Android 개발자에게 또 하나의 러닝커브로 작용할 것이다.
-
-## Codelab - Jetpack Compose basics
-
-### 1. Before you begin
-
-Compose는 아직 정식으로 릴리즈되지 않은 기능이므로 Android Studio Canary에서 프로젝트를 구성하며 몇 가지 제한사항이 존재한다.
-
-1. Android Studio Canary 
-
-Canary는 아래 링크에서 다운 받을 수 있다.
-
-> [Android Studio Preview](https://developer.android.com/studio/preview)
-
-2. 최신 버전의 Kotlin plugin 
-
-```groovy
-ext.kotlin_version = '1.4.31'
-```
-
-3. buildFeatures 및 composeOption 활성화
-
-```groovy
-android {
-    ...
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion 1.0.0-beta02
-    }
-}
-
-dependencies {
-    ...
-    implementation "androidx.compose.ui:ui:1.0.0-beta02"
-    implementation "androidx.activity:activity-compose:1.3.0-alpha03"
-    implementation "androidx.compose.material:material:1.0.0-beta02"
-    implementation "androidx.compose.ui:ui-tooling:1.0.0-beta02"
-    ...
-}
-```
-
-### 2. Compose 프로젝트 생성
-
-[File] - [New] - [New Project…] 를 눌러 새로운 프로젝트를 선택하고(Preview) Empty Compose Activity 를 선택한다.
-
-![](https://cdn-images-1.medium.com/max/3592/1*5gfrQWfxyEC7Oq6b2xlJ9w.png)
-
-선택 이후 Next를 클릭하고, Compose를 구현할 수 있는 최소 API 레벨인 21을 선택해야한다.
-
-프로젝트를 생성하면 아래와 같이 app/build.gradle에 의존성 설정 및 추가가 되어 있는것을 알 수 있다.
-
-```groovy
-android {
-    ...
-    kotlinOptions {
-        jvmTarget = '1.8'
-        useIR = true
-    }
-    buildFeatures {
-        compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion compose_version
-    }
-}
-
-dependencies {
-    ...
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.activity:activity-compose:1.3.0-alpha03"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling:$compose_version"
-    ...
-}
-```
-
-이때 composeOptions 설정에서 kotlinCompilerVersion 에 따라 compose 가 다르게 동작할 수 있음을 유의하자.
-
-프로젝트를 생성하면 아래와 같은 기본 파일들이 생성된다.
-
-**MainActivity.kt**
-```kotlin
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MyFirstComposeApplicationTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MyFirstComposeApplicationTheme {
-        Greeting("Android")
-    }
-}
-```
-
-**ui/theme/Theme.kt**
-```kotlin
-private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
-)
-
-private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200*
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
-)
-
-@Composable
-fun MyFirstComposeApplicationTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorPalette*
-    } else {
-        LightColorPalette*
-    }
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
-    )
-}
-```
-
-기본 생성된 코드를 보았을 때, Compose는 총 3가지의 구성 요소를 가지는 것으로 추측할 수 있다.
-
-1. 위젯을 포함하는 Composable 함수
-2. Preview를 하기 위한 Preview Composable 함수
-3. setContent 람다 표현식으로 실제 화면에 노출하는 코드
-
-일반적으로 우리가 아는 Activity의 라이프사이클 콜백 `onCreate()`에서   `setContentView(Int)` 함수를 호출하던것이 `setContent()` 함수로 바뀐것이 가장 큰 특징으로 보여진다.
-
-이때 Preivew와 Compose를 이용해 아래와 같이 IDE 화면을 구성할 수 있다.
+Preview 와 Compose 를 사용해서 아래와 같이 구성할 수 있다.
 
 ![](https://cdn-images-1.medium.com/max/5556/1*ybDWG4W2bPYNq79vr1gE8w.png)
 
-Split(design/code) 을 선택에 따라 코드 및 디자인의 패널을 변경할 수 있다.
+Split(design/code) 을 선택에 따라 코드 및 디자인의 패널을 변경할 수도 있다.
 
 ![](https://cdn-images-1.medium.com/max/2000/1*XVvr-CB2pn88Te7Gg52GPA.png)
 
-Preview에서도 인터렉티브 모드를 설정할 수 있다.
+미리보기에서 인터렉티브 모드를 설정할 수 있다. 
 
-인터렉티브 모드는 실제 디바이스에서 상호작용하는것과 같이 미리보기에서 클릭이나 드래그 등의 상호 작용을 확인해 볼 수 있다.
+인터렉티브 모드를 설정하면 실제 디바이스처럼  클릭이나 드래그 등의 상호 작용을 확인해 볼 수 있다.
 
-다만, 네트워크나 파일에 접근 또는 일부 Context API는 인터렉티브 모드를 지원하지 않는다.
+다만, 네트워크나 파일에 접근 또는 일부 Context API 는 인터렉티브 모드를 지원하지 않고 있다.
 
-> 아직은 간헐적으로 작동하지 않는 경우가 있다.
+> 간헐적으로 interactive 모드가 작동하지 않는 경우가 있다.
 
 ![](https://cdn-images-1.medium.com/max/3096/1*9IA2k2s5hAS9pSyzpmQ6Pw.png)
 
-Preview에서 디바이스 혹은 에뮬레이터로 배포하여 결과를 확인할 수 있다.
+미리보기에서 직접 디바이스 혹은 에뮬레이터로 배포하여 결과를 확인할 수도 있다.
 
 ![](https://cdn-images-1.medium.com/max/3234/1*5RZOM7sWV0sXctJtTPdshQ.png)
 
-### 3. Getting started with Compose
 
-Composable Function은 어노테이션을 이용한 기술이다. 함수위에 `@Composable` 어노테이션을 붙이게 되면 함수 안 다른 함수를 호출할 수 있게된다. 아래 코드를 보자.
+### `@Preview` Annotation 분석
 
-```kotlin
-@Composable
-fun Greeting(names: List<String>) {
-    for (name in names) {
-        Text("Hello $name")
-    }
-}
-```
+위에서 언급했다시피 `@Preview`를 사용하면 디바이스나 에뮬레이터를 실행하지 않고 실시간으로 Compose UI 를 볼 수 있다.
 
-단순하게 내부에는 Text라는 함수가 존재하는데, 이를 통해 UI계층 별 요구하는 컴포넌트를 생성해준다. 기본적으로 보이는 text 파라미터는 내부 속성에서 받는 일부 중 하나이다.
-
-아래 코드를 실행시켜보면 당연하게도 Hello로 시작하는 TextView가 화면에 그려질것을 암시한다.
-
-![output](https://imgur.com/aO6Jlsg.jpg)
-
-
-#### `@Preview` 구성 요소
-Preview 어노테이션을 사용하면 디바이스나 에뮬레이터를 실행하지 않고 실시간으로 Compose UI 를 볼 수 있으며, Preview class 는 아래와 같이 구성되어 있으며 설정에 따라서 미리보기를 다양하게 구성할 수 있다.
+`@Preview`를는 아래와 같이 구성되어 있으며 설정에 따라서 미리보기를 다양하게 구성할 수 있다.
 
 ```kotlin
 annotation class Preview(
@@ -273,75 +58,290 @@ annotation class Preview(
 
 - **name** : Preview 의 이름을 지정하며, 기본 값은 function 이름으로 설정된다.
 - **group** : Preview 의 그룹을 지정한다, 기본 값은 function 이름으로 설정된다.
-- **apiLevel** : api level 설정에 따라 Composable을 렌더링한다.
-- **widthDp** : Preview 의 너비를 설정한다. (dp 단위, 별도 단위의 정의는 필요없음)
-- **heightDp** : Preview 의 높이를 설정한다. (dp 단위, 별도 단위의 정의는 필요없음)
-- **locale** : 사용자 locales 에 따라 보여지는 UI 를 테스트할때 사용
-- **fontScale** : 기본 density 애 배율을 적용해서 폰트 사이즈를 변경한다.
-- **showSystemUi** : true 로 설정하면 status bar 와 action bar 를 같이 보여준다.
-- **showBackground** : true 로 설정하면 기본 배경색을 보여지도록 설정한다.
-- **backgroundColor** : 미리보기의 배경색을 설정할 수 있으며, showBackground 설정에 따라 보여준다.
-- **uiMode** : uiMode 를 설정해서 쓸 수 있다.
-- **device** : 정의된 디바이스를 프리뷰에 적용할 수 있으며 Devices object 에 정의된 값을 선택해서 사용할 수 있다. (Devices.NEXUS_9)
+- **apiLevel** : api level 설정에 따라 Composable 을 렌더링해준다.
+- **widthDp** : Preview 의 너비를 설정한다. (기본 단위는 dp)
+- **heightDp** : Preview 의 높이를 설정한다. (기본 단위는 dp)
+- **locale** : 사용자 locales 에 따라 보여지는 UI 를 테스트 하기 위해 사용한다.
+- **fontScale** : 기본 density 애 배율을 적용해서 폰트 사이즈를 변경할 수 있다.
+- **showSystemUi** : true 로 설정하면 status bar 와 action bar 를 노출한다.
+- **showBackground** : true 로 설정하면 기본 배경색상을 적용해준다.
+- **backgroundColor** : 미리보기의 배경색을 설정할 수 있으며, showBackground 설정에 따라 노출 유무를 결정한다.
+- **uiMode** : uiMode 를 설정한다.
+- **device** : 기존 정의된 디바이스를 프리뷰에 적용한다. Devices object 에 정의된 값을 선택해서 사용할 수 있습니다. (Devices.NEXUS_9)
 
-### 4. Declarative UI
+### Compose의 레이아웃 구성
 
-노란색 배경을 입혀 기존 TextView에 추가해보았다. 또한, Greeting에는 Modifier라는 것을 이용하여 Padding을 추가했다. 아래와 같은 결과가 나오게 되었다.
+- **Column** : 아이템을 세로로 배치한다.
 
 ```kotlin
-BasicsCodelabTheme {
-  // A surface container using the 'background' color from the theme
-  Surface(color = Color.Yellow) {
-    Greeting("Android")
-  }
+@Composable
+fun ComposeColumn() {
+    Column {
+        Text(text = "My First Compose")
+        Text(text = "My First Compose")
+    }
 }
 ```
 
+![](https://cdn-images-1.medium.com/max/2000/1*bSyX8yT7H2HevBNw9fbyYw.png)
+
+- **Row** : 아이템을 가로로 배치한다.
+
 ```kotlin
-class MainActivity : AppCompatActivity() {
+@Composable
+fun ComposeRow() {
+    Row {
+        Text(text = "My First Compose")
+        Text(text = "My First Compose")
+    }
+}
+```
+
+![](https://cdn-images-1.medium.com/max/2000/1*T9Pww7JyPMPhCJ_6yU8fyQ.png)
+
+- **Box** : 구성 요소를 다른 구성 요소 위에 배치한다.
+
+```kotlin
+@Composable
+fun ComposeBox() {
+    Box {
+        Text(text = "My First Compose 1")
+        Text(text = "My First Compose 2")
+    }
+}
+```
+
+![](https://cdn-images-1.medium.com/max/2000/1*wFM4jF71V5aJog3lALaRKQ.png)
+
+- **Modifier** : 구성 요소의 크기, 마진등을 변경하거나 클릭이나 스크롤 등의 이벤트를 제어할 수 있도록 한다.
+
+```kotlin
+@Composable
+fun ComposeModifier() {
+    Box(modifier = Modifier
+        .padding(5.dp)
+    ) {
+        Text(text = "Compose Modifier")
+    }
+}
+```
+
+![](https://cdn-images-1.medium.com/max/2000/1*tPAf-Akf2IpDRrrZo1f1dg.png)
+
+- **LazyColumn / LazyRow** : Recyclerview 유사하게 화면에 보여지는 구성 요소만을 렌더링한다. 큰 데이터셋을 다루기에 용이하다.
+
+```kotlin
+@Composable
+fun ComposeLazyColumn() {
+    val itemsList = (0..100).toList()
+
+    LazyColumn {
+        items(items = itemsList, itemContent = { item ->
+            Text(text = "Item : $item", style = TextStyle(fontSize = 80.sp))
+        })
+    }
+}
+```
+
+![](https://cdn-images-1.medium.com/max/2000/1*m7mSalYCza-SoJjmlYeWdA.png)
+
+- **ConstraintLayout** : 기존 ContraintLayout 과 같이 여러 제약 참조를 설정해서 사용할 수 있다.
+ `createRefs` / `createRefFor` 를 통해 참조를 생성하며, constrainAs 를 통해 제약 조건을 설정한다.
+
+```kotlin
+@Composable
+fun ComposeConstraintLayout() {
+    ConstraintLayout(modifier = Modifier.size(100.dp, 200.dp)) {
+        val (text1, image, text3) = createRefs()
+
+        Text("Text Item 1", Modifier.constrainAs(text1) {
+            top.linkTo(parent.top)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+        })
+
+        Image(
+            painterResource(R.drawable.ic_launcher_foreground),
+            contentDescription = "",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize().constrainAs(image) {
+                top.linkTo(text1.bottom)
+                bottom.linkTo(text3.top)
+                start.linkTo(parent.start)
+                end.linkTo(parent.end)
+            }
+        )
+
+        Text("Text Item 3", Modifier.constrainAs(text3) {
+            bottom.linkTo(parent.bottom)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+        })
+    }
+}
+```
+
+Jetpack Compose 의 ConstraintLayout 을 사용하기 위해서는 아래 의존성을 추가해야 한다.
+
+```groovy
+implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0-alpha05"
+```
+
+![](https://cdn-images-1.medium.com/max/2000/1*UoLVl1dbUjKh9kd4uY0ROA.png)
+
+### Jetpack Compose의 동작 원리 파악을 위한 빌드 과정 추적
+
+##### 1. 프로젝트 생성
+
+Compose가 내부적으로 어떻게 동작하는 지 알아보기 위해 먼저 프로젝트를 빌드해보자.
+
+빌드 후 Kotlin > Byte Code > Decompiled Java 순서로 변환하여 살펴볼 것이다.
+
+Android Studio Preview에서 Empty Compose Activity로 프로젝트를 생성하면 아래와 같은 샘플 코드를 얻을 수 있다.
+
+프로젝트 생성 후 임의로 Hello World로 파라미터값을 변경하였다.
+
+
+```kotlin
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BasicsCodelabTheme {
+            HelloWorldTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    Greeting("World")
                 }
             }
         }
     }
 }
-```
 
-
-```kotlin
 @Composable
 fun Greeting(name: String) {
-    var isSelected by remember { mutableStateOf(false) }
-    val backgroundColor by animateColorAsState(if (isSelected) Color.Red else Color.Transparent)
+    Text(text = "Hello $name!")
+}
 
-    Text(
-        text = "Hello $name!",
-        modifier = Modifier
-            .padding(24.dp)
-            .background(color = backgroundColor)
-            .clickable(onClick = { isSelected = !isSelected })
-    )
+@Preview(showBackground = true)
+@Composable
+fun DefaultPreview() {
+    HelloWorldTheme {
+        Greeting("World")
+    }
 }
 ```
 
-![결과](https://imgur.com/qgQ6oY4.jpg)
+부가적으로 `src` 폴더 내부에 `ui.theme` 패키지가 생성되고 `Color.kt`, `Shape.kt`, `Theme.kt`, `Type.kt` 파일도 생성된다.
 
-선언형 UI의 장점은 말 그대로 내가 UI를 정의한대로 시각적으로 표현이 가능하다는 장점이 있다. 기존에는 속성을 매번 On/Off와 같은 옵션을 통해 변경하는 것이 다반사였지만, 이제는 매번 속성에 변경이 생길때마다 새로 그려주게 되는것이다.
+이 파일들은 필요한 경우 들여다 보도록 하자.
+
+생성 후 Preview에 아래와 같이 렌더링 된다.
+
+![](https://drive.google.com/uc?export=view&id=1_KB2Zz3OMmPZQaY8Ndyiw5divy7KWrD_)
+
+##### 2. MainActivity 디컴파일
+
+```java
+@Metadata(
+   mv = {1, 4, 2},
+   bv = {1, 0, 3},
+   k = 2,
+   d1 = {"\u0000\u0010\n\u0000\n\u0002\u0010\u0002\n\u0002\b\u0002\n\u0002\u0010\u000e\n\u0000\u001a\b\u0010\u0000\u001a\u00020\u0001H\u0007\u001a\u0010\u0010\u0002\u001a\u00020\u00012\u0006\u0010\u0003\u001a\u00020\u0004H\u0007¨\u0006\u0005"},
+   d2 = {"DefaultPreview", "", "Greeting", "name", "", "app_debug"}
+)
+public final class MainActivityKt {
+   @Composable
+   public static final void Greeting(@NotNull String name) {
+      Intrinsics.checkNotNullParameter(name, "name");
+      TextKt.Text-Vh6c2nE$default("Hello " + name + '!', (Modifier)null, 0L, 0L, (FontStyle)null, (FontWeight)null, (FontFamily)null, 0L, (TextDecoration)null, (TextAlign)null, 0L, (TextOverflow)null, false, 0, (Function1)null, (TextStyle)null, 65534, (Object)null);
+   }
+
+   @Composable
+   public static final void DefaultPreview() {
+      ThemeKt.HelloWorldTheme$default(false, (Function0)null.INSTANCE, 1, (Object)null);
+   }
+}
+
+// MainActivity.java
+@Metadata(
+   mv = {1, 4, 2},
+   bv = {1, 0, 3},
+   k = 1,
+   d1 = {"\u0000\u0018\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\u0002\n\u0000\n\u0002\u0018\u0002\n\u0000\u0018\u00002\u00020\u0001B\u0005¢\u0006\u0002\u0010\u0002J\u0012\u0010\u0003\u001a\u00020\u00042\b\u0010\u0005\u001a\u0004\u0018\u00010\u0006H\u0014¨\u0006\u0007"},
+   d2 = {"Lcom/example/helloworld/MainActivity;", "Landroidx/activity/ComponentActivity;", "()V", "onCreate", "", "savedInstanceState", "Landroid/os/Bundle;", "app_debug"}
+)
+public final class MainActivity extends ComponentActivity {
+   protected void onCreate(@Nullable Bundle savedInstanceState) {
+      super.onCreate(savedInstanceState);
+      ComponentActivityKt.setContent$default(this, (CompositionContext)null, (Function0)null.INSTANCE, 1, (Object)null);
+   }
+}
+```
+
+`ComponentActivityKt.setContent()`의 구현체는 아래와 같다.
+
+```kotlin
+public fun ComponentActivity.setContent(
+    parent: CompositionContext? = null,
+    content: @Composable () -> Unit
+) {
+    val existingComposeView = window.decorView
+        .findViewById<ViewGroup>(android.R.id.content)
+        .getChildAt(0) as? ComposeView
+
+    if (existingComposeView != null) with(existingComposeView) {
+        setParentCompositionContext(parent)
+        setContent(content)
+    } else ComposeView(this).apply {
+        // Set content and parent **before** setContentView
+        // to have ComposeView create the composition on attach
+        setParentCompositionContext(parent)
+        setContent(content)
+        setContentView(this, DefaultActivityContentLayoutParams)
+    }
+}
+```
+
+`CompositionContext` 파라미터는 null을 그대로 넘겨주었고, `(Function0)null.INSTANCE, 1, (Object)null`의 값으로 무언가를 넘겨주는데,
+
+이 값이 `@Composable` Annotation의 구현체이다.
+
+위의 코드 흔적을 술어로 표현해보면 **`@Composable` 구현체를 넘겨주면 이를 기반으로 `ComposeView` 객체를 생성하여 `Activity`의 `setContentView()`에 적용한다.** 가 되겠다.
 
 
+##### 3. `@Composable` 구현체 확인
 
+`Composable` Annotaion 클래스의 구현체는 아래와 같다.
 
-### State in Compose
-### Flexible layouts
-### Animating your list
-### Theming your app
-### Congurations
+```kotlin
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
+@Target(
+    // function declarations
+    // @Composable fun Foo() { ... }
+    // lambda expressions
+    // val foo = @Composable { ... }
+    AnnotationTarget.FUNCTION,
 
+    // type declarations
+    // var foo: @Composable () -> Unit = { ... }
+    // parameter types
+    // foo: @Composable () -> Unit
+    AnnotationTarget.TYPE,
 
----
+    // composable types inside of type signatures
+    // foo: (@Composable () -> Unit) -> Unit
+    AnnotationTarget.TYPE_PARAMETER,
+
+    // composable property getters and setters
+    // val foo: Int @Composable get() { ... }
+    // var bar: Int
+    //   @Composable get() { ... }
+    AnnotationTarget.PROPERTY_GETTER
+)
+annotation class Composable
+```
+
+AnnotationTarget을 통해 메서드나 Lambda 객체를 넘겨서 뷰를 조립하는 방식인데, `View`와 `ViewGroup`처럼 내부적으로 트리 구조로 실행지점에 대한 정보를 저장하고 있다.
+
+파면 팔수록 Flutter의 Widget, React Native의 Component와 유사한 느낌을 준다.

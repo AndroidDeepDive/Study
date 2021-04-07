@@ -1,4 +1,4 @@
-# Jetpack Compose Part 1 - Compose 소개 및 코드랩
+# Jetpack Compose Part 1 - Compose 소개 및 코드랩 따라하기
 
 ## Jetpack Compose란 무엇인가?
 
@@ -51,7 +51,7 @@ fun Greeting(name: String) {
 
 ## Codelab - Jetpack Compose basics
 
-### 1. Before you begin
+### 1. 시작하기전에
 
 Compose는 아직 정식으로 릴리즈되지 않은 기능이므로 Android Studio Canary에서 프로젝트를 구성하며 몇 가지 제한사항이 존재한다.
 
@@ -90,24 +90,7 @@ dependencies {
 }
 ```
 
-### 2. Starting a new Compose project
-### 3. Getting started with Compose
-### 4. Declarative UI
-### 5. State in Compose
-### 6. Flexible layouts
-### 7. Animating your list
-### 8. Theming your app
-### 9. Congurations
-
-
-
-
-
-### 1. Before you begin
-
-
-
-### 2. Compose 프로젝트 생성
+### 2. Empty Compose 프로젝트 생성
 
 [File] - [New] - [New Project…] 를 눌러 새로운 프로젝트를 선택하고(Preview) Empty Compose Activity 를 선택한다.
 
@@ -224,29 +207,7 @@ fun MyFirstComposeApplicationTheme(darkTheme: Boolean = isSystemInDarkTheme(), c
 
 일반적으로 우리가 아는 Activity의 라이프사이클 콜백 `onCreate()`에서   `setContentView(Int)` 함수를 호출하던것이 `setContent()` 함수로 바뀐것이 가장 큰 특징으로 보여진다.
 
-이때 Preivew와 Compose를 이용해 아래와 같이 IDE 화면을 구성할 수 있다.
-
-![](https://cdn-images-1.medium.com/max/5556/1*ybDWG4W2bPYNq79vr1gE8w.png)
-
-Split(design/code) 을 선택에 따라 코드 및 디자인의 패널을 변경할 수 있다.
-
-![](https://cdn-images-1.medium.com/max/2000/1*XVvr-CB2pn88Te7Gg52GPA.png)
-
-Preview에서도 인터렉티브 모드를 설정할 수 있다.
-
-인터렉티브 모드는 실제 디바이스에서 상호작용하는것과 같이 미리보기에서 클릭이나 드래그 등의 상호 작용을 확인해 볼 수 있다.
-
-다만, 네트워크나 파일에 접근 또는 일부 Context API는 인터렉티브 모드를 지원하지 않는다.
-
-> 아직은 간헐적으로 작동하지 않는 경우가 있다.
-
-![](https://cdn-images-1.medium.com/max/3096/1*9IA2k2s5hAS9pSyzpmQ6Pw.png)
-
-Preview에서 디바이스 혹은 에뮬레이터로 배포하여 결과를 확인할 수 있다.
-
-![](https://cdn-images-1.medium.com/max/3234/1*5RZOM7sWV0sXctJtTPdshQ.png)
-
-### 3. Getting started with Compose
+### 3. Composable Function
 
 Composable Function은 어노테이션을 이용한 기술이다. 함수위에 `@Composable` 어노테이션을 붙이게 되면 함수 안 다른 함수를 호출할 수 있게된다. 아래 코드를 보자.
 
@@ -261,47 +222,144 @@ fun Greeting(names: List<String>) {
 
 단순하게 내부에는 Text라는 함수가 존재하는데, 이를 통해 UI계층 별 요구하는 컴포넌트를 생성해준다. 기본적으로 보이는 text 파라미터는 내부 속성에서 받는 일부 중 하나이다.
 
-아래 코드를 실행시켜보면 당연하게도 Hello로 시작하는 TextView가 화면에 그려질것을 암시한다.
+### 4. TextView 만들기
+
+위 코드를 실행시켜보면 당연하게도 Hello로 시작하는 TextView가 화면에 그려질것을 암시한다.
+
+```kotlin
+setContent {
+  BasicsCodelabTheme {
+    // A surface container using the 'background' color from the theme
+    Surface(color = MaterialTheme.colors.background) {
+      Greeting("Android")
+    }
+  }
+}
+```
 
 ![output](https://imgur.com/aO6Jlsg.jpg)
 
+### 5. `@Preview`
 
-#### `@Preview` 구성 요소
-Preview 어노테이션을 사용하면 디바이스나 에뮬레이터를 실행하지 않고 실시간으로 Compose UI 를 볼 수 있으며, Preview class 는 아래와 같이 구성되어 있으며 설정에 따라서 미리보기를 다양하게 구성할 수 있다.
+말 그대로 어노테이션을 이용하여 IDE에서 Preview를하기 위한 용도이다. 아래 코드와 같이 @Preview 어노테이션을 추가하면 다음 결과를 볼 수 있다.
 
 ```kotlin
-annotation class Preview(
-    val name: String = "",
-    val group: String = "",
-    @IntRange(from = 1) val apiLevel: Int = -1,
-    // TODO(mount): Make this Dp when they are inline classes
-    val widthDp: Int = -1,
-    // TODO(mount): Make this Dp when they are inline classes
-    val heightDp: Int = -1,
-    val locale: String = "",
-    @FloatRange(from = 0.01) val fontScale: Float = 1f,
-    val showSystemUi: Boolean = false,
-    val showBackground: Boolean = false,
-    val backgroundColor: Long = 0,
-    @UiMode val uiMode: Int = 0,
-    @Device val device: String = Devices.DEFAULT
-)
+@Preview("Greeting Preview")
+@Composable
+fun GreetingPreview() {
+    BasicsCodelabTheme {
+        Surface(color = MaterialTheme.colors.background) {
+            Greeting("Android")
+        }
+    }
+}
 ```
 
-- **name** : Preview 의 이름을 지정하며, 기본 값은 function 이름으로 설정된다.
-- **group** : Preview 의 그룹을 지정한다, 기본 값은 function 이름으로 설정된다.
-- **apiLevel** : api level 설정에 따라 Composable을 렌더링한다.
-- **widthDp** : Preview 의 너비를 설정한다. (dp 단위, 별도 단위의 정의는 필요없음)
-- **heightDp** : Preview 의 높이를 설정한다. (dp 단위, 별도 단위의 정의는 필요없음)
-- **locale** : 사용자 locales 에 따라 보여지는 UI 를 테스트할때 사용
-- **fontScale** : 기본 density 애 배율을 적용해서 폰트 사이즈를 변경한다.
-- **showSystemUi** : true 로 설정하면 status bar 와 action bar 를 같이 보여준다.
-- **showBackground** : true 로 설정하면 기본 배경색을 보여지도록 설정한다.
-- **backgroundColor** : 미리보기의 배경색을 설정할 수 있으며, showBackground 설정에 따라 보여준다.
-- **uiMode** : uiMode 를 설정해서 쓸 수 있다.
-- **device** : 정의된 디바이스를 프리뷰에 적용할 수 있으며 Devices object 에 정의된 값을 선택해서 사용할 수 있다. (Devices.NEXUS_9)
+![Greeting Preview](https://imgur.com/WprDTs1.jpg)
 
-### 4. Declarative UI
+### 6. setContent / Theme / Surface
+
+```kotlin
+setContent {
+  BasicsCodelabTheme {
+    // A surface container using the 'background' color from the theme
+    Surface(color = MaterialTheme.colors.background) {
+      Greeting("Android")
+    }
+  }
+}
+```
+
+기존에 onCreate시점에 화면을 그려주기 위한 필수적인 요소를 정리해보자면
+
+- **setContent** : Activity에서 setContentView함수를 사용하는 것과 동일한 동작을 하는 확장함수이다. 다만, setContent의 경우 (@Composable) -> Unit 타입의 컴포즈 UI를 구현해주어야한다.
+
+- **XXXTheme** : Theme정보를 의미한다. 해당 프로젝트에서는 Theme.kt에 여러 테마에 필요한 정보를 정리하고, 컴포즈 UI 구현을 위한 코드를 작성해두었다.
+
+```kotlin
+private val DarkColorPalette = darkColors(
+    primary = purple200,
+    primaryVariant = purple700,
+    secondary = teal200
+)
+
+private val LightColorPalette = lightColors(
+    primary = purple500,
+    primaryVariant = purple700,
+    secondary = teal200
+
+    /* Other default colors to override
+    background = Color.White,
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black,
+    */
+)
+
+@Composable
+fun BasicsCodelabTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colors = if (darkTheme) {
+        DarkColorPalette
+    } else {
+        LightColorPalette
+    }
+
+    MaterialTheme(
+        colors = colors,
+        typography = typography,
+        shapes = shapes,
+        content = content
+    )
+}
+```
+
+- **Surface** : Greeting을 감싸는 뷰에 해당한다. 여기서는 크기를 정하지 않고, background 색상을 정의하고 있다. 역시 람다 표현식이다. 색상에 대한 Paramter로 `color` 라는 값을 사용하여 부여가 가능하다. 내부코드를 보면
+
+```kotlin
+@Composable
+fun Surface(
+    modifier: Modifier = Modifier,
+    shape: Shape = RectangleShape,
+    color: Color = MaterialTheme.colors.surface,
+    contentColor: Color = contentColorFor(color),
+    border: BorderStroke? = null,
+    elevation: Dp = 0.dp,
+    content: @Composable () -> Unit
+) {
+    val elevationPx = with(LocalDensity.current) { elevation.toPx() }
+    val elevationOverlay = LocalElevationOverlay.current
+    val absoluteElevation = LocalAbsoluteElevation.current + elevation
+    val backgroundColor = if (color == MaterialTheme.colors.surface && elevationOverlay != null) {
+        elevationOverlay.apply(color, absoluteElevation)
+    } else {
+        color
+    }
+    CompositionLocalProvider(
+        LocalContentColor provides contentColor,
+        LocalAbsoluteElevation provides absoluteElevation
+    ) {
+        Box(
+            modifier.graphicsLayer(shadowElevation = elevationPx, shape = shape)
+                .then(if (border != null) Modifier.border(border, shape) else Modifier)
+                .background(
+                    color = backgroundColor,
+                    shape = shape
+                )
+                .clip(shape),
+            propagateMinConstraints = true
+        ) {
+            content()
+        }
+    }
+}
+```
+
+### 7. Declarative UI - 선언형 UI
 
 노란색 배경을 입혀 기존 TextView에 추가해보았다. 또한, Greeting에는 Modifier라는 것을 이용하여 Padding을 추가했다. 아래와 같은 결과가 나오게 되었다.
 
@@ -313,23 +371,6 @@ BasicsCodelabTheme {
   }
 }
 ```
-
-```kotlin
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            BasicsCodelabTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
-                }
-            }
-        }
-    }
-}
-```
-
 
 ```kotlin
 @Composable
@@ -352,9 +393,422 @@ fun Greeting(name: String) {
 선언형 UI의 장점은 말 그대로 내가 UI를 정의한대로 시각적으로 표현이 가능하다는 장점이 있다. 기존에는 속성을 매번 On/Off와 같은 옵션을 통해 변경하는 것이 다반사였지만, 이제는 매번 속성에 변경이 생길때마다 새로 그려주게 되는것이다.
 
 
+### 8. 재사용
+
+Compose의 장점 중 하나는 재사용성이 뛰어난것인데, XML에서 우리가 include 태그를 통해 여러곳에서 갖다쓸 수 있던것처럼, 함수를 통해 여러곳에서 정의하여 사용이 가능하다.
+
+참고해야할 점은 Compose 컴포넌트 확장 시 `@Composable` 어노테이션을 붙여야 한다.
+
+### 9. Container 작성
+
+MyApp이라는 이름으로 컴포즈 컴포넌트를 구횬하여 여러곳에서 공통으로 사용할 수 있는 Composable을 구현하였다. 내부적으로 Container내 내가 원하는 컴포넌트를 넣어주려면 아래와 같이 인자로 `@Composable () -> Unit` 타입을 넘겨받아 처리해주면 된다.
+
+```kotlin
+@Composable
+fun MyApp(content: @Composable () -> Unit) {
+    BasicsCodelabTheme {
+        Surface(color = Color.Yellow) {
+            content()
+        }
+    }
+}
+```
+
+위 함수를 통해 이제는 어디서든 반복해서 사용할 수 있는 Container를 구현하게 되어 아래와 같이 코드를 활용할 수 있게되었다.
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContent {
+      MyApp {
+        Greeting("Android")
+      }
+    }
+    ...
+  }
+```
+
+### 10. 레이아웃을 활용한 Compose function의 다중 호출
+
+지금까지는 하나의 컴포넌트만을 갖고 사용했지만, 여러개의 컴포넌트를 넣는것도 가능하다.
+
+```kotlin
+@Composable
+fun MyScreenContent() {
+    Column {
+        Greeting("Android")
+        Divider(color = Color.Black)
+        Greeting("there")
+    }
+}
+```
+
+ `Column`과 위에서부터 사용하던 `Greeting` 함수를 사용하고, 라인을 그어주기 위한 `Divider`를 추가한 결과물은 다음과 같다.
+
+![multiple component](https://imgur.com/VLTxB8C.jpg)
+
+위 컴포넌트 중 못보던 컴포저블이 있는데, 아래와 같이 설명이 가능하다.
+
+- Column : 항목을 순서대로 배치하기 위해 사용한다.
+- Divider : 선 긋기 가능한 Compose 함수이다.
+
+이를 리스트 형태로도 구현이 가능하다.
+
+```kotlin
+@Composable
+fun MyColumnScreen(names: List<String> = listOf("Line One", "Line Two")) {
+    Column {
+        names.forEach {
+            Greeting(name = it)
+            Divider(color = Color.Black)
+        }
+    }
+}
+```
+
+### 11. State in Compose - Compose에서의 상태값 관리
+
+
+컴포넌트에 버튼을 클릭했을 때 클릭한 카운트를 집계하는 간단한 컴포넌트를 만들어보았다.
+
+```kotlin
+@Composable
+fun MyColumnScreen(names: List<String> = listOf("Line One", "Line Two")) {
+    val counterState = remember { mutableStateOf(0) } // 
+
+    Column {
+        names.forEach {
+            Greeting(name = it)
+            Divider(color = Color.Black)
+        }
+        Counter(
+            count = counterState.value,
+            updateCount = { newCount ->
+                counterState.value = newCount
+            }
+        )
+    }
+}
+```
+
+remember라는 함수를 사용하여 기존에 존재하는 컴포넌트의 상태값을 기억하게 하는 함수가 있다. 
+
+`remember` 함수의 내부를 살펴보자.
+
+```kotlin
+/**
+ * Remember the value produced by [calculation]. [calculation] will only be evaluated during the composition.
+ * Recomposition will always return the value produced by composition.
+ */
+@OptIn(ComposeCompilerApi::class)
+@Composable
+inline fun <T> remember(calculation: @DisallowComposableCalls () -> T): T =
+    currentComposer.cache(false, calculation)
+```
+
+매 호출마다 Recomposition(재조합)하게되는 경우 컴포넌트에 값을 다시 제공하는 것을 알 수 있다. @Composable 어노테이션에 들어간 함수는 매번 해당 상태를 구독하고, 상태가 변경될때마다 알림을 받아 기존 화면을 갱신해준다.
+
+그리고, 아래 Counter를 보면 Button을 이용하여 이벤트를 받아 처리하도록 했다.
+
+```kotlin
+@Composable
+fun Counter(count: Int, updateCount: (Int) -> Unit) {
+    Button(
+        onClick = { updateCount(count + 1) },
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = if (count > 5) Color.Green else Color.White
+        )
+    ) {
+        Text("I've been clicked $count times")
+    }
+}
+```
+
+`updateCount(Int)` 함수릉 통해 매번 값을 업데이트 해주는데, 이를 통해 counterState에 값을 넣어주면서 해당 컴포넌트가 매번 변경이 되는것이다.
+
+따라서 결과를 보면, 다음과 같다. Count가 5가 넘어가면 초록색으로 바뀐다.
+
+![count](https://imgur.com/Ju6BSg2.gif)
+
+그 외에도 여러형태의 모양을 구성할수 있도록 옵션이 제공되어 있다. 자세한 정보는 나중에 [Codelabs](https://developer.android.com/codelabs/jetpack-compose-basics)에 더 나와 있으니 보도록하고, 이번에 setContent에 대한 동작원리를 함께 고민해보자.
+
+### 12. Activity에서의 View 생성 방식과의 비교
+
+Compose를 안드로이드 앱에서 사용하려면 Activity, Fragment와 같은곳에서 contentView로 뿌려줘야한다. 기존에 우리가 사용하던 함수를 보자.
+
+```java
+/**
+* Set the activity content from a layout resource.  The resource will be
+* inflated, adding all top-level views to the activity.
+*
+* @param layoutResID Resource ID to be inflated.
+*
+* @see #setContentView(android.view.View)
+* @see #setContentView(android.view.View, android.view.ViewGroup.LayoutParams)
+*/
+public void setContentView(@LayoutRes int layoutResID) {
+  getWindow().setContentView(layoutResID);
+  initWindowDecorActionBar();
+}
+```
+
+UI 컴포넌트에서 화면을 붙일 수 있는 Window라는 녀석에서 Layout Resource Id를 통해 기존에 등록되어있던 Layout XML 파일을 로드하여 인플레이터에서 파싱하고, 이를통해 레이아웃 계층에 있는 뷰객체를 생성하여 순차적으로 ViewGroup, View를 만들어 넣어주게 된다.
+
+`PhoneWindow`를 보면 자세하게 알 수 있는데, Window를 구현한 setContentView에서 처음에 생성되는 최상위 레이아웃 그 위에 따로 없다면 `installDecor()` 함수를 통해 mContentParent(레이아웃 리소스가 붙게될 ViewGroup)를 생성하고, 하위에 넣어주게 된다.
+
+그러면 기존 방식은 이정도로 설명을하고, 이번엔 Compose에서 `setContent()` 라는 함수를 어떻게 사용하는지 보자.
+
+```kotlin
+/**
+ * Composes the given composable into the given activity. The [content] will become the root view
+ * of the given activity.
+ *
+ * This is roughly equivalent to calling [ComponentActivity.setContentView] with a [ComposeView]
+ * i.e.:
+ *
+ * ```
+ * setContentView(
+ *   ComposeView(this).apply {
+ *     setContent {
+ *       MyComposableContent()
+ *     }
+ *   }
+ * )
+ * ```
+ *
+ * @param parent The parent composition reference to coordinate scheduling of composition updates
+ * @param content A `@Composable` function declaring the UI contents
+ */
+public fun ComponentActivity.setContent(
+    parent: CompositionContext? = null,
+    content: @Composable () -> Unit
+) {
+    val existingComposeView = window.decorView
+        .findViewById<ViewGroup>(android.R.id.content)
+        .getChildAt(0) as? ComposeView
+
+    if (existingComposeView != null) with(existingComposeView) {
+        setParentCompositionContext(parent)
+        setContent(content)
+    } else ComposeView(this).apply {
+        // Set content and parent **before** setContentView
+        // to have ComposeView create the composition on attach
+        setParentCompositionContext(parent)
+        setContent(content)
+        // Set the view tree owners before setting the content view so that the inflation process
+        // and attach listeners will see them already present
+        setOwners()
+        setContentView(this, DefaultActivityContentLayoutParams)
+    }
+}
+```
+
+이녀석도 마찬가지로 `window.decorView.findViewById<ViewGroup>(android.R.id.content)`  함수를 호출하여 decorView를 가져온다. 만약 compose를 통해 만들어진 최상위 레이아웃이 존재하면, 기존에 inflator에서 ViewGroup, View를 생성해서 넣어주던것 처럼 `setContent()` => window가 Activity/Fragment에 붙으면 `createComposition()`를 호출하여 검증 후 `ensureCompsositionCreated()` 함수를 호출한다. 현재는 내부적으로 `ViewGroup.setContent()` 를 사용하고 있는데, 곧 교체 될 예정이라고 한다. 이코드도 보면 기존에 있는 ViewGroup에 확장함수로 구현한 녀석인데, 쉽게 말해 ViewGroup에 하위 View, ViewGroup에 Composable로 구현된 함수로 컴포넌트를 넣어줄 때 AndroidComposeView라는 객체를 꺼내오거나 없다면 새로 생성하여 넣어준다.
+
+```kotlin
+/**
+ * Composes the given composable into the given view.
+ *
+ * The new composition can be logically "linked" to an existing one, by providing a
+ * [parent]. This will ensure that invalidations and CompositionLocals will flow through
+ * the two compositions as if they were not separate.
+ *
+ * Note that this [ViewGroup] should have an unique id for the saved instance state mechanism to
+ * be able to save and restore the values used within the composition. See [View.setId].
+ *
+ * @param parent The [Recomposer] or parent composition reference.
+ * @param content Composable that will be the content of the view.
+ */
+internal fun ViewGroup.setContent(
+    parent: CompositionContext,
+    content: @Composable () -> Unit
+): Composition {
+    GlobalSnapshotManager.ensureStarted()
+    val composeView =
+        if (childCount > 0) {
+            getChildAt(0) as? AndroidComposeView
+        } else {
+            removeAllViews(); null
+        } ?: AndroidComposeView(context).also { addView(it.view, DefaultLayoutParams) }
+    return doSetContent(composeView, parent, content)
+}
+```
 
 
 
+다시 돌아와서, ComposeView의 `setContent()` 이라는 녀석을 보자.
+
+```kotlin
+**
+ * A [android.view.View] that can host Jetpack Compose UI content.
+ * Use [setContent] to supply the content composable function for the view.
+ *
+ * This [android.view.View] requires that the window it is attached to contains a
+ * [ViewTreeLifecycleOwner]. This [androidx.lifecycle.LifecycleOwner] is used to
+ * [dispose][androidx.compose.runtime.Composition.dispose] of the underlying composition
+ * when the host [Lifecycle] is destroyed, permitting the view to be attached and
+ * detached repeatedly while preserving the composition. Call [disposeComposition]
+ * to dispose of the underlying composition earlier, or if the view is never initially
+ * attached to a window. (The requirement to dispose of the composition explicitly
+ * in the event that the view is never (re)attached is temporary.)
+ */
+class ComposeView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : AbstractComposeView(context, attrs, defStyleAttr) {
+
+    private val content = mutableStateOf<(@Composable () -> Unit)?>(null)
+
+    @Suppress("RedundantVisibilityModifier")
+    protected override var shouldCreateCompositionOnAttachedToWindow: Boolean = false
+        private set
+
+    @Composable
+    override fun Content() {
+        content.value?.invoke()
+    }
+
+    /**
+     * Set the Jetpack Compose UI content for this view.
+     * Initial composition will occur when the view becomes attached to a window or when
+     * [createComposition] is called, whichever comes first.
+     */
+    fun setContent(content: @Composable () -> Unit) {
+        shouldCreateCompositionOnAttachedToWindow = true
+        this.content.value = content
+        if (isAttachedToWindow) {
+            createComposition()
+        }
+    }
+}
+```
+
+위에 뭐라뭐라 써져 있는데, 결론적으로 `AbstractComposeView` 라는 녀석은 ViewGroup을 상속받은 녀석이며, 모든 composable의 상태가 변화 되었을 때 이를 감지하는 중요한 녀석이다.
+
+`setContent()`라는 함수는 위에서 설명했으니 넘어가고, 이번에는 `Content`라는 녀석을 보자. 이녀석은 추상 메소드로, `createComposition()` 이라는 함수가 호출 되었을 때, 가장 먼저 불리는 함수이다. 아까 언급되었던 `ensureCompsositionCreated()` 함수에서 tree계층의 ComposeView가 다 붙었다면, 이후에 즉시 Content함수가 호출이된다.
+
+```kotlin
+@Suppress("DEPRECATION") // Still using ViewGroup.setContent for now
+    private fun ensureCompositionCreated() {
+        if (composition == null) {
+            try {
+                creatingComposition = true
+                composition = setContent(
+                    parentContext ?: findViewTreeCompositionContext() ?: windowRecomposer
+                ) {
+                    Content() // 이곳에서 뷰가 다 window에 붙게되면 콜백을 호출한다.
+                }
+            } finally {
+                creatingComposition = false
+            }
+        }
+    }
+```
+
+그러면 아래 `ComposeView`의 오버라이딩 된 Content가 호출되면서, 기존에 생성된 View에 UI속성과 같은 Content가 붙게된다.
+
+```kotlin
+/**
+* The Jetpack Compose UI content for this view.
+* Subclasses must implement this method to provide content. Initial composition will
+* occur when the view becomes attached to a window or when [createComposition] is called,
+* whichever comes first.
+*/
+@Composable
+abstract fun Content()
+```
+
+Content는 설명에서 보는것과 같이 `createComposition()` 함수 호출 후 View가 Window에 붙은 이후 즉시 호출된다.
+
+최종적으로 `ComponentActivity.setContent(CompositionContext?, @Composable () -> Unit)` 함수에서 구현된 ComposeView 인스턴스를 ContentLayout을 widht/height를 wrapContent크기로 정하여 ContentView를 Set해주게 된다.
+
+```kotlin
+/**
+ * Composes the given composable into the given activity. The [content] will become the root view
+ * of the given activity.
+ *
+ * This is roughly equivalent to calling [ComponentActivity.setContentView] with a [ComposeView]
+ * i.e.:
+ *
+ * ```
+ * setContentView(
+ *   ComposeView(this).apply {
+ *     setContent {
+ *       MyComposableContent()
+ *     }
+ *   }
+ * )
+ * ```
+ *
+ * @param parent The parent composition reference to coordinate scheduling of composition updates
+ * @param content A `@Composable` function declaring the UI contents
+ */
+public fun ComponentActivity.setContent(
+    parent: CompositionContext? = null,
+    content: @Composable () -> Unit
+) {
+  	...
+		else ComposeView(this).apply {
+        // Set content and parent **before** setContentView
+        // to have ComposeView create the composition on attach
+        setParentCompositionContext(parent)
+        setContent(content)
+        // Set the view tree owners before setting the content view so that the inflation process
+        // and attach listeners will see them already present
+        setOwners()
+        setContentView(this, DefaultActivityContentLayoutParams)
+    }
+}
+```
+
+### 13. ComposeView
+
+android.view.View 는 Jetpack Compose UI 콘텐츠를 사용할 수 있도록 해줍니다. setContent 를 사용하면 composable function content 를 뷰에 제공할 수 있다.
+
+Compose 의 계층 구조는 아래와 같으며. ComposeView 를 통해 androidx.compose.materia 에 정의된 다양한 컴포넌트를 조합하여 Composable function 콘텐츠를 구성할 수 있다.
+
+```
+kotlin.Any
+ ↳ android.view.View
+   ↳ android.view.ViewGroup
+     ↳ androidx.compose.ui.platform.AbstractComposeView
+       ↳ androidx.compose.ui.platform.ComposeView
+```
+
+### 14. Compose Compiler / Compose Runtime
+
+Compose Compiler 는 `@Composable` 이 설정된 경우 Composable function 으로 코드 변환과 코틀린 컴파일러 플러그인과 함께 최적화를 활성화한다.
+
+Compose Runtime은 Compose의 프로그래밍 모델과 상태 관리, 그리고 Compose 컴파일러를 지정하기 위한 코어 런타임에 대한 기본 설정을 수행한다.
 
 
----
+```koltin
+@Composable
+fun Greeting(name: String) {
+    var greet by remember { mutableStateOf("Hello $name") }
+    Text(text = greet, color = Color.Red)
+}
+```
+
+위의 코드는 Compose Compiler에 의해 `@Composeable`은 아래와 같이 변경된다.
+
+```kotlin
+fun Greeting(
+  $composer: Composer,
+  $static: Int,
+  name: String
+) {
+  $composer.start(123)
+  var greet by remember { mutableStateOf("Hello $name") }
+  Text(text = greet, color = Color.Red)
+  $composer.end()
+}
+```
+
+Compose 는 `composer.start` 에서 고유의 키를 가지고 있고, 이는 Compose 의 state 가 변경될 때 해당 키를 가진 Compose 만 변경되도록 동작한다.
+
+static 은 상태(state)의 변경여부를 알 수 있는데 상태의 변화가 없는 경우, `composer.start` 와 `composer.end` 사이의 UI 의 변경을 하지 않는다.
+
+이때 데이터의 상태가 변경되어 UI 를 다시 구성하는 경우는 Recomposition 이라고 한다.
