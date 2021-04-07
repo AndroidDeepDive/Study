@@ -11,7 +11,7 @@ Coroutine이라는 개념은 1963년에 이미 출판본에서 확인할 수 있
 
 > **참고** [Design of a Separable Transition-Diagram Compiler(1963)](http://melconway.com/Home/pdf/compiler.pdf)
 
-### Android의 비동기프로그래밍 관점에서의 Coroutine 기능
+### Android의 비동기 프로그래밍 관점에서의 Coroutine 기능
 - **Lightweight** : 경량
   - 코루틴을 실행 중인 스레드를 차단하지 않는 정지를 지원하므로 단일 스레드에서 많은 코루틴을 실행할 수 있다. 
   - 정지는 많은 동시 작업을 지원하면서도 차단보다 메모리를 절약할 수 있다.
