@@ -1,4 +1,5 @@
 ## 👏Coroutines Basic
+
 > 프로세스, 스레드의 개념을 익혀보면서 코루틴이 어디서 동작하는지, 이들과 어떤 차이가 있는지 알아보자.
 
 `프로세스`란 실행 중인 어플리케이션의 인스턴스이다. 어플리케이션은 여러 프로세스로 구성될 수 있다. 프로세스는 상태를 가지고 있고 리소스를 여는 핸들, 데이터, 네트워크 연결 등은 프로세스 상태의 일부이며 해당 프로세스 내부의 스레드가 엑세스를 할 수 있다.
@@ -61,8 +62,9 @@ Job 은 Fire and Forget 작업이다. 한번 시작된 작업은 예외가 발�
   ![](https://images.velog.io/images/jshme/post/f574e7b9-5584-48c3-8b5c-f03b42387966/KakaoTalk_Photo_2021-04-12-23-22-57.jpeg)
 
   1. `생성`
+
     job은 기본적으로 launch()나 job()을 사용해 생성될 때 자동으로 시작되고, 자동으로 시작되지 않게 하려면 `CoroutineStart.LAZY`를 사용해야 한다. 
-  
+
   2. `활성`
  활성상태에 있는 job은 다양한 방법으로 시작할 수 있지만 일반적으로 start(), join()을 이용해서 실행하는데, 둘의 차이점은 전자의 경우 job이 완료될 때까지 기다리지 않고 job을 시작하는 반면 후자는 job이 완료될 때까지 일시 중단한다는 점이다. 그래서 start()의 경우는 suspend 함수에서 호출하지 않아도 되고, join()의 경우 실행을 일시중단할 수 있기 때문에 suspend 함수 내부에서 호출해야 한다.
   
@@ -141,13 +143,17 @@ Job은 특정 상태에 도달하면 이전 상태로 되돌아가지 않는다.
 
 ### Channel Buffer Type
   1. Rendezvous (Unbuffered)
+
     👉 버퍼를 설정해주지 않으면, 기본값으로 들어간다. Rendezvous는 버퍼가 없기 때문에 수신측 Coroutine과 송신측 Coroutine이 모두 가능한 상태로 모일때까지 suspend 된다.
 
   2. Conflate
+
     👉 만약에 수신하는 Coroutine이 송신하는 Coroutine을 따라잡지 못했다면, 송신하는 쪽은 새로운 값을 버퍼의 마지막 아이템에 덮어씌운다. 수신 Coroutine이 다음 값을 받을 차례가 되면, 송신 Coroutine이 보낸 마지막 값을 받는다. 수신측 Coroutine은 채널 버퍼에 값이 올때까지 suspend 된다.
 
   3. Buffered
+
     👉 고정된 크기인 Array 형식의 버퍼를 생성한다. 송신 Coroutine은 버퍼가 꽉 차있으면 새로운 값을 보내는 걸 중단한다. 수신 Coroutine은 버퍼가 빌때까지 계속해서 꺼내서 수행한다.
 
   4. Unlimited (Linked List)
+
     👉 제한 없는 크기인 Linked List 형식의 버퍼를 가진다. OutOfMemeoryException을 일으킬 수 있다. 송신 Coroutine은 suspend 하지않지만, 수신 Coroutine은 버퍼가 비면 suspend 된다.
