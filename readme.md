@@ -1,41 +1,30 @@
 # Android Deep Dive Study
 
-## 스터디 진행 방식
+Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하는 스터디 모임입니다.
 
-### 스터디 주기
-- 매주 수요일 20시 ~ 22시 비대면으로 진행
+## Wiki
+- [1. 스터디 규칙](https://github.com/AndroidDeepDive/Study/wiki/1.-%EA%B7%9C%EC%B9%99)
+- [2. 스터디 진행 방식](https://github.com/AndroidDeepDive/Study/wiki/2.-%EC%A7%84%ED%96%89-%EB%B0%A9%EC%8B%9D)
+- [3. 스터디 주제에 관하여](https://github.com/AndroidDeepDive/Study/wiki/3.-%EC%A3%BC%EC%A0%9C%EC%97%90-%EA%B4%80%ED%95%98%EC%97%AC)
 
-### 산출물
-- 아래 중 1가지 방법 선택
-    - public하게 접근이 가능한 곳에 작성된 블로그 포스트
-    - [AndroidDeepDive#Study Repo](https://github.com/AndroidDeepDive/Study)에 md 파일로 작성
-- 주어진 주제에 대해서 모든 인원이 포스트 혹은 md파일 작성 수행
-
-### 일정
-- N 주차
-    - 주제에서 발행된 산출물 취합 및 공유
-- N + 1 주차
-    - 현재까지 Deep dive하여 작성한 포스트에 대한 피드백
-    - 어느 정도 까지 더 파내려갈지, 혹은 멈출지 검토
-- N + 2 주차
-    - 최종 산출물 취합 및 포스트 발행
-
-### 활용 도구
+## Tools
 - Slack
 - Google Meet
-- Medium
-
-## 스터디 규칙
-- 나는 직업이 있고, 가족이 있다. 내가 활용할 수 있는 리소스에 대해서 보수적으로 접근하도록 하자.
-    - 즉, 자기 자신을 과대평가하지말자.
-- 나 > 본업 > 스터디의 우선순위를 도치하지말자.
-- "내가 이런 것도 공부했어!" 가 아닌 "이건 이렇게 작성되어있었구나, 이제 알고 쓰자" 를 목표로 하자.
+- [Medium](https://medium.com/android-deep-dive-study)
 
 ## 참여인원 (가나다순)
-- 김남훈
-- 박성현
-- 배희성
-- 송시영
-- 이기정
-- 정세희
-- 최소형
+- 김남훈 Work@ NAVER [Blog](https://namhoon.kim)
+- 배희성 Work@ RocketPunch
+- 송시영 Work@ SMARTSTUDY [Medium](https://sysys.medium.com)
+- 이기정 Work@ Banksalad [Blog](https://soda1127.github.io)
+- 정세희 Work@ Banksalad
+- 최소형 Work@ Banksalad
+
+## Topics
+
+**1. Jetpack Compose**
+- [Jetpack Compose Part 1 - Compose 소개 및 코드랩 따라하기](https://medium.com/android-deep-dive-study/jetpack-compose-part-1-compose-%EC%86%8C%EA%B0%9C-%EB%B0%8F-%EC%BD%94%EB%93%9C%EB%9E%A9-%EB%94%B0%EB%9D%BC%ED%95%98%EA%B8%B0-35f7a0e6c581)
+- [Jetpack Compose Part 2 - Preview / Layout / Decompile](https://medium.com/android-deep-dive-study/jetpack-compose-part-2-preview-layout-decompile-84fae294d458)
+- [Jetpack Compose Part 3 - Retrospect](https://medium.com/android-deep-dive-study/jetpack-compose-part-3-retrospect-73f0769b2d82)
+
+**2. Kotlin Coroutines Concurrency (ing)**
