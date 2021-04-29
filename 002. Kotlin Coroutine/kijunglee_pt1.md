@@ -67,8 +67,9 @@ Task 수 만큼 쓰레드가 필요하다. 쓰레드를 이용하게 되면 프�
 ### Suspend - 일시 중단 함수
 
 ```kotlin
-override suspend fun getToDoList(): List<ToDoEntity> = withContext(ioDispatcher) {
-  toDoDao.getAll()
+suspend fun sum(val1: Int, val2: Int): Int {
+    delay(2000)
+    return val1 * val2
 }
 ```
 
@@ -76,11 +77,98 @@ override suspend fun getToDoList(): List<ToDoEntity> = withContext(ioDispatcher)
 
 한번 원리를 보도록 하자.
 
+**`suspend`**라는 키워드 하나를 붙였음에도 이 함수의 반환은 2초나 걸리게 된다. 내부적으로 어떤 마법이 일어나는 것일까?
 
+suspend가 붙은 함수는 컴파일러에서 특별한 처리가 이뤄지게 된다. 
 
+## CPS(Continuation Passing Style)
 
+```kotlin
+fun postItem(item: Item) {
+  val token = requestToken() // suspend function
+  val post = createPost(token, item) // suspend function
+  processPost(post)
+}
 
+suspend fun requestToken() {
+  ...
+}
 
+suspend fun createPost(token: String, item: Item): Post {
+  ...
+}
+```
 
+다음과 같이 suspend function으로 구성되어 있는 함수를 요청하는 `postItem(Item)` 이라는 함수가 있다. 이함수를 컴파일러에서 컴파일 시 위코드는 CPS 방식으로 아래와 같이 변환되게 된다.
 
+```kotlin
+fun postItem(item: Item) {
+  requestToken { token ->
+		val post = createPost(token, item) // Continuation
+		processPost(post) // Continuation
+	}
+}
+```
+
+CPS로 변환된 코드를 보면 콜백함수와 굉장히 유사한 형태를 띄는것을 알 수 있다.
+
+### How does it works?
+
+그렇다면, CPS로 변환된 코드가 눈으로 보았을 때는 순차적이지만, 어떻게 비동기적으로 동작하고 중단(suspend) 했다가 재개(resume)할 수 있는것일까?
+
+```kotlin
+suspend fun createPost(token: String, item: Item): Post { ... }
+```
+
+위와 같이 작성되었던 함수는 Reverse Compile하면 아래와 같이 Object로 반환을 하는 함수로 변환이 된다. 그리고 맨 마지막 매개변수에 Continuation이라는 타입의 객체가 인자로 추가된 것을 알 수 있는데, 이 객체가 흐름에 대한 제어를 할 수 있는 핵심요소이다.
+
+```java
+Object createPost(Token token, Item item, Continuation<Post> cont) { ... }
+```
+
+### Label
+
+```kotlin
+suspend fun postItem(item: Item) {
+// LABEL 0
+  val token = requestToken()
+// LABEL 1
+  val post = createPost(token, item)
+// LABEL 2
+	processPost(post)
+}
+```
+
+suspend 키워드가 붙은 함수는 컴파일되면서 다음과 같이 주석으로 LABEL ${index}가 추가되는데, 코루틴은 함수가 중지/재개될 수 있도록 LABEL을 통해 중단/재개 지점을 정한다.
+
+```kotlin
+suspend fun postItem(item: Item) { 
+  switch (label) {
+    case 0:
+    	val token = requestToken()
+    case 1:
+    	val post = createPost(token, item)
+    case 2:
+    	processPost(post)
+  }
+}
+```
+
+그리고, 위 코드는 LABEL이 다 추가되면 CPS 형태로 변환되면서 아래와 같이 변하게 된다.
+
+```kotlin
+fun postItem(item: Item, cont: Continuation) {
+  val sm = object: CoroutineImpl { ... }
+  switch (sm.label) {
+    case 0:
+    	requestToken(sm)
+    case 1:
+    	createPost(token, item, sm)
+    case 2:
+	    processPost(post)
+  }
+}
+```
+
+**Continuation** 객체는 콜백 인터페이스 넘겨줌으로써 재개해주는 콜백 인터페이스다. 여기서 sm은 State Machine을 의미하는데, 각 함수를 호출할때는 지금까지 한 연산의 결과를 취합하여 넘겨준다. 그렇기에 코루틴으로 구성된 함수들은 sm이라는 변수 이름으로 매개변수를 넘겨받게 된다. 이러한 것을 우리는 Continuation이라고 하며, 어떤 정보 값을 가진 형태로 전달되어 
 
