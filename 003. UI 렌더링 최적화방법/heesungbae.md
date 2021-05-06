@@ -2,7 +2,7 @@
 ---
 
 ### 레이아웃 계층 구조 최적화
-![image](https://drive.google.com/file/d/11cbM3vIdgDUuvVGTZW0TBDn9JpGFULZ1/view?usp=sharing)
+![image](https://miro.medium.com/max/692/1*abc0UlGj1myFD0eph4pZjQ.png)
  - 레이아웃은 View와 ViewGroup으로 이뤄진다
  - RootView를 시작으로 트리 구조로 뷰를 생성한다
  - View의 중첩이 많아질수록 뷰를 그리는 시간이 증가한다
@@ -22,3 +22,4 @@
 ---
  ### Reference 
   - [https://proandroiddev.com/writing-performant-layouts-3bf2a18d4a61](https://proandroiddev.com/writing-performant-layouts-3bf2a18d4a61)
+  - [https://jungwoon.github.io/android/2019/10/02/How-to-draw-View.html](https://jungwoon.github.io/android/2019/10/02/How-to-draw-View.html)
