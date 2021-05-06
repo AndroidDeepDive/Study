@@ -27,4 +27,6 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 - [Jetpack Compose Part 2 - Preview / Layout / Decompile](https://medium.com/android-deep-dive-study/jetpack-compose-part-2-preview-layout-decompile-84fae294d458)
 - [Jetpack Compose Part 3 - Retrospect](https://medium.com/android-deep-dive-study/jetpack-compose-part-3-retrospect-73f0769b2d82)
 
-**2. Kotlin Coroutines Concurrency (ing)**
+**2. Kotlin Coroutines Concurrency (gathring)**
+
+**3. UI 렌더링 최적화 (~ing)**
