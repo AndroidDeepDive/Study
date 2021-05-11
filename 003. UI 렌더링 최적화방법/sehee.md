@@ -23,8 +23,8 @@ View가 렌더링 될 때, 상위수준의 `ViewGroup` 에서부터 하위 자�
 
 	* View 의 크기는 2가지로 정의될 수 있다.
    
-    		1. **measured width & measured height** : 뷰가 부모뷰 크기의 범위 내에서 가지고 싶어하는 너비와 높이이다.
-    	     2. **drawing width & drawing height** :  뷰의 실제 너비와 높이로 뷰를 그리기 위해서 사용한다.
+    		1. measured width & measured height : 뷰가 부모뷰 크기의 범위 내에서 가지고 싶어하는 너비와 높이이다.
+    		2. drawing width & drawing height :  뷰의 실제 너비와 높이로 뷰를 그리기 위해서 사용한다.
    
      
    
@@ -37,7 +37,10 @@ View가 렌더링 될 때, 상위수준의 `ViewGroup` 에서부터 하위 자�
 만약 View가 변할 때, 시스템에게 알려주기 위한 2가지 방법이 존재하는데, `Invaliadate()`가 호출 될 때에는 draw부터 다시 작업이 시행되고, `requestLayout()`이 호출될 때에는 measure -> layout -> draw 단계를 다시 거치게 된다. 
 
 > **번외) `layout_weight` 의 배신**
+>
 > Linear Layout 의 layout_weight 속성을 사용하는 경우 자식 뷰는 두번의 Measure pass가 필요하기 때문에 많은 비용이 소모된다. layout_weight는 단순히 비율을 나누어 공간을 차지하는 것이 아닌, 부모의 View가 그려지고 나서 남은 공간이 얼마만큼인지, 다른 View들이 그려지고 나서 다시한번 남은공간도 계산하고 나서 자기 자신을 그리기 때문에 지속적인 계산이 일어나게 된다.  
+
+
 
 
 ## 👏 Slow Rendering
