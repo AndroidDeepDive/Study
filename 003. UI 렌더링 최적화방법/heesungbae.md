@@ -50,7 +50,7 @@
 
 허나 이렇게 배경색을 지정하면 아래과 같이 Overdraw가 생긴다
 
-![example1](https://imgur.com/iJ9Zj9z.png)
+![example1](https://i.imgur.com/Sfjx4BJ.png)
 
 왜 Overdraw가 생기는지 확인을 위해 앱 테마 값을 확인해보았다.
 ```xml
@@ -74,13 +74,23 @@
 ```
 
 특별히 지정해준 사항이 없어 해당 테마의 Parent를 따라가 보았다
-`Theme.MaterialComponents.DayNight.DarkActionBar > Theme.MaterialComponents.Light.DarkActionBar > Base.Theme.MaterialComponents.Light.DarkActionBar > Base.Theme.MaterialComponents.Light > Base.V14.Theme.MaterialComponents.Light`
+```
+Theme.MaterialComponents.DayNight.DarkActionBar > 
+Theme.MaterialComponents.Light.DarkActionBar > 
+Base.Theme.MaterialComponents.Light.DarkActionBar >
+Base.Theme.MaterialComponents.Light > 
+Base.V14.Theme.MaterialComponents.Light
+```
 
 해당 소스에서 아래와 같이 배경 색상을 지정하는 걸 확인하였고
-`<item name="android:colorBackground">@color/design_default_color_background</item>` 
+```xml
+<item name="android:colorBackground">@color/design_default_color_background</item>
+``` 
 
 해당 값을 확인해보니 아래와 같이 흰색으로 설정하고 있었다
-`<color name="design_default_color_background">#FFFFFF</color>` 
+```xml
+<color name="design_default_color_background">#FFFFFF</color>
+```
 
 한마디로 배경 색상을 흰색으로 칠해주고 그 위에 다시 흰색으로 칠해주고 있었다.
 해당 Overdraw를 없애고 내가 원하는 색상으로 설정하기 위해 테마 파일을 아래와 같이 
