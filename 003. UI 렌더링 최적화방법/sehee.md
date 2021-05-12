@@ -28,6 +28,7 @@ View가 렌더링 될 때, 상위수준의 `ViewGroup` 에서부터 하위 자�
    
      
    
+   
      ✅ View의 Padding, Margin 등을 고려하면 원하는 크기에서 Padding 및 Margin 값을 빼야 하기 때문에 Measured Width, Measured Height 는 Drawing Width, Drawing Height 와 다를 수 있다.
    
 2. Layout - 이 과정에서도 top-down 형식의 탐색이 일어나게 되는데, 이 때는 각각의 ViewGroup이 Measure 단계에서 측정된 크기를 이용해서 하위속성들의 위치를 결정한다.
@@ -36,9 +37,15 @@ View가 렌더링 될 때, 상위수준의 `ViewGroup` 에서부터 하위 자�
 
 만약 View가 변할 때, 시스템에게 알려주기 위한 2가지 방법이 존재하는데, `Invaliadate()`가 호출 될 때에는 draw부터 다시 작업이 시행되고, `requestLayout()`이 호출될 때에는 measure -> layout -> draw 단계를 다시 거치게 된다. 
 
-> **번외) `layout_weight` 의 배신**
+> **번외)**
+>
+> **1. layout_weight 의 배신**
 >
 > Linear Layout 의 layout_weight 속성을 사용하는 경우 자식 뷰는 두번의 Measure pass가 필요하기 때문에 많은 비용이 소모된다. layout_weight는 단순히 비율을 나누어 공간을 차지하는 것이 아닌, 부모의 View가 그려지고 나서 남은 공간이 얼마만큼인지, 다른 View들이 그려지고 나서 다시한번 남은공간도 계산하고 나서 자기 자신을 그리기 때문에 지속적인 계산이 일어나게 된다.  
+>
+> **2. Overdraw 를 피하는 방법**
+>
+> OverDraw를 피하는 방법 중, **사용자에게 보여지지 않는 Layout의 Background 색을 제거**하면 성능 향상에 도움이 된다는 글이 많이 존재한다. 하지만 어째서 배경 색을 지우는 것만으로도 성능이 크게 향상될 수 있다는 것일까? Layout에 Background를 제거한 후 디버깅을 해보면 View **Lifecycle의 onDraw를 거치지 않음**을 알 수 있다. UI 렌더링 시 가장 비용이 많이 드는 부분이 onDraw(GPU에 업로드 하는 과정) 인데, 이 부분이 skip 되니 성능이 향상되는건 당연한 부분일 것이다. 🙂
 
 
 
