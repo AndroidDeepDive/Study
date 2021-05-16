@@ -1,3 +1,5 @@
+[TOC]
+
 # Introduce Android UI Rendering Principle and View Optimization - 1
 
 우리는 안드로이드 개발자로 있으면서 기본적인 것들을 놓치곤한다. 안드로이드에서 가장 중요한것은 사용자에게 보여지는 UI와 UX이다. 이를 위해서 안드로이드 개발자가 해야할 일은 UI를 이쁘게 요구사항에 맞게 그리고, 지연없는 UI로딩을 통해 UI를 그리는 것이다.

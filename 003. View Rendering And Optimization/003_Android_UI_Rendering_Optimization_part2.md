@@ -1,3 +1,7 @@
+[TOC]
+
+
+
 # Introduce Android UI Rendering Principle and View Optimization - 2
 
 저번 포스트에서는 View와 ViewGroup 개념, UI가 그려지는 과정, UI가 그려질 때 View의 생명주기에 대해 보았다. 이번시간에는 UI Rendering 시 화면에 보여질 때 어떤 과정을 거치는지 알아보자.
@@ -97,7 +101,7 @@ Surface까지 도달하기 위해 어떤 흐름을 타는지 알아보자.
 
 ## Surface Flinger and Harware Composer
 
-해당글은 [Android Drawing Process 1(App surface, SF Layer)](https://lastyouth.tistory.com/24를 참고하여 작성하였다.
+해당글은 [Android Drawing Process 1(App surface, SF Layer)](https://lastyouth.tistory.com/24)를 참고하여 작성하였다.
 
 앞에서 언급했던 **SyrfaceFlinger**에서는 **HWComposer(Hardware Composer)**를 통해 그래픽 데이터를 디바이스 디스플레이에 전송한다.
 
@@ -253,7 +257,7 @@ UI 렌더링이 진행될 때, CPU에서 displaylist 를 생성하고 GPU에 업
 
 ---
 
-이번시간에는  Window, Surface, Canvas에 대해 소개하고, 소프트웨어 레벨에서 어떻게 하드웨어 레벨까지 동기화 되는지 정리해보았다. 또한 View가 렌더링 될 때 두가지 방식으로 어떻게 동작하는지 개념 설명 및 원리 설명을 했다.
+이번시간에는 Window, Surface, Canvas에 대해 소개하고, 소프트웨어 레벨에서 어떻게 하드웨어 레벨까지 동기화 되는지 정리해보았다. 또한 View가 렌더링 될 때 두가지 방식으로 어떻게 동작하는지 개념 설명 및 원리 설명을 했다.
 
- 다음 포스트에서는 하드웨어 가속을 사용하는 GPU 렌더링 체계의 경우 어떤 문제가 있고, 어떻게 프로파일링 하고, 어떻게 모니터링하는지 알아보도록 하겠다. 그리고 어떻게 최적화 할 수 있을지 방법을 소개하도록 하겠다.
+다음 포스트에서는 하드웨어 가속을 사용하는 GPU 렌더링 체계의 경우 어떤 문제가 있고, 어떻게 프로파일링 하고, 어떻게 모니터링하는지 알아보도록 하겠다. 그리고 어떻게 최적화 할 수 있을지 방법을 소개하도록 하겠다.
 
