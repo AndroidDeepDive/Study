@@ -410,16 +410,39 @@ Layout 내에 존재하는 Chile View가 lifecycle 를 거치면서 크기가 �
 >
 >### **`layout_weight` 의 배신**
 >
->Linear Layout 의 layout_weight 속성을 사용하는 경우 자식 뷰는 두번의 Measure pass가 필요하기 때문에 많은 비용이 소모된다. layout_weight는 단순히 비율을 나누어 공간을 차지하는 것이 아닌, 부모의 View가 그려지고 나서 남은 공간이 얼마만큼인지, 다른 View들이 그려지고 나서 다시한번 남은공간도 계산하고 나서 자기 자신을 그리기 때문에 지속적인 계산이 일어나게 된다. 복잡한 View의 계산을 피하기 위해 Releative Layout & Constraint Layout을 권하는 것이다.
+>Linear Layout 의 layout_weight 속성을 사용하는 경우 자식 뷰는 두번의 Measure pass가 필요하기 때문에 많은 비용이 소모된다. 
+>
+>layout_weight는 단순히 비율을 나누어 공간을 차지하는 것이 아닌, 부모의 View가 그려지고 나서 남은 공간이 얼마만큼인지, 다른 View들이 그려지고 나서 다시한번 남은공간도 계산하고 나서 자기 자신을 그리기 때문에 지속적인 계산이 일어나게 된다. 
+>
+>복잡한 View의 계산을 피하기 위해 Releative Layout & Constraint Layout을 권하는 것이다.
 >
 >
 >
 >### **Overdraw 를 피하는 방법**
 >
->OverDraw를 피하는 방법 중, **사용자에게 보여지지 않는 Layout의 Background 색을 제거**하면 성능 향상에 도움이 된다는 글이 많이 존재한다. 하지만 어째서 배경 색을 지우는 것만으로도 성능이 크게 향상될 수 있다는 것일까? Layout에 Background를 제거한 후 디버깅을 해보면 View **Lifecycle의 onDraw를 거치지 않음**을 알 수 있다. UI 렌더링 시 가장 비용이 많이 드는 부분이 onDraw(GPU에 업로드 하는 과정) 인데, 이 부분이 skip 되니 성능이 향상되는건 당연한 부분일 것이다. 🙂
+>OverDraw를 피하는 방법 중, **사용자에게 보여지지 않는 Layout의 Background 색을 제거**하면 성능 향상에 도움이 된다는 글이 많이 존재한다. 
+>
+>하지만 어째서 배경 색을 지우는 것만으로도 성능이 크게 향상될 수 있다는 것일까?
+>
+>Layout에 Background를 제거한 후 디버깅을 해보면 View **Lifecycle의 onDraw를 거치지 않음**을 알 수 있다. UI 렌더링 시 가장 비용이 많이 드는 부분이 onDraw(GPU에 업로드 하는 과정) 인데, 이 부분이 skip 되니 성능이 향상되는건 당연한 부분일 것이다. 🙂
 
 
 
 ---
 
-여기까지 View의 생명주기, View가 그려지는 과정에 대해 알아보았다. 다음 글에서는 View 상위에서 그려지는 요소인 Window, Surface, Canvas에 대해 소개하고, 소프트웨어 레벨에서 어떻게 하드웨어 레벨까지 동기화 되는지 분석하고, 현재 사용하는 하드웨어 모델 기반 렌더링에 대해 소개하도록 하겠다.
+여기까지 View의 생명주기, View가 그려지는 과정에 대해 알아보았다. 
+
+다음 글에서는 View 상위에서 그려지는 요소인 Window, Surface, Canvas에 대해 소개하고, 소프트웨어 레벨에서 어떻게 하드웨어 레벨까지 동기화 되는지 분석하고, 현재 사용하는 하드웨어 모델 기반 렌더링에 대해 소개하도록 하겠다.
+
+
+
+---
+
+해당 포스트는 아래 팀원들과 함께 작성되었습니다.
+
+- 김남훈 @Naver
+- 배희성 @Rocketpunch
+- 송시영 @Smartstudy
+- 이기정 @Banksalad
+- 정세희 @Banksalad
+- 최소영 @Banksalad

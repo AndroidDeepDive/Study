@@ -88,22 +88,22 @@
 
 
 
-#### Etc...
+#### Etc
 
 예외적인 케이스에 대한 해법으로는 아래 세가지가 있다.
 
 1. Release 버전의 앱을 실행하자.
-   - ART 런타임은 디버깅 기능을 지원하기 위해 몇 가지 중요한 최적화를 비활성화하기 때문이다.
-2. 때때로 버벅 거림은 앱이 [cold start](https://developer.android.com/topic/performance/vitals/launch-time#cold) 에서 시작될 때만 재현 될 수 있다.
+   - ART(Android Runtime)는 디버깅 기능을 지원하기 위해 몇 가지 중요한 최적화를 비활성화하기 때문이다.
+2. 때때로 버벅거림은 앱이 [cold start](https://developer.android.com/topic/performance/vitals/launch-time#cold) 에서 시작될 때만 재현 될 수 있다.
 3. 버벅거림을 극대화 시키기 위해 더 느린 장치에서 앱을 실행해 봐라.
 
 
 
 ### Systrace
 
-전체 기기가 수행하는 작업을 보여주는 도구이지만 앱에서 버벅 거림을 식별하는 데 유용 할 수 있다.
+기기가 수행하는 전체 작업을 보여주는 도구이지만 앱에서 버벅거림을 식별하는 데 유용할 수 있다.
 
-Systrace는 최소한의 시스템 오버 헤드를 가지므로 계측 중에 현실적인 버벅 거림을 경험할 수 있다.
+Systrace는 최소한의 시스템 오버헤드를 가지므로 계측 중에 현실적인 버벅거림을 경험할 수 있다.
 
 
 
@@ -113,9 +113,9 @@ Systrace는 최소한의 시스템 오버 헤드를 가지므로 계측 중에 �
 
 #### Scrollable lists
 
-ListView 및 특히 RecyclerView는 버벅 거림에 가장 취약한 복잡한 스크롤 목록에 일반적으로 사용된다.
+ListView 및 특히 RecyclerView는 버벅거림에 가장 취약한 복잡한 스크롤 목록에 일반적으로 사용된다.
 
-둘 다 Systrace 마커가 포함되어 있으므로 Systrace를 사용하여 앱에서 버벅 거림을 유발하는지 여부를 파악할 수 있다.
+둘 다 Systrace 마커가 포함되어 있으므로 Systrace를 사용하여 앱에서 버벅거림을 유발하는지 여부를 파악할 수 있다.
 
 RecyclerView의 systrace 섹션을 표시하려면 명령에 `-a <your-package-name>`을 전달해야한다. 사용 가능한 경우 systrace 출력에 생성 된 경고의 지침을 따르자.
 
@@ -124,9 +124,7 @@ Systrace 내에서 RecyclerView systrace 섹션을 클릭하여 RecyclerView가 
 1. 작은 업데이트를 위해 `notifyDataSetChanged()`, `setAdapter(Adapter)`, or `swapAdapter(Adapter, boolean)`를 호출하지 마라.
    - 전체 목록 아이템이 변경되었다고 알리기 때문이다.
    - 대신 `SortedList` 또는 `DiffUtil`을 사용하여 콘텐츠가 변경되거나 추가 될 때 최소한의 업데이트를 하도록하자.
-
-2. #### **Nested recyclerview**
-
+2. **Nested recyclerview**
    - 내부 RecyclerView의 LinearLayoutManager에 `setInitialPrefetchItemCount(int)` 를 설정할 수도 있다.
    - 예를 들어 항상 3.5 개의 항목이 한 행에 표시되는 경우, `innerLinearLayoutManager.setInitialItemPrefetchCount(4);` 를 호출한다.
 
@@ -163,21 +161,26 @@ Systrace 내에서 RecyclerView systrace 섹션을 클릭하여 RecyclerView가 
 
 이를 위해 [`FrameMetricsAggregator`](https://developer.android.com/reference/androidx/core/app/FrameMetricsAggregator)를 사용하여 앱의 특정 부분에서 프레임 렌더링 시간을 수집하고 [Firebase Performance Monitoring](https://firebase.google.com/docs/perf-mon/)을 사용하여 데이터를 기록하고 분석할 수 있다.
 
-자세한 내용은 [Android vitals에 Firebase Performance Monitoring 사용](https://firebase.google.com/docs/perf-mon/get-started-android#pdc)을 참조하자.
+자세한 내용은 아래내용을 참조하자.
+
+- [Android Vitals](https://developer.android.com/topic/performance/vitals)
+- [Firebase Performance Monitoring 사용](https://firebase.google.com/docs/perf-mon/get-started-android#pdc)
 
 ## Overdraw
 
 > An app may draw the same pixel more than once within a single frame, an event called overdraw. Overdraw is usually unnecessary, and best eliminated. It manifests itself as a performance problem by wasting GPU time to render pixels that don't contribute to what the user sees on the screen.
 
-오버 드로우는 시스템이 단일 렌더링 프레임에서 화면에 여러 번 픽셀을 그리는 것을 말한다.
+오버드로는 시스템이 단일 렌더링 프레임에서 화면에 여러 번 픽셀을 그리는 것을 말한다.
 
-> ⚠️ 참고 : Overdraw는 더 이상 Google I / O 성능 세션 및 성능 패턴 동영상에서 논의되었을 때 만큼 심각한 문제가 아니다.
+> ⚠️ 참고 : Overdraw는 더 이상 Google I/O 성능 세션 및 성능 패턴 동영상에서 논의되었을 때 만큼 심각한 문제가 아니다.
 >
 > 이는 저가형 장치가 GPU 성능에서 지속적으로 성장하는 반면 디스플레이는 상대적으로 낮은 해상도에서 정체 되었기 때문. 알려진 저 성능 GPU 장치를 최적화하지 않는 한, 원활한 앱 성능을 보장하는 것 대신 UI 스레드 작업을 최적화하는 데 집중하는 것이 좋다.
+>
+> [참고영상](https://www.youtube.com/watch?v=vkTn3Ule4Ps)을 확인하자.
 
-다른 개발자 옵션으로 UI 에 컬러를 지정함으로써 오버드로우를 식별할 수 있다. 같은 프레임내에서 같은 픽셀을 한번 이상 그릴 때 오버드로우가 발생한다.
+다른 개발자 옵션으로 UI 에 컬러를 지정함으로써 오버드로를 식별할 수 있다. 같은 프레임내에서 같은 픽셀을 한번 이상 그릴 때 오버드로가 발생한다.
 
-앱에서 필요 이상으로 많은 렌더링이 발생하는 곳을 시각화로 보여주며, 사용자에게 보여지지 않는 픽셀을 렌더링하기 위해 추가 GPU 작업으로 성능 문제가 발생한 수 있음을 알 수 있다. 다음과 같이 설정하면 오버드로우 시각화를 확인 할 수 있다.
+앱에서 필요 이상으로 많은 렌더링이 발생하는 곳을 시각화로 보여주며, 사용자에게 보여지지 않는 픽셀을 렌더링하기 위해 추가 GPU 작업으로 성능 문제가 발생한 수 있음을 알 수 있다. 다음과 같이 설정하면 오버드로 시각화를 확인 할 수 있다.
 
 
 
@@ -198,9 +201,9 @@ Systrace 내에서 RecyclerView systrace 섹션을 클릭하여 RecyclerView가 
 
 디버깅 결과는 아래와 같이 비교 가능하다.
 
-뷰의 배치에 따라 각각 오버드로우가 발생한 픽셀을 확인할 수 있다.
+뷰의 배치에 따라 각각 오버드로가 발생한 픽셀을 확인할 수 있다.
 
-![오버드로우 시각화](https://imgur.com/zw3H5pZ.jpg)
+![오버드로 시각화](https://imgur.com/zw3H5pZ.jpg)
 
 
 
@@ -214,9 +217,9 @@ Overdraw를 줄일 수 있는 방법은 대표적으로 세가지가 있다.
 
 3. 투명도를 줄이자 
 
-   - 알파 렌더링으로 알려진 화면에서 투명 픽셀을 렌더링하는 것은 오버 드로의 주요 원인이다.
+   - 알파 렌더링으로 알려진 화면에서 투명 픽셀을 렌더링하는 것은 오버드로의 주요 원인이다.
 
-   - 시스템이 그 위에 불투명 한 픽셀을 그려서 기존의 그려진 픽셀을 완전히 숨기는 표준 오버 드로와 달리, 투명한 객체는 올바른 `blending equation` 이 발생하도록 기존 픽셀을 먼저 그려야한다.
+   - 시스템이 그 위에 불투명 한 픽셀을 그려서 기존의 그려진 픽셀을 완전히 숨기는 표준 오버드로와 달리, 투명한 객체는 올바른 `blending equation` 이 발생하도록 기존 픽셀을 먼저 그려야한다.
 
      >  (**blending equation** : 2개의 픽셀 컬러 값을 결합시키는 것. ([블로그 참고](https://xysterxx.tistory.com/50))
 
@@ -228,7 +231,7 @@ Overdraw를 줄일 수 있는 방법은 대표적으로 세가지가 있다.
 
 ### 레이아웃 재사용
 
-- nclude, merge를 통해 뷰를 재사용한다.
+- include, merge를 통해 뷰를 재사용한다.
 - include로만 뷰를 재사용하면 다음과 같이 뷰가 중첩될 수 있다.
 
 ![before-merge](https://camo.githubusercontent.com/c9a59ec933d1ad6b0020b1e392989d465f021d0dae23a37775ac308112fcee46/68747470733a2f2f6d69726f2e6d656469756d2e636f6d2f6d61782f313030302f312a4772786a36347737676d56724a7844736b34714463412e706e67)
@@ -295,7 +298,7 @@ Overdraw를 줄일 수 있는 방법은 대표적으로 세가지가 있다.
 특별히 지정해준 사항이 없어 해당 테마의 Parent를 따라가 보았다.
 
 ```
-Theme.MaterialComponents.DayNight.DarkActionBar > Theme.MaterialComponents.Light.DarkActionBar > Base.Theme.MaterialComponents.Light.DarkActionBar >Base.Theme.MaterialComponents.Light > Base.V14.Theme.MaterialComponents.Light
+Theme.MaterialComponents.DayNight.DarkActionBar > Theme.MaterialComponents.Light.DarkActionBar > Base.Theme.MaterialComponents.Light.DarkActionBar > Base.Theme.MaterialComponents.Light > Base.V14.Theme.MaterialComponents.Light
 ```
 
 해당 소스에서 아래와 같이 배경 색상을 지정하는 걸 확인하였고
@@ -391,3 +394,73 @@ ViewStub은 복잡하게 구성된 레이아웃을 빠르게 전개시켜야하�
 
 이 때 사용자가 빠르게 화면을 스크롤 할 경우 프레임 드랍이 발생 할 수 있다. 이럴 때 선택적으로 불필요한 레이아웃의 전개를 제어하고 전개 시기를 늦춤으로써 성능을 개선시킬 수 있다.
 
+
+
+우리는 1, 2, 3편에서 안드로이드의 기본적인 UI구성요소, 내부적인 렌더링 매커니즘, 렌더링 되면서 성능상 이슈가 있는 부분을 알아보았고 마지막으로 성능에 대한 개선방안에 대해 알 수 있었다.
+
+안드로이드를 공부하는 여러분들께 조금이나마 도움이 되길 바란다.
+
+
+
+## Reference
+
+### Members of Study
+
+https://soda1127.github.io/introduce-jetpack-compose/
+
+https://velog.io/@jshme/How-To-Render-UI-In-Android
+
+https://velog.io/@jshme/How-To-Render-UI-In-Android-22
+
+### Official
+
+#### Docs
+
+[Android vitals](https://developer.android.com/topic/performance/vitals)
+
+[Android 드로잉 보기 방법](https://developer.android.com/guide/topics/ui/how-android-draws)
+
+[느린렌터링](https://developer.android.com/topic/performance/vitals/render#custom-monitoring)
+
+[Firebase Performance Monitoring 사용](https://firebase.google.com/docs/perf-mon/get-started-android#pdc)
+
+[GPU 렌더링 속도 및 오버드로 검사](https://developer.android.com/topic/performance/rendering/inspect-gpu-rendering)
+
+[맞춤 그리기](https://developer.android.com/training/custom-views/custom-drawing?hl=ko)
+
+[뷰 최적화](https://developer.android.com/training/custom-views/optimizing-view?hl=ko)
+
+
+
+#### Videos
+
+[Android Performance Patterns: Understanding VSYNC](https://www.youtube.com/watch?v=1iaHxmfZGGc)
+
+[Android Performance Patterns: Rendering Performance 101](https://www.youtube.com/watch?v=HXQhu6qfTVU&list=PLOU2XLYxmsIKEOXh5TwZEv89aofHzNCiu&index=48)
+
+[Android Performance Patterns: Tool - Profile GPU Rendering](https://www.youtube.com/watch?v=VzYkVL1n4M8&list=PLOU2XLYxmsIKEOXh5TwZEv89aofHzNCiu&index=51)
+
+[Android Performance Patterns: Understanding Overdraw](https://www.youtube.com/watch?v=T52v50r-JfE&list=PLOU2XLYxmsIKEOXh5TwZEv89aofHzNCiu&index=49)
+
+[Android Performance Patterns: Invalidations, Layouts, and Performance](https://www.youtube.com/watch?v=we6poP0kw6E&list=PLOU2XLYxmsIKEOXh5TwZEv89aofHzNCiu&index=54)
+
+[Android Performance Patterns: Hidden Cost of Transparency](https://www.youtube.com/watch?v=wIy8g8yNhNk&index=46&list=PLWz5rJ2EKKc9CBxr3BVjPTPoDPLdPIFCE)
+
+
+
+### Etc
+
+[찰스의 안드로이드 - ViewStub 활용으로 성능 높이기](https://www.charlezz.com/?p=19977)
+
+[Android Drawing Process 1(App surface, SF Layer)](https://lastyouth.tistory.com/24)
+
+---
+
+해당 포스트는 아래 팀원들과 함께 작성되었습니다.
+
+- 김남훈 @Naver
+- 배희성 @Rocketpunch
+- 송시영 @Smartstudy
+- 이기정 @Banksalad
+- 정세희 @Banksalad
+- 최소영 @Banksalad
