@@ -92,8 +92,13 @@ Base.V14.Theme.MaterialComponents.Light
 <color name="design_default_color_background">#FFFFFF</color>
 ```
 
-한마디로 배경 색상을 흰색으로 칠해주고 그 위에 다시 흰색으로 칠해주고 있었다.
-해당 Overdraw를 없애고 내가 원하는 색상으로 설정하기 위해 테마 파일을 아래와 같이 
+조금 자세한 사항 확인을 위해 `Layout Inspector`로 세부 뷰를 살펴보니
+아래와 같이 `DecorView`와 `ConstraintLayout` 모두 배경색이 칠해져 있는걸 확인했다
+
+![withBackground](https://i.imgur.com/9ghKD7B.png)
+
+
+`ConstraintLayout`의 Overdraw를 없애고 내가 원하는 색상으로 설정하기 위해 테마 파일에 
 `<item name="android:windowBackground">@color/beige</item>` 코드를 입력하였다
 
 ```xml
@@ -120,7 +125,13 @@ Base.V14.Theme.MaterialComponents.Light
 
 ![example2](https://i.imgur.com/s5LAvBX.png)
 
+OverDraw는 확실히 줄어든걸 확인 할 수 있었고 `Layout Inspector`로 세부 뷰를 살펴보니
+아래와 같이 `ConstraintLayout`의 배경색 없어지고 `DecorView`의 배경색만 남아 있는 것을 확인할 수 있었다
+
+![withoutBackground](https://i.imgur.com/hXAo8w0.png)
+
 배경 색상 지정을 테마를 통해 지정하면 Overdraw를 줄일 수 있다
+
 
 
 ---
