@@ -29,4 +29,10 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 
 **2. Kotlin Coroutines Concurrency (gathring)**
 
-**3. UI 렌더링 최적화 (~ing)**
+**3. View Rendering And Optimization**
+
+- [View Rendering And Optimization Part 1 - View / Layout](https://medium.com/android-deep-dive-study/introduce-android-ui-rendering-principle-and-view-optimization-1-f593820c7a50)
+- [View Rendering And Optimization Part 2 - Rendering](https://medium.com/android-deep-dive-study/introduce-android-ui-rendering-principle-and-view-optimization-2-87b1fd52ba11)
+- [View Rendering And Optimization Part 3 - Optimization](https://medium.com/android-deep-dive-study/introduce-android-ui-rendering-principle-and-view-optimization-3-b102ab1fbe9e)
+
+**4. Image Loading and Caching(~ing)**
