@@ -18,7 +18,7 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 - 송시영 Work@ SMARTSTUDY [Medium](https://sysys.medium.com)
 - 이기정 Work@ Banksalad [Blog](https://soda1127.github.io)
 - 정세희 Work@ Banksalad
-- 최소형 Work@ Banksalad
+- 최소영 Work@ Banksalad
 
 ## Topics
 
@@ -27,7 +27,7 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 - [Jetpack Compose Part 2 - Preview / Layout / Decompile](https://medium.com/android-deep-dive-study/jetpack-compose-part-2-preview-layout-decompile-84fae294d458)
 - [Jetpack Compose Part 3 - Retrospect](https://medium.com/android-deep-dive-study/jetpack-compose-part-3-retrospect-73f0769b2d82)
 
-**2. Kotlin Coroutines Concurrency (gathring)**
+**2. Kotlin Coroutines Concurrency (gathering)**
 
 **3. View Rendering And Optimization**
 
