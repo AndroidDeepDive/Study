@@ -13,7 +13,7 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 - [Medium](https://medium.com/android-deep-dive-study)
 
 ## 참여인원 (가나다순)
-- 곽욱현 Work@ Knore [Blog](https://dduddublog.tistory.com)
+- 곽욱현 Work@ Knowre [Blog](https://dduddublog.tistory.com)
 - 김남훈 Work@ NAVER [Blog](https://namhoon.kim)
 - 배희성 Work@ RocketPunch
 - 송시영 Work@ SMARTSTUDY [Medium](https://sysys.medium.com)
@@ -37,4 +37,6 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 - [View Rendering And Optimization Part 2 - Rendering](https://medium.com/android-deep-dive-study/introduce-android-ui-rendering-principle-and-view-optimization-2-87b1fd52ba11)
 - [View Rendering And Optimization Part 3 - Optimization](https://medium.com/android-deep-dive-study/introduce-android-ui-rendering-principle-and-view-optimization-3-b102ab1fbe9e)
 
-**4. Image Loading and Caching(~ing)**
+**4. Image Loading and Caching(gathering)**
+
+**5. Kotlin Symbol Processing API(~ing)**
