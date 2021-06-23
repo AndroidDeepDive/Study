@@ -13,11 +13,13 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 - [Medium](https://medium.com/android-deep-dive-study)
 
 ## 참여인원 (가나다순)
+- 곽욱현 Work@ Knore [Blog](https://dduddublog.tistory.com)
 - 김남훈 Work@ NAVER [Blog](https://namhoon.kim)
 - 배희성 Work@ RocketPunch
 - 송시영 Work@ SMARTSTUDY [Medium](https://sysys.medium.com)
+- 옥수환 Work@ NAVER [Blog](https://www.charlezz.com/)
 - 이기정 Work@ Banksalad [Blog](https://soda1127.github.io)
-- 정세희 Work@ Banksalad
+- 정세희 Work@ Banksalad [Blog](https://velog.io/@jshme)
 - 최소영 Work@ Banksalad
 
 ## Topics
