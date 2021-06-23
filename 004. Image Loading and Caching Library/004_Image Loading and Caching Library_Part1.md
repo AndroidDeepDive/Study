@@ -32,6 +32,7 @@ ImageView는 View를 상속받아 구현된 Image를 보여주기 위한 위젯�
 ```
 
 > **참고** [Android Developers#Drawble Resources](https://developer.android.com/guide/topics/resources/drawable-resource.html)
+
 > **참고** [Android Developers#Handling bitmaps](https://developer.android.com/topic/performance/graphics/index.html)
 
 ### Bitmap
@@ -231,7 +232,9 @@ Android에서는 `LruCache`라는 객체를 제공해주고 있다.
 가장 최근에 불러온 이미지를 가장 앞으로 불러오는 식으로 캐시 적중률을 올리는 알고리즘인 **LRU Algorithm**으로 동작하며, 4Mib(메비바이트) 단위로 캐시 사이즈가 제한되어 있다.
 
 > **참고** [Android Developers#LruCache](https://developer.android.com/reference/android/util/LruCache)
+
 > **참고** [androidx.collection.LruCache](https://developer.android.com/reference/androidx/collection/LruCache)
+
 > **참고** [Cache replacement policies#recently used](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU))
 
 #### Unresponsive UI / Gabarge collector
