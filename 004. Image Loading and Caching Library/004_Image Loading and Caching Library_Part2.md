@@ -405,8 +405,8 @@ Memory Cache의 예시를 위해 소개할 것은 `BitmapPool`이다. `BitmapPoo
 보통 BitmapPool을 이용해 재사용 Pool을 만들게 될 때, LRU 캐싱 알고리즘으로 구현된 LinkedList `(lruBItmapList)`와 Byte Size 순으로 정렬된 LinkedList`(bitmapList)`를 사용하여 구현하게 된다. 이 둘은 들어있는 비트맵의 순서만 다를 뿐, 같은 비트맵이 담기게된다.
 
 ``` kotlin
-     private val lruBitmapList = LinkedList<Bitmap>()
-     private val bitmapList = LinkedList<Bitmap>()
+private val lruBitmapList = LinkedList<Bitmap>()
+private val bitmapList = LinkedList<Bitmap>()
 ```
 
 LRU 알고리즘을 이용해 오랫동안 참조되지않은 비트맵 객체는 맨 뒤로 밀리게되고, `맨 뒤에있는 객체를 회수`하면서 BitmapPool을 유지시키는 것이다. LRU 알고리즘을 이용하지 않는다면 처음 BitmapPool이 가득 찰 때까지는 문제없이 동작하지만, 비트맵을 재사용하는 시점부터는 특정 비트맵만 재사용될 수 있으며, 앱이 끝날 때까지 메모리가 줄어들지 않게된다. 자세한 내용은 [이 블로그](https://jamssoft.tistory.com/195)를 참고하길 바란다. :) 

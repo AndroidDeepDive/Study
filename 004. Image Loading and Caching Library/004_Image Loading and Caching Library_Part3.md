@@ -95,25 +95,31 @@ Fresco는 최적화가 정말 잘 되어있지만 러닝커브가 높다. 퍼포
 ## References
 
 ### Members of Study
+- https://namhoon.kim/2021/05/25/android_deep_dive/017_Image%20Loading%20and%20Caching%20Library%20Part%201/
+- https://namhoon.kim/2021/06/01/android_deep_dive/018_Image%20Loading%20and%20Caching%20Library%20Part%202/
+- https://velog.io/@jshme/Android-Image-Loader-Library
+- https://velog.io/@jshme/Android-Hello-Out-Of-Memory
+- https://www.charlezz.com/wordpress/wp-content/uploads/2020/10/www.charlezz.com-glide-v4-glide-v4--by-charlezz.pdf
 
 ### Official
 
+- [Android Developers#Drawble Resources](https://developer.android.com/guide/topics/resources/drawable-resource.html)
+- [Android Developers#Handling bitmaps](https://developer.android.com/topic/performance/graphics/index.html)
+- [Android Developers#LruCache](https://developer.android.com/reference/android/util/LruCache)
+- [androidx.collection.LruCache](https://developer.android.com/reference/androidx/collection/LruCache)
+- [Cache replacement policies#recently used](https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU))
+- [Google#Accompanist Repository](https://github.com/google/accompanist)
+
+- https://square.github.io/picasso/
+- https://bumptech.github.io/glide/
+- https://github.com/coil-kt/coil
+- https://frescolib.org
+- https://github.com/nostra13/Android-Universal-Image-Loader/wiki
+
 ### ETC
 
-
-[https://developer.android.com/topic/performance/graphics](https://developer.android.com/topic/performance/graphics)
-
-[https://square.github.io/picasso/](https://square.github.io/picasso/)
-[**bumptech/glide**
-*View Glide's documentation | 简体中文文档 | Report an issue with Glide Glide is a fast and efficient open source media…*github.com](https://github.com/bumptech/glide)
-[**Glide - Caching Basics**
-*After we've looked at loading, displaying and manipulating images, we'll move on to optimize the process. One of the…*futurestud.io](https://futurestud.io/tutorials/glide-caching-basics)
-[**How The Android Image Loading Library Glide and Fresco Works?(번역)**
-*원본 - How The Android Image Loading Library Glide and Fresco Works? 저는 오늘 어렵게 슥듭한 지식을 공유해보려합니다. 지식은 그것을 갈망하는 자에게 온다. 따라서…*wooooooak.github.io](https://wooooooak.github.io/%EB%B2%88%EC%97%AD%ED%95%98%EB%A9%B0%20%EA%B3%B5%EB%B6%80%ED%95%98%EA%B8%B0/2021/02/21/How-The-Android-Image-Loading-Library-Glide-and-Fresco-Works/)
-
-[https://www.charlezz.com/wordpress/wp-content/uploads/2020/10/www.charlezz.com-glide-v4-glide-v4--by-charlezz.pdf](https://www.charlezz.com/wordpress/wp-content/uploads/2020/10/www.charlezz.com-glide-v4-glide-v4--by-charlezz.pdf)
-
-
+- https://futurestud.io/tutorials/glide-caching-basics
+- https://wooooooak.github.io/%EB%B2%88%EC%97%AD%ED%95%98%EB%A9%B0%20%EA%B3%B5%EB%B6%80%ED%95%98%EA%B8%B0/2021/02/21/How-The-Android-Image-Loading-Library-Glide-and-Fresco-Works/
 
 ---
 
