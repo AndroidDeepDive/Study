@@ -1,4 +1,4 @@
-# Image Loading and Caching Library Part 2 - Principle / Memory & Footprint
+# Image Loading and Caching Library Part 2 - Principle / Memory & Footprint / Compose
 
 ## Image Library의 동작 방식
 
@@ -537,6 +537,97 @@ public Bitmap get(int width, int height, Bitmap.Config config) {
 ```
 
 이미지를 로드하기 위해 pool에서 필요한 비트맵을 가져온다.
+
+## Jetpack Compose에서 이미지 라이브러리 사용하기
+
+Google 에서는 Jetpack Compose를 보다 편하게 사용하기 위한 라이브러리를 묶어서 제공한다.
+
+**Accompanist** 라고 하는 GroupId를 가진 라이브러리 모음이다.
+
+> **참고** [Google#Accompanist Repository](https://github.com/google/accompanist)
+
+Accompanist에서는 Glide와 Coil을 지원하고 있다.
+
+의존성 설정은 아래와 같다.
+
+```gradle
+dependencies {
+    ...
+    implementation "com.google.accompanist:accompanist-glide:0.11.1"
+    implementation "com.google.accompanist:accompanist-coil:0.11.1"
+    ...
+}
+```
+
+Glide는 아래와 같이 적용한다.
+
+```kotlin
+Image(
+    painter = rememberGlidePainter(
+        request = "https://picsum.photos/300/300",
+        // placeHolder
+    ),
+    contentDescription = stringResource(R.string.image_content_desc)
+)
+Image(
+    painter = rememberGlidePainter(
+        request = "https://cataas.com/cat/gif",
+        // placeHolder
+    ),
+    contentDescription = null
+)
+```
+
+Coil은 아래와 같이 적용한다.
+
+```kotlin
+Image(
+    painter = rememberCoilPainter(
+        request = "https://picsum.photos/300/300",
+        // placeHolder
+    ),
+    contentDescription = null
+)
+```
+
+Coil에서 gif를 렌더링하기 위해선 `coil-gif` 의존성을 추가한다.
+
+```gradle
+dependencies {
+    ...
+    implementation "com.google.accompanist:accompanist-glide:0.11.1"
+    implementation "com.google.accompanist:accompanist-coil:0.11.1"
+    // Coil 에서 gif 를 사용하기 위해서 추가
+    implementation "io.coil-kt:coil-gif:1.2.2"
+    ...
+}
+```
+
+아래와 같이 별도의 ImageLoader를 설정한다.
+
+```kotlin
+fun gifImageLoader(context: Context) = ImageLoader.Builder(context)
+    .componentRegistry {
+    if (SDK_INT >= 28) {
+        add(ImageDecoderDecoder(context))
+    } else {
+        add(GifDecoder())
+        }
+    }
+    .build()
+```
+
+Image의 적용은 아래와 같이 적용한다.
+
+```kotlin
+Image(
+    painter = rememberCoilPainter(
+        request = "https://cataas.com/cat/gif",
+        imageLoader = gifImageLoader(LocalContext*.current),
+    ),
+    contentDescription = null
+)
+```
 
 ---
 
