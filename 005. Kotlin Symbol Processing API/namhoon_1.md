@@ -45,34 +45,55 @@ Annotation은 Java 5부터 지원하고 있으며, `AbstractProcessor`클래스�
 
 #### Room 
 
-```java
- @Entity
- public class Song {
-    @PrimaryKey
-    private final long id;
-    private final String name;
-    @ColumnInfo(name = "release_year")
-    private final int releaseYear;
+Android에서 SQLite에 대한 추상화를 제공하는 Room 라이브러리에도 Annotation Processor가 적용되어 있다.
 
-    public Song(long id, String name, int releaseYear) {
-        this.id = id;
-        this.name = name;
-        this.releaseYear = releaseYear;
-    }
+아래는 대표적인 예제인 User 관련 코드이다.
 
-    public int getId() {
-        return id;
-    }
+```kotlin
+// User.kt
+@Entity
+data class User(
+    @PrimaryKey val uid: Int,
+    @ColumnInfo(name = "first_name") val firstName: String?,
+    @ColumnInfo(name = "last_name") val lastName: String?
+)
+```
 
-    public String getName() {
-        return name;
-    }
+```kotlin
+// UserDao.kt
+@Dao
+interface UserDao {
+    @Query("SELECT * FROM user")
+    fun getAll(): List<User>
 
-    public int getReleaseYear() {
-        return releaseYear;
-    }
+    @Query("SELECT * FROM user WHERE uid IN (:userIds)")
+    fun loadAllByIds(userIds: IntArray): List<User>
+
+    @Query("SELECT * FROM user WHERE first_name LIKE :first AND " +
+            "last_name LIKE :last LIMIT 1")
+    fun findByName(first: String, last: String): User
+
+    @Insert
+    fun insertAll(vararg users: User)
+
+    @Delete
+    fun delete(user: User)
 }
 ```
+
+```kotlin
+// AppDatabase.kt
+@Database(entities = arrayOf(User::class), version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
+}
+```
+
+위의 에졔에서 쓰인 Annotation들은 `@Entity`, `@PrimaryKey`, `@ColumnInfo`, `@Dao`, `@Query`, `@Insert`, `@Delete`이다.
+
+이 Annotation들의 구현체를 확인해보자.
+
+#### Entity.java
 
 ```java
 @Target(ElementType.TYPE)
@@ -87,11 +108,62 @@ public @interface Entity {
 }
 ```
 
+#### PrimaryKey.java
 
-Room / Butterknife / Dagger2
+```java
+@Target({ElementType.FIELD, ElementType.METHOD})
+@Retention(RetentionPolicy.CLASS)
+public @interface PrimaryKey {
+    boolean autoGenerate() default false;
+}
+```
+
+#### ColumnInfo.java
+```java
+@Target({ElementType.FIELD, ElementType.METHOD})
+@Retention(RetentionPolicy.CLASS)
+public @interface ColumnInfo {
+    String name() default INHERIT_FIELD_NAME;
+    @SuppressWarnings("unused") @SQLiteTypeAffinity int typeAffinity() default UNDEFINED;
+    boolean index() default false;
+    String defaultValue() default VALUE_UNSPECIFIED;
+    String INHERIT_FIELD_NAME = "[field-name]";
+
+
+    int UNDEFINED = 1;
+    int TEXT = 2;
+    int INTEGER = 3;
+    int REAL = 4;
+    int BLOB = 5;
+    @IntDef({UNDEFINED, TEXT, INTEGER, REAL, BLOB})
+    @Retention(RetentionPolicy.CLASS)
+    @interface SQLiteTypeAffinity {
+    }
+
+    int UNSPECIFIED = 1;
+    int BINARY = 2;
+    int NOCASE = 3;
+    int RTRIM = 4;
+    @RequiresApi(21)
+    int LOCALIZED = 5;
+    @RequiresApi(21)
+    int UNICODE = 6;
+    @IntDef({UNSPECIFIED, BINARY, NOCASE, RTRIM, LOCALIZED, UNICODE})
+    @Retention(RetentionPolicy.CLASS)
+    @interface Collate {
+    }
+    String VALUE_UNSPECIFIED = "[value-unspecified]";
+}
+```
+
+#### Dao.java
+#### Query.java
+#### Insert.java
+#### Delete.java
 
 > 사례를 코드 레벨로 찾아서 찾아서 올리는 것이 끌린다!
 
+Butterknife / Dagger2
 
 ## References
 
