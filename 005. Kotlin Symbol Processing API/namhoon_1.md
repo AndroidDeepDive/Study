@@ -1,10 +1,3 @@
----
-title: (Android Deep Dive) Kotlin Symbol Processing API Part 1 - Annotation Processor
-category: android_deep_dive
-date: 2021-06-25 00:00:00
-# thumbnail: /images/thumbnail/compose.png
----
-
 ## Annotation Processor란 무엇인가?
 
 Kotlin Symbol Processing API(이하 `KSP`)를 분석하기 전에, `KSP`의 전신이라고 할 수 있는 `Annotation Processor`에 대해서 분석해보자.
