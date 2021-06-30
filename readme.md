@@ -9,7 +9,7 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 
 ## Tools
 - Slack
-- Google Meet
+- Zoom
 - [Medium](https://medium.com/android-deep-dive-study)
 
 ## 참여인원 (가나다순)
