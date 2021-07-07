@@ -27,23 +27,23 @@ Gradle plugin 에서 kotlin-kapt 를 활성화 할 수 있다.
 
     - Groovy 에서 설정
     plugins {
-      id **“org.jetbrains.kotlin.kapt”** version **“1.5.20”
-    **}
-
+      id “org.jetbrains.kotlin.kapt” version “1.5.20”
+    }
+    
     - Kotlin 에서 설정
     plugins {
-      kotlin(**"kapt"**) version **"1.5.20"
-    **}
-
+      kotlin("kapt") version "1.5.20"
+    }
+    
     - apply plugin 문법을 적용해서 설정
-    apply plugin: **'kotlin-kapt'**
+    apply plugin: 'kotlin-kapt'
 
 그 다음에 각각의 의존성을 kapt 설정을 사용해서 dependencies 에 추가한다.
 
     dependencies {
-      kapt **'groupId:artifactId:version'
-    **}
-
+      kapt 'groupId:artifactId:version'
+    }
+    
     dependencies {
         implementation "com.google.dagger:hilt-android:2.28-alpha"
         kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
@@ -57,7 +57,7 @@ arguments{} 블록을 사용해서 어노테이션 프로세서에 인자를 전
 
     kapt {
       arguments {
-        arg(**"key"**, **"value"**)
+        arg("key", "value")
       }
     }
 
@@ -96,7 +96,7 @@ kapt 에서 어노테이션 프로세서 실행을 위해 자바 컴파일러를
       javacOptions {
         // Increase the max count of errors from annotation processors.
         // Default is 100.         
-        option(**"-Xmaxerrs"**, 500)
+        option("-Xmaxerrs", 500)
       }
     }
 
@@ -113,10 +113,6 @@ kapt 는 코틀린 소스를 생성할 수 있다. 생성된 코틀린 소스파
     kapt {
         keepJavacAnnotationProcessors = true
     }
-
-
-
-KSP 왜 사용해야 하는가?
 
 
 

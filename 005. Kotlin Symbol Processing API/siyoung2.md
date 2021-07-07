@@ -55,6 +55,7 @@ KSP 대부분의 일반적인 사용 사례에서 간단한 솔루션이며, 다
 
 * 다른 프로젝트 모듈에서 사용할 수 있도록 루트 프로젝트 코틀린 플러그인의 버전을 1.5.20 으로 지정한다.
 
+    ```
     plugins {
         kotlin("jvm") version "1.5.20" apply false
     }
@@ -64,15 +65,19 @@ KSP 대부분의 일반적인 사용 사례에서 간단한 솔루션이며, 다
             classpath(kotlin("gradle-plugin", version = "1.5.20"))
         }
     }
+    ```
 
 * 프로세서 호스팅을 위한 모듈 추가
 
 * 모듈의 build.gradle.kts 파일은 아래와 같다.
-Gradle 이 플러그인을 찾을수 있도록 google()을 레포지토리에 추가한다.
-코틀린 플러그인을 적용한다.
-KSP API 를 dependencies 에 추가한다.
+  Gradle 이 플러그인을 찾을수 있도록 google()을 레포지토리에 추가한다.
+  코틀린 플러그인을 적용한다.
+  KSP API 를 dependencies 에 추가한다.
 
-    plugins {
+    
+
+  ```
+  plugins {
         kotlin("jvm")
     }
   
@@ -84,8 +89,9 @@ KSP API 를 dependencies 에 추가한다.
     dependencies {
         implementation("com.google.devtools.ksp:symbol-processing-api:1.5.20-1.0.0-beta04")
     }
+  ```
 
-* [com.google.devtools.ksp.processing.SymbolProcessor] 과 [com.google.devtools.ksp.processing.SymbolProcessorProvider] 구현이 필요하다. SymbolProcessorProvider 의 구현은 구현한SymbolProcessor 를 인스턴스화하는 서비스로 로드된다.
+* [com.google.devtools.ksp.processing.SymbolProcessor] 과 [com.google.devtools.ksp.processing.SymbolProcessorProvider] 구현이 필요하다. SymbolProcessorProvider 의 구현은 구현한 SymbolProcessor 를 인스턴스화하는 서비스로 로드된다.
 - [SymbolProcessorProvider.create()] 구현하여 SymbolProcessor 만듭니다. 프로세서 필요한 종속성은 SymbolProcessorProvider.create() 매개변수를 통해 전달한다.
 - 메인 로직은 [SymbolProcessor.process()] 메소드에 있어야 한다.
 - 완전한 어노테이션의 이름이 주어지면 resolver.getSymbolsWithAnnotation() 을 사용하여 처리할 심볼을 가져온다.
@@ -105,12 +111,14 @@ com.google.devtools.ksp.symbol.KSDefaultVisitor 에서 간단한 visitor 템플�
 
 * 프로젝트에 settings.gradle.kts 에 google() 을 KSP 플러그인에 repositories 에 추가한다.
 
+    ```
     pluginManagement {
         repositories {
            gradlePluginPortal()
            google()
         }
     }
+    ```
 
 * 새로운 모듈의 build.gradle.kts 다음과 같이 설정한다.
 - 지정된 버전과 함께 com.google.devtools.ksp 플러그인을 적용한다.
@@ -120,6 +128,7 @@ com.google.devtools.ksp.symbol.KSDefaultVisitor 에서 간단한 visitor 템플�
 
 * KSP 플러그인을 워크로드에 적용하기 위한 build.gradle.kts 샘플은 아래에서 볼 수 있다.
 
+    ```
     plugins {
         id("com.google.devtools.ksp") version "1.5.20-1.0.0-beta04"
         kotlin("jvm") 
@@ -137,37 +146,47 @@ com.google.devtools.ksp.symbol.KSDefaultVisitor 에서 간단한 visitor 템플�
         implementation(project(":test-processor"))
         ksp(project(":test-processor"))
     }
+    ```
 
 2. Groovy사용하여 설정
 
 * 프로젝트에 settings.gradle 에 google() 을 KSP 플러그인에 repositories 에 추가한다.
 
+    ```
     pluginManagement {
       repositories {
           gradlePluginPortal()
           google()
       }
     }
+    ```
 
 * 프로젝트 build.gradle 파일에서 KSP 플러그인을 포함하는 플러그인 블록을 추가한다.
 
+    ```
     plugins {
       id "com.google.devtools.ksp" version "1.5.20-1.0.0-beta04"
     }
+    ```
 
 * 모듈 build.gradle 에서 아래와 같이 추가한다.
 - com.google.devtools.ksp 플러그인은 적용한다.
+
 - 의존성 목록에 ksp(<your processor>) 를 추가한다.
 
+    ```
     apply plugin: 'com.google.devtools.ksp'
-
+    ```
     
-    
+    ```
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         implementation project(":test-processor")
         ksp project(":test-processor")
     }
+    ```
+    
+    
 
 ### 프로세스에 옵션 전달
 
