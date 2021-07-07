@@ -31,7 +31,7 @@ KSP 의 API 는 kotlin.reflect 와 유사하다. 둘 사이의 큰 차이점은 
 ### KAPT 와 비교
 
 KAPT 는 코틀린 프로그램에서 많은 양의 자바 어노테이션 프로세서를 작동하도록 하는 놀라운 솔루션이다. KAPT 는 뛰어 넘는 KSP 의 가장 큰 장점은 빌드 성능의 향상, 관용적인 코틀린 API, 코틀린 전용 심볼을 이해하는 기능이다.
-자바 어노테이션 프로세서를 수정하지 않고 실행하기 위해서, KAPT 는 코틀린 코드를 자바 어노테이션 프로세서가 관심을 가지는 정보를 유지하는 자바 스텁으로 컴파일 한다. 스텁을 생성하기 위해, KAPT 는 코틀린 프로그램 내에 모든 심볼을 확인해야 한다. 스텁 생성 비용은 전체 kotlinc 분석의 1/3 이며 동일한 kotlinc 코드 생성의 동일한 순서이다. 많은 어노테이션 프로세서에서, 프로세서 자체에서 소요되는 시간보다 훨씬 길다. 예를 들어 Glide 는 매우 제한적인 클래스의 사전 정의된 어노테이션를 살펴보고 코드 생성이 꽤 빠르다. 거의 대부분의 빌드 오버헤드는 스텁 생성 단계에 있다. KSP 로 전환하면 컴팡일러에서 소요되는 시간이 25% 까지 즉시 줄일 수 있다.
+자바 어노테이션 프로세서를 수정하지 않고 실행하기 위해서, KAPT 는 코틀린 코드를 자바 어노테이션 프로세서가 관심을 가지는 정보를 유지하는 자바 스텁으로 컴파일 한다. 스텁을 생성하기 위해, KAPT 는 코틀린 프로그램 내에 모든 심볼을 확인해야 한다. 스텁 생성 비용은 전체 kotlinc 분석의 1/3 이며 동일한 kotlinc 코드 생성의 동일한 순서이다. 많은 어노테이션 프로세서에서, 프로세서 자체에서 소요되는 시간보다 훨씬 길다. 예를 들어 Glide 는 매우 제한적인 클래스의 사전 정의된 어노테이션를 살펴보고 코드 생성이 꽤 빠르다. 거의 대부분의 빌드 오버헤드는 스텁 생성 단계에 있다. KSP 로 전환하면 컴파일러에서 소요되는 시간이 25% 까지 즉시 줄일 수 있다.
 성능 평가를 위해, KSP 에서 Glide 의 간소화 버전을 구현하여 [Tachiyomi](https://github.com/inorichi/tachiyomi) 프로젝트로부터 코드를 생성했다. 프로젝트의 총 코틀린 컴파일 시간은 테스트 기기에서 22.55초 였지만, KAPT  에서 코드를 생성하는 시간은 8.67초 걸렸고, KSP 구현에서 코드를 생성하는데는 1.15초 걸렸다.
 KAPT 와 달리, KSP 의 프로세서는 자바의 관점에서 입력 프로그램을 보지 못한다. API 는 코틀린에 더 자연스럽다. 특히 탑레벨 평션과 같은 코틀린 관련 기능과 같은 경우 더욱 그렇다. KSP 는 KAPT 처럼 javac 에 위임하지 않기 때문에 JVM 특정 동작을 가정하지 않으며 잠재적으로 다른 플랫폼에서 사용할 수 있다.
 
@@ -53,9 +53,7 @@ KSP 대부분의 일반적인 사용 사례에서 간단한 솔루션이며, 다
 
 * 빈 gradle 프로젝트를 생성
 
-* 다른 프로젝트 모듈에서 사용할 수 있도록 루트 프로젝트 코틀린 플러그인의 버전을 1.5.20 으로 지정한다
-
-* Specify version 1.5.20 of the Kotlin plugin in the root project for use in other project modules.
+* 다른 프로젝트 모듈에서 사용할 수 있도록 루트 프로젝트 코틀린 플러그인의 버전을 1.5.20 으로 지정한다.
 
     plugins {
         kotlin("jvm") version "1.5.20" apply false
@@ -69,7 +67,7 @@ KSP 대부분의 일반적인 사용 사례에서 간단한 솔루션이며, 다
 
 * 프로세서 호스팅을 위한 모듈 추가
 
-* 모듈의 build.gradle.kts 파일은 아래와 같다
+* 모듈의 build.gradle.kts 파일은 아래와 같다.
 Gradle 이 플러그인을 찾을수 있도록 google()을 레포지토리에 추가한다.
 코틀린 플러그인을 적용한다.
 KSP API 를 dependencies 에 추가한다.
@@ -87,9 +85,9 @@ KSP API 를 dependencies 에 추가한다.
         implementation("com.google.devtools.ksp:symbol-processing-api:1.5.20-1.0.0-beta04")
     }
 
-* [com.google.devtools.ksp.processing.SymbolProcessor](https://github.com/google/ksp/blob/main/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessor.kt) 과 [com.google.devtools.ksp.processing.SymbolProcessorProvider](https://github.com/google/ksp/blob/main/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessorProvider.kt) 구현이 필요하다. SymbolProcessorProvider 의 구현은 구현한SymbolProcessor 를 인스턴스화하는 서비스로 로드된다.
-- [SymbolProcessorProvider.create()](https://github.com/google/ksp/blob/master/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessorProvider.kt) 구현하여 SymbolProcessor 만듭니다. 프로세서 필요한 종속성은 SymbolProcessorProvider.create() 매개변수를 통해 전달한다.
-- 메인 로직은 [SymbolProcessor.process()](https://github.com/google/ksp/blob/master/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessor.kt) 메소드에 있어야 한다.
+* [com.google.devtools.ksp.processing.SymbolProcessor] 과 [com.google.devtools.ksp.processing.SymbolProcessorProvider] 구현이 필요하다. SymbolProcessorProvider 의 구현은 구현한SymbolProcessor 를 인스턴스화하는 서비스로 로드된다.
+- [SymbolProcessorProvider.create()] 구현하여 SymbolProcessor 만듭니다. 프로세서 필요한 종속성은 SymbolProcessorProvider.create() 매개변수를 통해 전달한다.
+- 메인 로직은 [SymbolProcessor.process()] 메소드에 있어야 한다.
 - 완전한 어노테이션의 이름이 주어지면 resolver.getSymbolsWithAnnotation() 을 사용하여 처리할 심볼을 가져온다.
 - KSP 에 일반적인 사용 사례는 심볼 작업을 위해 customized visitor (interface com.google.devtools.ksp.symbol.KSVisitor)를 구현한다.
 com.google.devtools.ksp.symbol.KSDefaultVisitor 에서 간단한 visitor 템플릿을 살펴 볼 수 있다.
@@ -165,7 +163,6 @@ com.google.devtools.ksp.symbol.KSDefaultVisitor 에서 간단한 visitor 템플�
 
     
     
-
     dependencies {
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         implementation project(":test-processor")
@@ -181,8 +178,6 @@ SymbolProcessorEnvironment.options 에서 프로세서 옵션은 gradle 빌드 �
         arg("option2", "value2")
         ...
       }
-
-
 
 ### IDE 에서 생성된 코드 인식
 
