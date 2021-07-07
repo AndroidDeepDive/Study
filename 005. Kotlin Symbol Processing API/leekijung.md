@@ -239,15 +239,15 @@ Alpha에서는 별개의 모듈에서 사용하는 것이 좋다고 나와있다
 
 그래서, 현재 만들어진 프로젝트에서 완전히 룸 외에 다른 KAPT를 사용하는 라이브러리 의존성을 제거하고, Room에 대한 KAPT, KSP만 온전히 비교해보기로 했다.
 
+![Compile Time By KAPT only using Room](https://imgur.com/NjWXyw6.jpg)
+
 다른 라이브러리 제외 오직 Room을 사용했을 때 KAPT로 Generate되는 시간을 산정해보았을 때 대략 8.04s가 소요되었다.
 
 
 
-![Compile Time By KAPT only using Room](https://imgur.com/NjWXyw6.jpg)
+![Compile Time By KSP only using Room](https://imgur.com/0HScWJk.jpg)
 
 KSP에 대한 결과는 다음과 같다. App 모듈에서 결과는 KSP플러그인을 사용하고, KSP를 사용한 Room으로 빌드 시 0.71ms로 약 11.3배정도로 속도가 빨라져 놀랍도록 빌드시간이 줄어든것을 확인할 수 있었다.
-
-
 
 ---
 
