@@ -59,7 +59,18 @@ Java.lang.annotation package에 있는 Annotation을 알아보자. 해당 패키
 
 
 
-### KAPT 
+### KAPT(Kotlin Annotation Processing Tool)
+
+Kotlin에서는 Annotation Processor를 위해 **kapt**라는 컴파일 플러그인을 지원한다. 간단히 말해 kapt를 통해서 Dagger나 Databinding을 코틀린 프로젝트에서 쓸 수 있는 것이다. 공식 홈페이지에서 kapt를 사용하기 위한 설정들을 살펴보자. 만약 Annotation Processor를 쓰기 위해 Android Support를 사용하고 있다면 annotationProcessor를 kapt로 전환하면 된다. 자바 클래스도 지원이 된다. 
+
+```groovy
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+```
+
+이 때 kotlin-android 설정을 먼저 해줘야 kotlin-kapt를 쓸 수 있다.
+
+
 
 - 코틀린에서 KAPT 사용시 단점
 - 왜 Stub을 생성하는가?
@@ -71,3 +82,6 @@ Java.lang.annotation package에 있는 Annotation을 알아보자. 해당 패키
 ### Reference
 
 - https://docs.oracle.com/javase/tutorial/java/annotations/index.html
+
+- https://imstudio.medium.com/kotlin-kotlin-plugin-should-be-enabled-before-kotlin-kapt-d5879f45f09d
+- https://kotlinlang.org/docs/kapt.html#using-in-gradle
