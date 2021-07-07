@@ -1,4 +1,4 @@
-# Kotlin Symbol Processing API - 1 
+# Kotlin Symbol Processing API 
 
 ## Part1 - Annotation Processor란 무엇인가?
 
