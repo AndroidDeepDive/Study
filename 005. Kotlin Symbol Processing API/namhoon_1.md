@@ -156,17 +156,27 @@ public @interface ColumnInfo {
 }
 ```
 
-#### Dao.java
-#### Query.java
-#### Insert.java
-#### Delete.java
+이 외에도 `@Dao`, `@Query`, `@Insert`, `@Delete`과 같은 Annotation들은 각자 인터페이스, 구현체 값들을 이미 가지고 있다.
 
-> 사례를 코드 레벨로 찾아서 찾아서 올리는 것이 끌린다!
+비단 **Room** 뿐만 아니라 **Butterknife**, **Dagger**, **Retrofit** 같은 라이브러리들도 Annotation을 기반으로 동작한다.
 
-Butterknife / Dagger2
+그렇다면 이미 상용화되어 쓰이고 있는 라이브러리말고 직접 만들어 쓸 수는 없는 것일까?
+
+Java 기반의 Android도 물론 지원가능하지만 Kotlin 기반의 **KAPT** 를 이용해 작성할 수 있다.
+
+### KAPT (Kotlin Annotation Processing Tool)
+
+KAPT는 위의 제목의 약자에서 알 수 있듯, 코틀린에서 생성한 코드를 참조하기 위해 추가해야하는 의존성이다.
+
+다만 이 KAPT는 Kotlin 코드를 Java Annotation Processor를 수정하지 않기 위해 컴파일시 Java로 된 Stub을 생성하게 된다.
+
+Stub을 생성하는 것은 kotlinc의 분석 비용의 3분의 1이나 차지하므로, 빌드시 많은 오버헤드가 발생하게 된다.
+
+따라서, 이 컴파일 타임을 획기적으로 줄여주는 솔루션이 나오게 되니, 이게 바로 이번 주제에서 다루게 될 KSP이다.
+
+다음 포스트에서 KSP에 대해 자세히 살펴보도록 하자.
 
 ## References
-
 - https://developer.android.com/reference/androidx/annotation/package-summary
-- https://docs.oracle.com/javase/tutorial/java/annotations/index.html
 - https://hannesdorfmann.com/annotation-processing/annotationprocessing101/
+- https://kotlinlang.org/docs/kapt.html
