@@ -1,4 +1,4 @@
-# Part 2 - Kotlin Symbol Processing API 2
+# Part 2 - Kotlin Symbol Processing API2
 
 ## Let's inspect in KSP Structure 🔍
 
@@ -216,7 +216,25 @@ repository.getData(1, 2).toString() // 3
 **`SymbolProcessor`** 인터페이스의 함수를 먼저 보자.
 
 ```kotlin
-interface SymbolProcessor {    /**     * 처리 작업을 호출하기 위해 KSP에 의해 호출된다.     *     * @param resolver는 `Symbol`과 같이 컴파일러가 접근이 가능한 [SymbolProcessor]를 제공한다.     * @return [KSAnnotated] 리스트를 반환하는데, 프로세서가 처리할 수 없는 거치된 Symbol을 제공한다.     */    fun process(resolver: Resolver): List<KSAnnotated>    /**     * 처리에 대한 편집이 마무리가 되면 KSP에 의해 호출된다.     */    fun finish() {}    /**     * 처리하는 과정에서 에러가 발생한 이후 KSP에 의해 호출된다.     */    fun onError() {}}
+interface SymbolProcessor {
+    /**
+     * 처리 작업을 호출하기 위해 KSP에 의해 호출된다.
+     *
+     * @param resolver는 `Symbol`과 같이 컴파일러가 접근이 가능한 [SymbolProcessor]를 제공한다.
+     * @return [KSAnnotated] 리스트를 반환하는데, 프로세서가 처리할 수 없는 거치된 Symbol을 제공한다.
+     */
+    fun process(resolver: Resolver): List<KSAnnotated>
+
+    /**
+     * 처리에 대한 편집이 마무리가 되면 KSP에 의해 호출된다.
+     */
+    fun finish() {}
+
+    /**
+     * 처리하는 과정에서 에러가 발생한 이후 KSP에 의해 호출된다.
+     */
+    fun onError() {}
+}
 ```
 
 
@@ -224,7 +242,30 @@ interface SymbolProcessor {    /**     * 처리 작업을 호출하기 위해 KS
 여기에 있는 SymbolProcessor를 통해 우리는 컴파일 시 클래스 파일을 작성할 수 있게된다. 아래는 구현할 클래스인 `InterfaceImplementationProcessor` 이다.
 
 ```kotlin
-/** * @author SODA1127 * KSP를 이용한 SymbolProcessor 구현체이다. */class InterfaceImplementationProcessor : SymbolProcessor {  private lateinit var codeGenerator: CodeGenerator  private lateinit var logger: KSPLogger  ...  override fun process(resolver: Resolver): List<KSAnnotated> {    ...  }  override fun finish() {    logger.warn("Processor 끝")  }  override fun onError() {    logger.error("Processor 에러")  }}
+/**
+ * @author SODA1127
+ * KSP를 이용한 SymbolProcessor 구현체이다.
+ */
+class InterfaceImplementationProcessor : SymbolProcessor {
+
+  private lateinit var codeGenerator: CodeGenerator
+  private lateinit var logger: KSPLogger
+
+  ...
+
+  override fun process(resolver: Resolver): List<KSAnnotated> {
+    ...
+  }
+
+  override fun finish() {
+    logger.warn("Processor 끝")
+  }
+
+  override fun onError() {
+    logger.error("Processor 에러")
+  }
+
+}
 ```
 
 
@@ -232,13 +273,38 @@ interface SymbolProcessor {    /**     * 처리 작업을 호출하기 위해 KS
 우리가 해당 Processor를 동작시키기 위해서는 `SymbolProcessorProvider`를 통해 생성을 해주어야한다.
 
 ```kotlin
-/** * [SymbolProcessorProvider]은 KSP를 통합하기 위한 플러그인에서 사용되는 인터페이스이다. */fun interface SymbolProcessorProvider {    /**     * 프로세서를 생성하기 위해 KSP에 의해 호출된다.     */    fun create(environment: SymbolProcessorEnvironment): SymbolProcessor}
+/**
+ * [SymbolProcessorProvider]은 KSP를 통합하기 위한 플러그인에서 사용되는 인터페이스이다.
+ */
+fun interface SymbolProcessorProvider {
+    /**
+     * 프로세서를 생성하기 위해 KSP에 의해 호출된다.
+     */
+    fun create(environment: SymbolProcessorEnvironment): SymbolProcessor
+}
 ```
 
 인자로 넣어주는 `SymbolProcessorEnvironment` 인스턴스에는 다음과 같은 프로퍼티를 제공한다.
 
 ```kotlin
-class SymbolProcessorEnvironment(    /**     * Gradle등의 명령어를 통과한다.     */    val options: Map<String, String>,    /**     * 편집 환경에서 쓰이는 언어의 버전이다.     */    val kotlinVersion: KotlinVersion,    /**     * 관리될 파일을 생성하는 역할이다.     */    val codeGenerator: CodeGenerator,    /**     * 빌드 시 결과에 대해 로깅하는 역할이다.     */    val logger: KSPLogger)
+class SymbolProcessorEnvironment(
+    /**
+     * Gradle등의 명령어를 통과한다.
+     */
+    val options: Map<String, String>,
+    /**
+     * 편집 환경에서 쓰이는 언어의 버전이다.
+     */
+    val kotlinVersion: KotlinVersion,
+    /**
+     * 관리될 파일을 생성하는 역할이다.
+     */
+    val codeGenerator: CodeGenerator,
+    /**
+     * 빌드 시 결과에 대해 로깅하는 역할이다.
+     */
+    val logger: KSPLogger
+)
 ```
 
 
@@ -246,7 +312,15 @@ class SymbolProcessorEnvironment(    /**     * Gradle등의 명령어를 통과�
 나는 `InterfaceImplementationProcessor` 를 생성하기 위해 `InterfaceImplementationProvider` 를 만들어 주었다.
 
 ```kotlin
-class InterfaceImplementationProvider : SymbolProcessorProvider {    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {        return InterfaceImplementationProcessor().apply {            init(environment.codeGenerator, environment.logger)        }    }}
+class InterfaceImplementationProvider : SymbolProcessorProvider {
+
+    override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
+        return InterfaceImplementationProcessor().apply {
+            init(environment.codeGenerator, environment.logger)
+        }
+    }
+
+}
 ```
 
 environment인자의 프로퍼티에 접근하여 `InterfaceImplementationProcessor` 인스턴스 생성 후 변수에 할당한다. 이를 통해 우리는 코드 생성 및 편집, 빌드에 대한 결괴에 대해 로깅할 수 있게된다.
@@ -266,7 +340,41 @@ environment인자의 프로퍼티에 접근하여 `InterfaceImplementationProces
 그러면 본격적으로 process함수에서 어떤 동작을 하는지 보자.
 
 ```kotlin
-/** * @author SODA1127 * KSP를 이용한 SymbolProcessor 구현체이다. */class InterfaceImplementationProcessor : SymbolProcessor {  ...  companion object {    private val annotationName = InterfaceImplementation::class.java.canonicalName // 패키지명을 포함한 어노테이션 클래스 명    private val filteringKeywords = arrayOf("equals", "hashCode", "toString", "<init>") // 추후 사용 될 키워드 들  }  ...  override fun process(resolver: Resolver): List<KSAnnotated> {    logger.warn("Processor 시작")    val symbols = resolver.getSymbolsWithAnnotation(annotationName) // 어노테이션 클래스를 주석으로 사용하고 있는 Symbol을 가져온다.    val ret = symbols.filter { !it.validate() }    symbols    .filterIsInstance<KSClassDeclaration>() // 클래스에 선언된 타입인지 체크한다.    .filter { it.validate() }  // 허용되는 타입인지를 체크한다.    .forEach {      logger.warn("사용하는 클래스 : $it")      it.accept(InterfaceImplementationVisitor(codeGenerator, logger, annotationName, filteringKeywords), Unit) // Visitor 인스턴스를 생성하여 내부적으로 클래스 파일을 작성한다.    }    return ret.toList()  }  ...}
+/**
+ * @author SODA1127
+ * KSP를 이용한 SymbolProcessor 구현체이다.
+ */
+class InterfaceImplementationProcessor : SymbolProcessor {
+
+  ...
+  companion object {
+    private val annotationName = InterfaceImplementation::class.java.canonicalName // 패키지명을 포함한 어노테이션 클래스 명
+    private val filteringKeywords = arrayOf("equals", "hashCode", "toString", "<init>") // 추후 사용 될 키워드 들
+  }
+
+  ...
+
+  override fun process(resolver: Resolver): List<KSAnnotated> {
+    logger.warn("Processor 시작")
+
+    val symbols = resolver.getSymbolsWithAnnotation(annotationName) // 어노테이션 클래스를 주석으로 사용하고 있는 Symbol을 가져온다.
+
+    val ret = symbols.filter { !it.validate() }
+
+    symbols
+    .filterIsInstance<KSClassDeclaration>() // 클래스에 선언된 타입인지 체크한다.
+    .filter { it.validate() }  // 허용되는 타입인지를 체크한다.
+    .forEach {
+      logger.warn("사용하는 클래스 : $it")
+      it.accept(InterfaceImplementationVisitor(codeGenerator, logger, annotationName, filteringKeywords), Unit) // Visitor 인스턴스를 생성하여 내부적으로 클래스 파일을 작성한다.
+    }
+
+    return ret.toList()
+  }
+
+  ...
+
+}
 ```
 
 실제로 Processor는 `process()` 함수가 호출된 이후부터 동작한다고 봐도 무방하다. 
@@ -280,13 +388,36 @@ environment인자의 프로퍼티에 접근하여 `InterfaceImplementationProces
 `KSVIsitor`는 기본적으로 두가지의 제너릭 타입을 가진다. 하나는 D: Data Type이고, 또다른 하나는 R: Return Type이다. 두가지 타입의 인자는 하나의 Visitor에서 Input을 만들고 또다른 Visitor로 Output을 만드는 파이프라인을 만들 때 사용된다.
 
 ```kotlin
-interface KSVisitor<D, R> {  fun visitNode(node: KSNode, data: D): R  fun visitAnnotated(annotated: KSAnnotated, data: D): R    ...}
+interface KSVisitor<D, R> {
+
+  fun visitNode(node: KSNode, data: D): R
+
+  fun visitAnnotated(annotated: KSAnnotated, data: D): R
+  
+  ...
+}
 ```
 
 우리가 구현한 Visitor의 경우 다른 Visitor에 Input과 Output을 연결할 이유가 없으므로, `KSVisitor<Unit, Unit>`를 사용할 것이다. KSP는 이에 대해 `KSVisitorVoid`라는 클래스를 제공한다. 이를 상속받아 구현 할 것이다.
 
 ```kotlin
-/** * @author SODA1127 * [InterfaceImplementationProcessor]에서 사용되는 KSVisitor 클래스. */class InterfaceImplementationVisitor(    private val codeGenerator: CodeGenerator,    private val logger: KSPLogger,    private val annotationName: String,    private val filteringKeywords: Array<String>) : KSVisitorVoid() {    ...    override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {    ...  }}
+/**
+ * @author SODA1127
+ * [InterfaceImplementationProcessor]에서 사용되는 KSVisitor 클래스.
+ */
+class InterfaceImplementationVisitor(
+    private val codeGenerator: CodeGenerator,
+    private val logger: KSPLogger,
+    private val annotationName: String,
+    private val filteringKeywords: Array<String>
+) : KSVisitorVoid() {
+  
+  ...
+  
+  override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
+    ...
+  }
+}
 ```
 
 
@@ -296,7 +427,24 @@ interface KSVisitor<D, R> {  fun visitNode(node: KSNode, data: D): R  fun visitA
 해당 클래스가 `data class` 인지는 접근제어자로 data가 포함되어있는지 체크하면 알 수 있다.
 
 ```kotlin
-...override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {  logger.warn("@${annotationName} -> $classDeclaration 발견")  if (classDeclaration.isDataClass()) {    logger.error(      "$annotationName can not target data class $classDeclaration",      classDeclaration    )    return  }  ...}...private fun KSClassDeclaration.isDataClass() = modifiers.contains(Modifier.DATA)
+...
+
+override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
+  logger.warn("@${annotationName} -> $classDeclaration 발견")
+
+  if (classDeclaration.isDataClass()) {
+    logger.error(
+      "$annotationName can not target data class $classDeclaration",
+      classDeclaration
+    )
+    return
+  }
+  ...
+}
+
+...
+
+private fun KSClassDeclaration.isDataClass() = modifiers.contains(Modifier.DATA)
 ```
 
 
@@ -310,7 +458,24 @@ interface KSVisitor<D, R> {  fun visitNode(node: KSNode, data: D): R  fun visitA
 파일을 생성을 위해 어떠한 파일에 의존성을 갖는지, 패키지명과 클래스를 정의한다. 일단 간단하게 하나의 파일에 인터페이스와 구현체 클래스를 작성하기로 했다.
 
 ```kotlin
-...override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {  ...  val packageName = classDeclaration.packageName.asString()  val className = classDeclaration.simpleName.asString()  /**         * [KSClassDeclaration.simpleName]과 동일한 이름으로 파일 생성하여         * Interface, Implemtation 클래스를 두개 작성하는 파일         */  val file = codeGenerator.createNewFile(    dependencies = Dependencies(true, classDeclaration.containingFile!!),    packageName = packageName,    fileName = className  )  ...}
+...
+
+override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
+  ...
+  val packageName = classDeclaration.packageName.asString()
+  val className = classDeclaration.simpleName.asString()
+
+  /**
+         * [KSClassDeclaration.simpleName]과 동일한 이름으로 파일 생성하여
+         * Interface, Implemtation 클래스를 두개 작성하는 파일
+         */
+  val file = codeGenerator.createNewFile(
+    dependencies = Dependencies(true, classDeclaration.containingFile!!),
+    packageName = packageName,
+    fileName = className
+  )
+  ...
+}
 ```
 
 
@@ -320,7 +485,19 @@ interface KSVisitor<D, R> {  fun visitNode(node: KSNode, data: D): R  fun visitA
 함수는 기존에 선언되어 있던 어노테이션의 타겟 클래스의 함수를 가져와 함수명, 인자명, 인자타입, 내부에 인자의 함수 호출, 반환 타입 선언을하는 코드 작성을 KotlinPoet을 통해 했다.
 
 ```kotlin
-...override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {  /**  * Interface 정의를 한다.  * ex) [IExampleRepository]와 같이 `I`키워드가 Prefix로 붙게되어 클래스가 작성된다.  */  val interfaceName = "I$className"  val interfaceType = ... // KotlinPoet을 이용한 인터페이스 내 함수 작성  logger.warn("$interfaceName 생성 완료")  ...}...
+...
+
+override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
+  /**
+  * Interface 정의를 한다.
+  * ex) [IExampleRepository]와 같이 `I`키워드가 Prefix로 붙게되어 클래스가 작성된다.
+  */
+  val interfaceName = "I$className"
+  val interfaceType = ... // KotlinPoet을 이용한 인터페이스 내 함수 작성
+  logger.warn("$interfaceName 생성 완료")
+  ...
+}
+...
 ```
 
 
@@ -328,7 +505,20 @@ interface KSVisitor<D, R> {  fun visitNode(node: KSNode, data: D): R  fun visitA
 마찬가지로, 구현체도 해당 파일 내 함수로 작성을 한다.
 
 ```kotlin
-...override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {  ...  /**  * Implementation 정의를한다.  * ex) [ExampleRepositoryImpl]와 같이 `Impl`키워드가 Suffix로 붙게되어 클래스가 작성된다.  */  val implementationName = "${className}Impl"  val implementsType = ... // KotlinPoet을 이용한 인터페이스 내 함수 작성  logger.warn("$implementationName 생성 완료")  ...}...
+...
+
+override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
+  ...
+  /**
+  * Implementation 정의를한다.
+  * ex) [ExampleRepositoryImpl]와 같이 `Impl`키워드가 Suffix로 붙게되어 클래스가 작성된다.
+  */
+  val implementationName = "${className}Impl"
+  val implementsType = ... // KotlinPoet을 이용한 인터페이스 내 함수 작성
+  logger.warn("$implementationName 생성 완료")
+  ...
+}
+...
 ```
 
 
@@ -338,7 +528,17 @@ interface KSVisitor<D, R> {  fun visitNode(node: KSNode, data: D): R  fun visitA
 
 
 ```kotlin
-...override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {  ...  FileSpec.builder(packageName, className)  .addType(interfaceType)  .addType(implementsType)  .build()  .writeTo(file.toAppendable())}...
+...
+
+override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
+  ...
+  FileSpec.builder(packageName, className)
+  .addType(interfaceType)
+  .addType(implementsType)
+  .build()
+  .writeTo(file.toAppendable())
+}
+...
 ```
 
 
