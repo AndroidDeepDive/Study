@@ -34,4 +34,14 @@ System bar that can can be positioned on the left, bottom, or right of the scree
 - https://developer.android.com/training/system-ui/navigation
 
 
-### Part 3 - When BottomSheetDialog is exposed
+### Part 3 - Modal Case (like BottomSheetDialog)
+
+### Part 4 - Full Screen Case
+- 전체화면 적용시 System ui 적용의 어려움
+- 전체화면 종료 후 돌아오는 것
+- cutout : https://developer.android.com/guide/topics/display-cutout
+- Navigation 영역이 hardware냐 soft냐에 따른 동작
+
+### Part 5 - Theme : Day and Night
+- Night mode 하나로도 굉장히 deep한 주제
+  - Theme의 상속에 대한 분석 및 관리
