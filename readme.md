@@ -19,7 +19,6 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 - 옥수환 Work@ NAVER [Blog](https://www.charlezz.com/)
 - 이기정 Work@ Banksalad [Blog](https://soda1127.github.io)
 - 정세희 Work@ Banksalad [Blog](https://velog.io/@jshme)
-- 최소영 Work@ Banksalad
 
 ## Topics
 
@@ -43,4 +42,6 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 - [Image Loading and Caching Library Part 3 — Performance Test](https://medium.com/android-deep-dive-study/image-loading-and-caching-library-part-3-performance-test-d19287348f98)
 
 
-**5. Kotlin Symbol Processing API(~ing)**
+**5. Kotlin Symbol Processing API(gathering)**
+
+**6. Android System UI (~ing)**
