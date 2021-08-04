@@ -108,7 +108,7 @@ public void setContentView(int layoutResID) {
     // decor, when theme attributes and the like are crystalized. Do not check the feature
     // before this happens.
     if (mContentParent == null) {
-        installDecor();
+        installDecor(); // 여기서 DecorView를 생성
     } else if (!hasFeature(FEATURE_CONTENT_TRANSITIONS)) {
         mContentParent.removeAllViews();
     }
@@ -129,7 +129,7 @@ public void setContentView(int layoutResID) {
 }
 ```
 
-2부에서는 Theme이란 무엇이고 Style.xml에 정의된 Android Theme를 어떻게 가져오는지를 살펴보기 위해 installDeco() 함수를 살펴보도록 하자.
+2부에서는 Theme과 Style이란 무엇이고 Style.xml에 정의된 Android Theme를 어떻게 가져오는지를 살펴보기 위해 installDeco() 함수를 살펴보도록 하자.
 
 ## Reference
 
