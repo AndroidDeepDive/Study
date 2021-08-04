@@ -256,7 +256,7 @@ xml에서는 `android:fitsSystemWindows="boolean"` 옵션으로 제공한다.
 
 따라서, 실제 코드에서 사용시에는 다음과 같이 케이스에 따라 나눌 수 있을 것이다.
 
-```kotlin 
+```kotlin
 // Tell the window that we (the app) want to handle/fit any system
 // windows (and not the decor)
 window.setDecorFitsSystemWindows(false)
@@ -275,5 +275,45 @@ System UI를 가려 Full Screen으로 구현하기 위해, 기존 코드와 비�
 
 
 
-Android 11에서는 더 이상 Full-Screen Case를 세가지로 나누지 않는다.
+Android 11에서는 더 이상 Full-Screen Case를 마찬가지로 세가지에 대응할 수 있도록 한다. 기존 옵션에 매칭되는 사항은 다음과 같다.
+
+- BEHAVIOR_SHOW_BARS_BY_TOUCH : lean back
+- BEHAVIOR_SHOW_BARS_BY_SWIPE : immersive
+- BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE : sticky immersive
+
+WindowInsetController에서 제공하는 다양한 함수를 통해 System UI, Inset을 조절한다.
+
+그중에 우리가 집중적으로 관심을 가져야 하는 것은 `InsetsType`이라는 것이다.
+
+```java 
+/**
+  * @return An insets type representing any system bars for displaying status.
+  */
+public static @InsetsType int statusBars() {
+  return STATUS_BARS;
+}
+
+/**
+  * @return An insets type representing any system bars for navigation.
+  */
+public static @InsetsType int navigationBars() {
+  return NAVIGATION_BARS;
+}
+
+/**
+  * @return An insets type representing the window of a caption bar.
+  */
+public static @InsetsType int captionBar() {
+  return CAPTION_BAR;
+}
+
+/**
+  * @return An insets type representing the window of an {@link InputMethod}.
+  */
+public static @InsetsType int ime() {
+  return IME;
+}
+```
+
+우릭 실제 `InsetsType` 에서 특정 컴포넌트에 대한 Inset을 구분하자면 4가지로 분류된다.
 
