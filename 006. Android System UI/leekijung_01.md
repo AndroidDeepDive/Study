@@ -1,4 +1,4 @@
-# Introduce Android System UI
+# Introduce Android System UI - 1
 
 ## Preparing Full-Screen Case
 
@@ -264,56 +264,4 @@ window.setDecorFitsSystemWindows(false)
 // OR you can use WindowCompat from AndroidX v1.5.0-alpha02
 WindowCompat.setDecorFitsSystemWindows(window, false)
 ```
-
-
-
-## Window Inset 제어를 통한 Full Screen 구현
-
-기존에 우리가 decorView에 `systemUiVisibility` 옵션을 주었던 것과는 달리 안드로이드 11버전에 대응하기 위해서는 `insetsController` 라는 것을 이용해야한다. 
-
-System UI를 가려 Full Screen으로 구현하기 위해, 기존 코드와 비교를 해보기로 했다.
-
-
-
-Android 11에서는 더 이상 Full-Screen Case를 마찬가지로 세가지에 대응할 수 있도록 한다. 기존 옵션에 매칭되는 사항은 다음과 같다.
-
-- BEHAVIOR_SHOW_BARS_BY_TOUCH : lean back
-- BEHAVIOR_SHOW_BARS_BY_SWIPE : immersive
-- BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE : sticky immersive
-
-WindowInsetController에서 제공하는 다양한 함수를 통해 System UI, Inset을 조절한다.
-
-그중에 우리가 집중적으로 관심을 가져야 하는 것은 `InsetsType`이라는 것이다.
-
-```java 
-/**
-  * @return An insets type representing any system bars for displaying status.
-  */
-public static @InsetsType int statusBars() {
-  return STATUS_BARS;
-}
-
-/**
-  * @return An insets type representing any system bars for navigation.
-  */
-public static @InsetsType int navigationBars() {
-  return NAVIGATION_BARS;
-}
-
-/**
-  * @return An insets type representing the window of a caption bar.
-  */
-public static @InsetsType int captionBar() {
-  return CAPTION_BAR;
-}
-
-/**
-  * @return An insets type representing the window of an {@link InputMethod}.
-  */
-public static @InsetsType int ime() {
-  return IME;
-}
-```
-
-우릭 실제 `InsetsType` 에서 특정 컴포넌트에 대한 Inset을 구분하자면 4가지로 분류된다.
 
