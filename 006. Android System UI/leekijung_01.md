@@ -134,7 +134,7 @@ Android 11(SDK Version 30)의 경우에는 기존에 제공하던 `View#systemUi
 
 ![Edge to Edge](https://imgur.com/wa6ViMq.gif)
 
-쉽게 정리하면, Edge to Edge개념은 앱이 **시스템 표시 줄 뒤에 그려질 수 있음**을 의미한다. 다음과 같이 바뀐 이유는 사용자에게 몰입감 있는 경험을 제공하기 위한 재설계를 했기 때문이다.
+쉽게 정리하면, 에지 투 에지(Edge to Edge)개념은 앱이 **시스템 표시 줄 뒤에 그려질 수 있음**을 의미한다. 다음과 같이 바뀐 이유는 사용자에게 몰입감 있는 경험을 제공하기 위한 재설계를 했기 때문이다.
 
 Deprecate된 `setSystemUiVisibility` 함수를 참고하면, `WindowInsetsController`라는 인터페이스를 참고하라는 것을 볼 수 있다. `WindowInsetsController` 는 어떻게 구성이 되어있는지 확인하자.
 
