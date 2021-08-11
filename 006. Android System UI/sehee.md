@@ -106,13 +106,70 @@ View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 | ![](https://images.velog.io/images/jshme/post/8e685d1a-f628-49a9-a424-c2d60a3a3d0c/Screenshot_1628010857.png) | ![](https://images.velog.io/images/jshme/post/66bb2c9a-15e7-4139-9c1e-e10684ab773c/Screenshot_1628010970.png) |
 <br>
 
-# WindowInsetsControllerCompat
-System Bar를 핸들링 할 수 있는 `systemUiVisibility` 옵션도 API 30 부터 Deprecated 되었다. 그럼 무엇을 사용해야 할까? 
-
-![](https://images.velog.io/images/jshme/post/e77c0a60-f419-4019-b3a5-31ad90a92cfb/image.png)
-
 
 # WindowInsets 
 안드로이드 시스템에서 System UI가 어디에 위치해있는지, 혹은 나중에 보여지게 되는지 안내해주는 역할을 한다. 이 `WindowInsets` 을 통해 상하좌우의 Inset을 얻을 수 있어 해당 디바이스의 Status Bar와 Navigation Bar의 Height를 쉽게 얻을 수 있다.
 
 https://www.youtube.com/watch?v=q6ZC4E4lAM8
+
+'# WindowInsets 
+Safe Area영역을 지키면서 화면이 왼쪽처럼 잘리지 않게 하려면 `WindowInsets` 옵션을 사용하면 된다. WindowInsets은 안드로이드 시스템에서 System UI가 어디에 위치해있는지, 혹은 나중에 보여지게 되는지 안내해주는 역할을 한다. 해당 옵션을 통해 상하좌우의 Inset을 얻을 수 있어 해당 디바이스의 Status Bar와 Navigation Bar의 Height를 쉽게 얻을 수 있게 된다.
+
+- windowInset.stableInsetLeft
+- windowInset.stableInsetRight
+- windowInset.stableInsetTop : 해당 옵션을 통해 Status Bar의 Size를 얻을 수 있음.
+- windowInset.stableInsetBottom : 해당 옵션을 통해 Navigation Bar의 Size를 얻을 수 있음.
+
+<br>
+
+
+# WindowInsetsControllerCompat
+하지만 System Bar를 핸들링 할 수 있는 `systemUiVisibility` 옵션도 곧 Deprecated 될 예정이다. 그럼 무엇을 사용해야 할까? 
+
+![](https://images.velog.io/images/jshme/post/e77c0a60-f419-4019-b3a5-31ad90a92cfb/image.png)
+
+
+👉 `WindowInsetsControllerCompat` 혹은 `WindowInsetsController` 를 사용하면 된다. 
+안드로이드 문서를 살펴보면, SDK 29 이하는 WindowInsetsControllerCompat, 30 이상부터는 WindowInsetsController를 권장하고 있다.
+
+WindowInsetsControllerCompat은 `androidx.core` library에 속해있는 클래스이며, 기존 systemUiVisibility 보다 간소화된 옵션을 제공하고 있다.
+
+- `BEHAVIOR_SHOW_BARS_BY_TOUCH`: 사용자가 화면을 터치할 때 System Bar가 등장함.
+- `BEHAVIOR_SHOW_BARS_BY_SWIPE`: 사용자가 화면 내 System Bar 근처에서 스와이프 할 때 등장함.
+- `BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE`: 사용자가 화면 내 System Bar 근처에서 스와이프할 때 등장함. (BEHAVIOR_SHOW_BARS_BY_SWIPE 와 차이점은 System Bar를 투명으로 제공하냐의 유무)
+<br>
+
+WindowInsetsControllerCompat을 사용하면 모든 SDK 버전에 대응할 수 있게 되는데, 이는 해당 클래스 내부에 모든 SDK 버전에 대응할 수 있도록 분기처리가 이루어지고 있기 때문이다.
+
+``` java
+    public WindowInsetsControllerCompat(@NonNull Window window, @NonNull View view) {
+        if (SDK_INT >= 30) {
+            mImpl = new Impl30(window, this);
+        } else if (SDK_INT >= 26) {
+            mImpl = new Impl26(window, view);
+        } else if (SDK_INT >= 23) {
+            mImpl = new Impl23(window, view);
+        } else if (SDK_INT >= 20) {
+            mImpl = new Impl20(window, view);
+        } else {
+            mImpl = new Impl();
+        }
+    }
+```
+
+WindowInsetsController 는 WindowInsetsControllerCompat과 달리 interface로 구현이 되어있는데, WindowInsetsControllerCompat의 속성을 대부분 담고 있으며, SDK 30 부터 사용을 권장하고 있다. 
+
+WindowInsetsController의 속성에는 APPEARANCE_OPAQUE_STATUS_BARS, APPEARANCE_LOW_PROFILE_BARS 등 WindowInsetㄴControllerCompat의 기본 속성외에 SystemBar의 세부 속성을 핸들링 할 수 있는 요소가 들어있다. 
+
+systemUiVisibility 가 deprecated 되면서 SDK 30 부터는 WindowInsetsController 사용을 권장하고 있기 때문에, 대부분 아래처럼 Build Version에 따른 분기처리로 SystemBar를 핸들링하고 있다.
+
+``` kotlin
+if (Build.version.sdk_int >= build.version_codes.R) { /** use WindowInsetsControllr */ }
+else { /** use SystemUisivility */ }
+```
+하지만 단순히 SystemBar Visiblity만을 핸들링하고 싶은 경우라면 분기처리 없이 모든 SDK를 핸들링 할 수 있는 `WindowInsetsControllerCompat` 옵션을 사용해도 괜찮지 않을까 싶다. 
+
+<br>
+
+#### Reference
+https://www.youtube.com/watch?v=q6ZC4E4lAM8'
