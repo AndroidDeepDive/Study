@@ -10,7 +10,7 @@ Android 의 스타일 및 테마를 사용한다면 웹 프론트엔드 처럼 U
 
 테마란 개별적인 View 뿐 아니라, 전체적인 앱, 액티비티, 뷰 계층 등에 적용이 되는 속성들의 모음이다. 테마를 적용한다면 전체 앱 또는 액티비티의 모든 뷰가 지원하는 각 테마의 속성을 적용하게 된다. 테마는 또한 Status Bar, Window Background 와 같이 뷰의 요소가 아닌 부분에도 스타일을 적용할 수 있다. 스타일과 테마는 안드로이드 리소스 폴더는 res/values/ 밑에 styles.xml 에 정의된다.
 
-테마와 스타일은 모두 키-밸류 쌍으로 속성과 리소스를 매핑하고 있다는 공통점 외에 사용 목적이 다르다. 
+테마와 스타일은 모두 키-밸류 쌍으로 속성과 리소스를 매핑하고 있다는 공통점 외에는 사용 목적이 다르다. 
 
 스타일은 보통 특정 타입의 뷰를 위한 특성들을 정의한다. 예를 들면 어떤 버튼에 대한 속성들을 정의하는 식이다. 자주 사용되는 위젯들에 대한 속성값들을 style로 정의해둔다면, 레이아웃 파일에서 중복되는 코드를 줄일 수 있다.
 
@@ -18,19 +18,7 @@ Android 의 스타일 및 테마를 사용한다면 웹 프론트엔드 처럼 U
 
 
 
-### ?attrs
-
-
-
-### Custom Theme
-
-
-
-### Dark Mode?
-
-
-
-## Theme 은 어떻게 보여지는가?
+## SystemUI 은 어떤 과정을 통해 보여지는가?
 
 ### installDeco()
 
@@ -64,20 +52,9 @@ public void setContentView(int layoutResID) {
 }
 ```
 
-이런 구조로 되어 있다. 참고로 Activity 가 아닌 PhoneWindow의 setContentView 함수 내부인데, Window Abstract 클래스에 setContentView가 abstract method로 있고, Activity 가 내부적으로 생성되어 attach 될 때 PhoneWindow를 생성하고 있는 형태이다.  
+이런 구조로 되어 있다. 위 코드는 PhoneWindow의 setContentView 함수 내부인데, Window Abstract 클래스에 setContentView가 abstract method로 있고, Activity 가 내부적으로 생성되어 attach() 될 때 PhoneWindow를 생성하고 있다.
 
-```java
-/**
- * Convenience for
- * {@link #setContentView(View, android.view.ViewGroup.LayoutParams)}
- * to set the screen content from a layout resource.  The resource will be
- * inflated, adding all top-level views to the screen.
- *
- * @param layoutResID Resource ID to be inflated.
- * @see #setContentView(View, android.view.ViewGroup.LayoutParams)
- */
-public abstract void setContentView(@LayoutRes int layoutResID);
-```
+여기서 눈여겨 볼 부분은 mContentParent가 null이면 installDeco()를 통해 mContentParent를 만들어주게 되는데, 밑에서 installDeco() 함수를 자세히 보겠지만 인자로 받은 layoutResID를 inflating 될 상위 ViewGroup으로 볼 수 있다. 
 
 ```java
 final void attach(Context context, ActivityThread aThread,
@@ -107,8 +84,6 @@ final void attach(Context context, ActivityThread aThread,
 }
 ```
 
-
-
 installDeco() 함수 내부를 살펴보자.
 
 ```java
@@ -126,79 +101,13 @@ private void installDecor() {
     }
     if (mContentParent == null) {
         mContentParent = generateLayout(mDecor);
-
-        // Set up decor part of UI to ignore fitsSystemWindows if appropriate.
-        mDecor.makeOptionalFitsSystemWindows();
-
-        final DecorContentParent decorContentParent = (DecorContentParent) mDecor.findViewById(
-                R.id.decor_content_parent);
-
-        if (decorContentParent != null) {
-            mDecorContentParent = decorContentParent;
-            mDecorContentParent.setWindowCallback(getCallback());
-            if (mDecorContentParent.getTitle() == null) {
-                mDecorContentParent.setWindowTitle(mTitle);
-            }
-
           ....
-            
-
-            mDecorContentParent.setUiOptions(mUiOptions);
-
-          ...
-            
-            PanelFeatureState st = getPanelState(FEATURE_OPTIONS_PANEL, false);
-            if (!isDestroyed() && (st == null || st.menu == null) && !mIsStartingWindow) {
-                invalidatePanelMenu(FEATURE_ACTION_BAR);
-            }
-        } else {
-            mTitleView = findViewById(R.id.title);
-            if (mTitleView != null) {
-                if ((getLocalFeatures() & (1 << FEATURE_NO_TITLE)) != 0) {
-                    final View titleContainer = findViewById(R.id.title_container);
-                    if (titleContainer != null) {
-                        titleContainer.setVisibility(View.GONE);
-                    } else {
-                        mTitleView.setVisibility(View.GONE);
-                    }
-                    mContentParent.setForeground(null);
-                } else {
-                    mTitleView.setText(mTitle);
-                }
-            }
-        }
-
-        if (mDecor.getBackground() == null && mBackgroundFallbackResource != 0) {
-            mDecor.setBackgroundFallback(mBackgroundFallbackResource);
-        }
-
-        // Only inflate or create a new TransitionManager if the caller hasn't
-        // already set a custom one.
-        if (hasFeature(FEATURE_ACTIVITY_TRANSITIONS)) {
-            if (mTransitionManager == null) {
-                final int transitionRes = getWindowStyle().getResourceId(
-                        R.styleable.Window_windowContentTransitionManager,
-                        0);
-                if (transitionRes != 0) {
-                    final TransitionInflater inflater = TransitionInflater.from(getContext());
-                    mTransitionManager = inflater.inflateTransitionManager(transitionRes,
-                            mContentParent);
-                } else {
-                    mTransitionManager = new TransitionManager();
-                }
-            }
-
-            mEnterTransition = getTransition(mEnterTransition, null,
-                    R.styleable.Window_windowEnterTransition);
-          
-          ....
-            
         }
     }
 }
 ```
 
-Decor가 할당된게 없다면 generateDecor(-1); 를 통해서 Decor를 만들고 있는데, generateDecor() 에서는 
+Decor가 할당된게 없다면 generateDecor(); 를 통해서 DecorView를 만들고 있다.
 
 ```java
 protected DecorView generateDecor(int featureId) {
@@ -223,11 +132,13 @@ protected DecorView generateDecor(int featureId) {
 }
 ```
 
-현재 가지고 있는 mTheme 값을 컨텍스트에 할당하고 있는것을 볼 수 있다. setTheme 은 해당 컨텍스트를 위한 BaseTheme을 할당하고 있는 것이고 이 작업은 어떠한 레이아웃도 인플레이팅 되기 전에 발생한다. (문서참조 링크 추가)
+genereateDecor() 함수에서는 현재 가지고 있는 mTheme 값을 컨텍스트에 할당하고 있는것을 볼 수 있다. setTheme 은 해당 컨텍스트를 위한 BaseTheme을 할당하고 있는 것이고 이 작업은 레이아웃이 인플레이팅 되기 전에 발생한다. 
 
-계속 이어서 보면, mContentParent가 null이면 generateLayout(mDecor) 으로 Layout을 생성하고 있다. generateLayout은 파라미터로 받은 Decor로 systemUI를 제어하고 있다. 
+installDeco()를 이어서 보면, mContentParent가 null이면 위에서 generateDecor()로 생성한 DecorView를 인자로 넣은 generateLayout(mDecor) 으로 mContentParent를 만들어주고 있다. 
 
-```
+그리고 generateLayout() 은 파라미터로 받은 DecorView로 **systemUI**를 제어하고 있다. 
+
+```java
 protected ViewGroup generateLayout(DecorView decor) {
 		...
       if (a.getBoolean(R.styleable.Window_windowLightStatusBar, false)) {
@@ -244,4 +155,6 @@ protected ViewGroup generateLayout(DecorView decor) {
 
 ## Reference
 
-- https://developer.android.com/guide/topics/ui/look-and-feel/themesㅇ
+- https://developer.android.com/guide/topics/ui/look-and-feel/themes
+- https://pluu.github.io/blog/android/2020/08/02/global-style/
+
