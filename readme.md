@@ -10,7 +10,7 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 ## Tools
 - Slack
 - Zoom
-- [Medium](https://medium.com/android-deep-dive-study)
+- [Team Blog](https://androiddeepdive.github.io/Team-Blog/)
 
 ## 참여인원 (가나다순)
 - 곽욱현 Work@ Knowre [Blog](https://dduddublog.tistory.com)
@@ -24,25 +24,31 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 ## Topics
 
 **1. Jetpack Compose**
-- [Jetpack Compose Part 1 - Compose 소개 및 코드랩 따라하기](https://medium.com/android-deep-dive-study/jetpack-compose-part-1-compose-%EC%86%8C%EA%B0%9C-%EB%B0%8F-%EC%BD%94%EB%93%9C%EB%9E%A9-%EB%94%B0%EB%9D%BC%ED%95%98%EA%B8%B0-35f7a0e6c581)
-- [Jetpack Compose Part 2 - Preview / Layout / Decompile](https://medium.com/android-deep-dive-study/jetpack-compose-part-2-preview-layout-decompile-84fae294d458)
-- [Jetpack Compose Part 3 - Retrospect](https://medium.com/android-deep-dive-study/jetpack-compose-part-3-retrospect-73f0769b2d82)
+- [Jetpack Compose Part 1 - Compose 소개 및 코드랩 따라하기](https://androiddeepdive.github.io/Team-Blog/2021/04/07/2021-04-07%20Jetpack%20Compose%20Part%201/)
+- [Jetpack Compose Part 2 - Preview / Layout / Decompile](https://androiddeepdive.github.io/Team-Blog/2021/04/07/2021-04-07%20Jetpack%20Compose%20Part%202/)
+- [Jetpack Compose Part 3 - Retrospect](https://androiddeepdive.github.io/Team-Blog/2021/04/07/2021-04-07%20Jetpack%20Compose%20Part%203/)
 
 **2. Kotlin Coroutines Concurrency (gathering)**
 
 **3. View Rendering And Optimization**
 
-- [View Rendering And Optimization Part 1 - View / Layout](https://medium.com/android-deep-dive-study/introduce-android-ui-rendering-principle-and-view-optimization-1-f593820c7a50)
-- [View Rendering And Optimization Part 2 - Rendering](https://medium.com/android-deep-dive-study/introduce-android-ui-rendering-principle-and-view-optimization-2-87b1fd52ba11)
-- [View Rendering And Optimization Part 3 - Optimization](https://medium.com/android-deep-dive-study/introduce-android-ui-rendering-principle-and-view-optimization-3-b102ab1fbe9e)
+- [View Rendering And Optimization Part 1 - View / Layout](https://androiddeepdive.github.io/Team-Blog/2021/05/19/2021-05-19%20Android%20UI%20Rendering%20Optimization%20Part%201/)
+- [View Rendering And Optimization Part 2 - Rendering](https://androiddeepdive.github.io/Team-Blog/2021/05/19/2021-05-19%20Android%20UI%20Rendering%20Optimization%20Part%202/)
+- [View Rendering And Optimization Part 3 - Optimization](https://androiddeepdive.github.io/Team-Blog/2021/05/19/2021-05-19%20Android%20UI%20Rendering%20Optimization%20Part%203/)
 
 **4. Image Loading and Caching Library**
 
-- [Image Loading and Caching Library Part 1 — Why use?](https://medium.com/android-deep-dive-study/image-loading-and-caching-library-part-1-why-use-81aff6c04af9)
-- [Image Loading and Caching Library Part 2 — Principle / Memory & Footprint / Compose](https://medium.com/android-deep-dive-study/image-loading-and-caching-library-part-2-principle-memory-footprint-compose-b0ba23591730)
-- [Image Loading and Caching Library Part 3 — Performance Test](https://medium.com/android-deep-dive-study/image-loading-and-caching-library-part-3-performance-test-d19287348f98)
+- [Image Loading and Caching Library Part 1 — Why use?](https://androiddeepdive.github.io/Team-Blog/2021/06/24/2021-06-24%20Image%20Loading%20and%20Caching%20Library%20Part%201/)
+- [Image Loading and Caching Library Part 2 — Principle / Memory & Footprint / Compose](https://androiddeepdive.github.io/Team-Blog/2021/06/24/2021-06-24%20Image%20Loading%20and%20Caching%20Library%20Part%202/)
+- [Image Loading and Caching Library Part 3 — Performance Test](https://androiddeepdive.github.io/Team-Blog/2021/06/24/2021-06-24%20Image%20Loading%20and%20Caching%20Library%20Part%203/)
 
 
-**5. Kotlin Symbol Processing API(gathering)**
+**5. Kotlin Symbol Processing API**
 
-**6. Android System UI (~ing)**
+- [Kotlin Symbol Processing Api Part 1 — Annotation과 KAPT](https://androiddeepdive.github.io/Team-Blog/2021/07/21/2021-07-21%20Kotlin%20Symbol%20Processing%20Api%20Part%201/)
+- [Kotlin Symbol Processing Api Part 2 — What is it?](https://androiddeepdive.github.io/Team-Blog/2021/07/21/2021-07-21%20Kotlin%20Symbol%20Processing%20Api%20Part%202/)
+- [Kotlin Symbol Processing Api Part 3 — KSP vs KAPT](https://androiddeepdive.github.io/Team-Blog/2021/07/21/2021-07-21%20Kotlin%20Symbol%20Processing%20Api%20Part%203/)
+
+**6. Android System UI (gathering)**
+
+**7. MVVM vs MVI (~ing)**
