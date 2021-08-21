@@ -60,7 +60,7 @@ MVVM이 적용된 WPF를 보면, XML 마크업 언어를 통해 데이터 바인
 
 ### Android에서 사용하는 Data Binding 기술
 
-안드로이드에서는 Binder기술을 직접 구현하여 
+안드로이드에서는 Binder기술을 직접 구현하여 `DataBinding` 이라는 기술을 제공한다.
 
 
 
