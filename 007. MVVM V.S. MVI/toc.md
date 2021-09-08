@@ -66,6 +66,7 @@
 - MVI의 장단점 @SODA1127 @mcsys @peterchoee [1주차]
 - 안드로이드에서 사용하는 MVI 라이브러리 @SODA1127 @peterchoee [2주차]
 - 실제 예제 구현 @SODA1127 @mcsys @  @peterchoee [2주차]
+- MVVM 예제 V.S. MVI 예제 비교(최소단위의 라이브러리로) @mydamyda [4주차]
 
 ## 결론 [2 ~ 3주차]
 
