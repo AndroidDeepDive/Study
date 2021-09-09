@@ -13,7 +13,7 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 - [Team Blog](https://androiddeepdive.github.io/Team-Blog/)
 
 ## 참여인원 (가나다순)
-- 곽욱현 Work@ Knowre [Blog](https://dduddublog.tistory.com)
+- 곽욱현 Work@ NRISE [Blog](https://dduddublog.tistory.com)
 - 김남훈 Work@ NAVER [Blog](https://namhoon.kim)
 - 송시영 Work@ SMARTSTUDY [Medium](https://sysys.medium.com)
 - 옥수환 Work@ NAVER [Blog](https://www.charlezz.com/)
