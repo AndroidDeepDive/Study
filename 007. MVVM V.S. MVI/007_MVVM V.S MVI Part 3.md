@@ -4,6 +4,12 @@
 
 **MVVM** 아키텍쳐 패턴에 대해 살펴보았으니, 이번엔 **MVI** 아키텍쳐 패턴에 대해 살펴보자.
 
+**MVI** 는 3개의 개념을 골자로 한다.
+
+1. 단방향 데이터 흐름 (unidirectional cycle of data)
+2. 차단되지않는 의도 (Processing of intents is non-blocking)
+3. 상태의 불변성 (The state is immutable)
+
 **MVI** 의 구성요소는 `Model`, `View`, `Intent`로, 아래의 흐름대로 동작한다.
 
 ![MVI Architecture](https://imgur.com/LlKp9DH.jpg)
@@ -100,9 +106,57 @@ UDA에서는 Single State를 통해 상태변경 시 사이드 이펙트가 발�
 
 ![Immutable State Flow](https://imgur.com/u5Xx82K.jpg)
 
-UDA에서는 상태 변화에 대해 단방향으로 처리하여 상태에 대해 사이드 이펙트가 발생하더라도 우리가 기대한 화면을 보여줄 수 있도록 구현할 수 있다. 그렇다면, UDA에서는 이 문제를 어떤 방식으로 해결했을까?
+UDA에서는 상태 변화에 대해 단방향으로 처리하여 상태에 대해 사이드 이펙트가 발생하더라도 우리가 기대한 화면을 보여줄 수 있도록 구현할 수 있다.
+
+UDA는 View와 Model을 직접 연결하는 방식으로 
 
 UDA는 뷰와 모델을 직접 연결하여 위 문제를 해결했다. UDA에서는 모든 상태정보가 모델에서 관리된다. 또한, UDA의 차별화된 특징은 View와 State가 완전히 분리되어 있다.
 
 UDA를 어떤 방식으로 만들더라도 반드시 지켜야 할 것은 단방향 흐름으로 구조화 해야한다는 것이다.
+
+### MVI의 구성 요소
+
+상술했듯, MVI 아키텍쳐 패턴은 `Model`, `View`, `Intent`로 구성되어 있다.
+
+#### 1. Model
+
+View의 상태를 표현하고, View를 올바르게 렌더링하는 데 필요한 모든 정보가 포함되어 있다.
+
+Model은 애플리케이션이 현재 가지고 있는 상태정보를 가지고 있으며,
+
+전달된 intent(=유저의 의도)를 분석해 현재 상태에 맞추어 새로운 불변 객체인 Model을 생성한다.
+
+여기서 상태란 데이터 로딩, 에러, 현재 화면의 포지션, 유저의 의도에 따른 UI 변경 등을 포괄한다.
+
+상술한 설명과 같이, MVI에서의 Model은 다른 아키텍쳐 패턴과는 개념이 다르며, 상태를 포괄하고 있다는 점에 주목해야한다.
+
+즉, MVI의 `Model-View-Intent`는 `Model(State)-View-Intent`로 표현될 수 있다.
+
+아래의 코드가 그 예시이다.
+
+```kotlin
+data class State(
+    val isLoading: Boolean,
+    val error: Throwable,
+    val persons: List<Person>
+)
+```
+
+#### 2. View
+
+View는 사용자의 행동과 시스템 이벤트를 관찰한다. 
+
+View를 통해 트리거된 이벤트에 대한 의도를 설정하며, Model의 상태 변화에 대응한다.
+
+이때 Model로부터 상태를 전달받아 화면에 UI를 렌더링한다.
+
+#### 3. Intent
+
+애플리케이션의 상태 즉, Model의 상태를 변경하는 작업을 표현한다.
+
+유저의 의도(Action or Event)가 무엇인지 정의하고 있다.
+
+결과만 놓고 보자면 Intent를 주입받아 Model을 생성하여 전달하고 이를 View를 통해 표현하게 된다.
+
+
 

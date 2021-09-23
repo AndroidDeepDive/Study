@@ -1,6 +1,6 @@
 # MVVM vs MVI Part 1 - What is MVVM Pattern?
 
-**MVVM** 은 `Model` + `View` + `ViewModel`을 사용하는 아키텍쳐이다.
+**MVVM** 은 `Model` + `View` + `ViewModel`을 사용하는 아키텍쳐 패턴이다.
 
 이러한 구조는 실제 사용자에게 노출되는 화면에서 보이는 영역 즉, **프레젠테이션 레이어** 를 제어하는 것에 그 목적이 있다. 
 
@@ -40,6 +40,8 @@ GUI가 대중화 되면서 최초에 `Model`, `View`, `Controller`를 분리하�
 
 ### MVVM 패턴의 고안
 
+![The MVVM pattern](https://docs.microsoft.com/en-us/xamarin/xamarin-forms/enterprise-application-patterns/mvvm-images/mvvm.png)
+
 **MVVM** 패턴의 경우 마이크로소프트의 아키텍트인 켄 쿠퍼와 테드 피터스에 의해 발명되었고, 2005년 존 고스만이 자신의 블로그를 통해 발표되었다.
 
 이때 발표된 **MVVM** 패턴은 위에서 언급한 **PM** 패턴의 변형을 통해 만들어졌으며
@@ -59,15 +61,19 @@ View는 ViewModel의 속성에 의해 바인딩되며, ViewModel은 Model에 포
 **MVVM** 을 구현하기 위해 사용되는 요소들에 대해 간단하게 정리해보면 아래와 같다.
 
 #### 1. View
-화면에 표현되는 레이아웃에 대한 관여한다. 
+사용자가 화면에서 보는 구조와 배치 및 형태 즉, 화면에 표현되는 레이아웃에 대해 관여한다. 
 
-기본적으로는 비즈니스 로직을 배제하지만, UI와 관련된 로직을 수행할수도 있다. 
+기본적으로는 비즈니스 로직을 배제하지만, UI와 관련된 로직을 수행할수도 있다.
 
 안드로이드에서는 XML을 통한 레이아웃 작성이 기본적으로 해당되며, 
 
 이를 제어하는 라이프 사이클 컴포넌트인 Activity, Fragment에서 뷰를 인플레이션을 통해 바인딩한다.
 
+화면에 Model을 시각적으로 표현하고, 클릭, 키보드 등의 사용자와의 상호작용을 수신하여 바인딩된 ViewModel로 전달하며, 기본적으로 비즈니스 모델과 분리되어 있어야한다.
+
 #### 2. ViewModel
+
+ViewModel은 View에 대한 추상화이다.
 
 View에 연결 할 데이터와 명령으로 구성되어있으며 변경 알림을 통해서 View에게 상태 변화를 전달한다. 
 
@@ -92,6 +98,8 @@ MVVM에서 추구하는 ViewModel은 MVP와는 다르게 View와 ViewModel이 1:
 MVVM에서는 View는 의존 관계가 없기 때문에 Model을 알지못하고, 직접적인 접근을 하지 않는다.
 
 ViewModel에서 처리 시 데이터를 구독할 수 있게 처리하고, Model은 이에대한 이벤트를 보내 ViewModel에서 데이터를 관리하게 된다.
+
+데이터 이외에 비즈니스 로직을 표현하는 케이스도 해당한다.
 
 #### 4. Binder
 

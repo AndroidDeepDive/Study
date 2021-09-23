@@ -1,6 +1,6 @@
 # MVVM vs MVI Part 2 - MVVM for Android
 
-## Android에서의 MVVM Pattern 
+## Android에서의 MVVM Architecture Pattern 
 
 본격적으로 **MVVM** 패턴을 Android에서 구현하기 위해 어떤 기술을 사용해야하는지 알아보자.
 
@@ -247,11 +247,17 @@ class AndroidViewModelWithParamFactory(private val application: Application, pri
 
 ## Android의 Data Binding
 
-ViewModel과 함께 조합이 가능한 Data Binding기술에 대해 소개한다. 
+ViewModel과 함께 조합이 가능한 Data Binding기술에 대해 알아보자.
 
 Android는 Binder기술을 직접 구현하여 `DataBinding` 이라는 기술을 선택적으로 사용할 수 있다.
 
 ViewModel이 갖고 있는 데이터를 Observable 필드로 선언하여 변경이 되었을 때 이를 스트림으로 구독하여 최신 데이터를 반영할 수 있도록 기능을 제공한다.
+
+> The Data Binding Library is a support library that allows you to bind UI components in your layouts to data sources in your app using a declarative format rather than programmatically.
+
+위의 인용문은 Android 공식 문서에서 발췌한 Data Binding에 관한 설명이다.
+
+말 그대로 코드로 직접적으로 컨트롤하는 것이 아닌, 선언형 방식으로 앱안의 데이터 소스와 UI 요소들을 바인딩하는 기술을 데이터바인딩이라고 부른다.
 
 ### 1. Binding Layout View with Architecture Component
 
@@ -344,8 +350,10 @@ fun setVisibillity(view: View, visible: Boolean) {
 - 데이터 바인딩 라이브러리 사용시, View를 컨트롤하는 Activity나 ViewModel 사이의 의존성을 낮출 수 있다.
 - 데이터 바인딩 기술을 통해 View의 핸들링을 위한 보일러 플레이트 코드를 간소화할 수 있다.
 
+
 ### 단점
 - AAC ViewModel의 경우 View와 ViewModel을 1:1 관계로만 정의할 수 있다.
 - 데이터 바인딩을 사용하는 경우, 바인딩 어댑터를 필연적으로 사용하게 되는데, 구조적인 설계가 미비할 경우 유지보수 비용이 커질 수 있다.
 - 스플래시 등 단순한 로직만 존재하는 화면에 ViewModel을 사용하게 되는 경우, 오히려 유지보수 비용이 증가할 수 있다.
 - MVC, MVP에 비해 러닝커브가 상대적으로 높은 편이다. 데이터 바인딩 기술 및 스트림 제어에 대한 이해가 필요하다.
+- 아키텍쳐 패턴 자체가 거대하고 복잡한 애플리케이션을 위해 설계되었기때문에, 소형 애플리케이션의 경우 오히려 오버헤드가 증가할 수 있다.
