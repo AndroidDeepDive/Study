@@ -39,3 +39,16 @@ https://docs.microsoft.com/en-us/xamarin/xamarin-forms/enterprise-application-pa
 https://www.raywenderlich.com/817602-mvi-architecture-for-android-tutorial-getting-started_
 https://www.ericthecoder.com/2020/07/20/battle-of-the-android-architectures-mvp-vs-mvvm-vs-mvi/_
 
+
+- https://hannesdorfmann.com/android/mosby3-mvi-1/
+- https://adambennett.dev/2019/07/mvi-the-good-the-bad-and-the-ugly/
+- https://jaehochoe.medium.com/android-mvi-7304bc7e1a84
+- https://medium.com/myrealtrip-product/android-mvi-79809c5c14f0
+- https://kennethss.medium.com/android-mvi%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90-uda-b16f116c7e34
+- https://www.raywenderlich.com/817602-mvi-architecture-for-android-tutorial-getting-started
+- https://hannesdorfmann.com/android/mosby3-mvi-1/
+- https://adambennett.dev/2019/07/mvi-the-good-the-bad-and-the-ugly/
+- https://jaehochoe.medium.com/android-mvi-7304bc7e1a84
+- https://medium.com/myrealtrip-product/android-mvi-79809c5c14f0
+- https://kennethss.medium.com/android-mvi%EC%97%90-%EB%8C%80%ED%95%B4%EC%84%9C-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90-uda-b16f116c7e34
+- https://www.raywenderlich.com/817602-mvi-architecture-for-android-tutorial-getting-started
