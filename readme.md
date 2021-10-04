@@ -55,3 +55,4 @@ Android 개발자들이 실무도중 경험한 이슈들에 대해서 공부하�
 **7. MVVM vs MVI (gathering)**
 
 **8. KeyStore System and Security (~ing)**
+- branch guide : `keystore/{NAME}`
