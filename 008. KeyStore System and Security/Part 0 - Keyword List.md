@@ -33,3 +33,39 @@
   * Diffie-Hallman: 상대방의 공개키와 나의 개인키를 이용하여 계산을 하면 비밀키가 나온다. 이 비밀키를 사용해서 데이터를 암호화해서 보내고 복호화해서 해석한다.
   * RSA: 공개키 암호 알고리즘의 하나로서 세계적으로 사실상의 표준이다. 인수분해 문제 해결의 높은 난이도를 이용해 암호화뿐만 아니라 전자 서명의 용도로도 사용된다. 모두에개 공개하는 공개키(Public key)와 공개해서는 안되는 개인키(Private Key) 로 구성된다. 공개키는 메시지를 암호화할때 사용하고, 개인키는 암호화된 메시지를 복호화할때 사용한다.
   * ECC: 암호키 길이가 길어지면 보안 강도는 높아지지만 속도가 느려집니다. 하지만, ECC(Elliptic Curve Cryptography) 를 사용하면 짧은 키로도 동일한 암호 성능을 가지는데, 이는 컴퓨터 성능이 낮아도 암호 성능을 유지할 수 있다. 이러한 이유로 RSA를 대체할 차세대 공개키 암호기술로 부상하고 있다.
+
+
+
+
+
+
+
+https://en.wikipedia.org/wiki/Encryption
+
+[https://ko.wikipedia.org/wiki/%EB%8C%80%EC%B9%AD_%ED%82%A4_%EC%95%94%ED%98%B8](https://ko.wikipedia.org/wiki/대칭_키_암호)
+
+https://www.geeksforgeeks.org/difference-between-block-cipher-and-stream-cipher/
+
+https://newbedev.com/checksum-vs-hash-differences-and-similarities
+
+https://findanyanswer.com/what-is-checksum-byte
+
+https://stackoverflow.com/questions/460576/hash-code-and-checksum-whats-the-difference
+
+https://bamdule.tistory.com/233
+
+https://ddongwon.tistory.com/38
+
+https://cheapsslsecurity.com/blog/what-is-asymmetric-encryption-understand-with-simple-examples/
+
+https://www.crocus.co.kr/1233
+
+[https://yjshin.tistory.com/entry/%EC%95%94%ED%98%B8%ED%95%99-%EB%8C%80%EC%B9%AD%ED%82%A4-%EC%95%94%ED%98%B8-DESData-Encryption-Standard](https://yjshin.tistory.com/entry/암호학-대칭키-암호-DESData-Encryption-Standard)
+
+https://www.crocus.co.kr/1230
+
+[https://yjshin.tistory.com/entry/%EC%95%94%ED%98%B8%ED%95%99-%EB%B9%84%EB%8C%80%EC%B9%AD%ED%82%A4-%EC%95%94%ED%98%B8-RSA-%EC%95%94%ED%98%B8%EC%8B%9C%EC%8A%A4%ED%85%9C](https://yjshin.tistory.com/entry/암호학-비대칭키-암호-RSA-암호시스템)
+
+https://medium.com/humanscape-tech/blockchain-elliptic-curve-cryptography-ecc-49e6d7d9a50a
+
+https://developer-mac.tistory.com/83
